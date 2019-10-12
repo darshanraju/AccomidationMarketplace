@@ -3,7 +3,18 @@ from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegistrationSerializer, LoginSerializer
 
-#Registration API
+# User API
+# Get user from a token
+class UserAPI(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    def get_object(self):
+        return self.request.user
+
+# Registration API
 class RegistrationAPI(generics.GenericAPIView):
     serializer_class = RegistrationSerializer
 
@@ -16,7 +27,7 @@ class RegistrationAPI(generics.GenericAPIView):
             "token": AuthToken.objects.create(user)[1]
         })
 
-#Login API
+# Login API
 class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginSerializer
 
@@ -28,5 +39,3 @@ class LoginAPI(generics.GenericAPIView):
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
         })
-
-#User API
