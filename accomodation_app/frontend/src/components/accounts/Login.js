@@ -1,49 +1,35 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-import { Link } from "react-router-dom";
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
+import { Link } from 'react-router-dom';
 
-class Login extends Component {
-constructor(props){
-  super(props);
-  this.state={
-  username:'',
-  password:''
+class Register extends Component {
+  state = {
+    username: '',
+    password: ''
   }
- }
-render() {
+
+  render() {
     return (
-      <div>
-        <MuiThemeProvider>
-          <div>
-          <AppBar
-             title="Login"
-           />
-           <TextField
-             hintText="Enter your Username"
-             floatingLabelText="Username"
-             onChange = {(event,newValue) => this.setState({username:newValue})}
-             />
-           <br/>
-             <TextField
-               type="password"
-               hintText="Enter your Password"
-               floatingLabelText="Password"
-               onChange = {(event,newValue) => this.setState({password:newValue})}
-               />
-             <br/>
-             <RaisedButton label="Submit" primary={true} style={style} />
-             <br/>
-             <label> Don't Have An Account Yet? </label> <Link to="/register">Register</Link>
-         </div>
-         </MuiThemeProvider>
-      </div>
+      <React.Fragment>
+        <Box component="form" display="flex" width={1/4} flexDirection="column" justifyContent="center">
+          <TextField
+            label="Enter your Username"
+            onChange={(event, newValue) => this.setState({ username: newValue })}
+          />
+          <TextField
+            type="password"
+            label="Enter your Password"
+            onChange={(event, newValue) => this.setState({ password: newValue })}
+          />
+          <Button label="Submit" />
+          <label> Already have the Account? </label>
+          <Link to="/login">Login</Link>
+        </Box>
+      </React.Fragment>
     );
   }
 }
-const style = {
- margin: 15,
-};
-export default Login;
+
+export default Register;
