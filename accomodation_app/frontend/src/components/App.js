@@ -1,9 +1,27 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component, Fragment } from 'react';
+import ReactDOM from "react-dom";
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
+
+import Login from './accounts/Login';
+import Register from  './accounts/Register';
 
 class App extends Component {
     render() {
-        return <h1>React App</h1>
+        return (
+        	<Router>
+	        	<Fragment>
+	        		 <Switch>
+	                  <Route exact path="/register" component={Register} />
+	                  <Route exact path="/login" component={Login} />
+	                </Switch>
+	        	</Fragment>
+        	</Router>
+        )
     }
 } 
 
