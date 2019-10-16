@@ -1,16 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import ReactDOM from "react-dom";
+import React, { Component } from 'react';
 import {
   HashRouter,
   Route,
   Switch
 } from "react-router-dom";
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { connect } from 'react-redux';
 
 import HomePage from './HomePage';
-import Register from './accounts/Register';
-import Login from './accounts/Login';
 import NavBar from './NavBar';
+import SideBar from './SideBar';
 
 class App extends Component {
   render() {
@@ -19,10 +18,9 @@ class App extends Component {
         <CssBaseline />
         <HashRouter>
           <NavBar />
+          {this.props.auth.loggedIn && <SideBar />}
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
           </Switch>
         </HashRouter>
       </React.Fragment>
@@ -30,4 +28,8 @@ class App extends Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+const mapStateToProps = (state) => {
+  return { auth: state.auth };
+};
+
+export default connect(mapStateToProps)(App);
