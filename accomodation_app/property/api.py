@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
 from .models import Property
 from .serializers import PropertySerializer, AddPropertySerializer
@@ -27,3 +27,11 @@ class AddPropertyAPI(generics.GenericAPIView):
         return Response ({
             "property": PropertySerializer(prop, context=self.get_serializer_context()).data
         })
+
+class UpdatePropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+    lookup_field = 'id'
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
