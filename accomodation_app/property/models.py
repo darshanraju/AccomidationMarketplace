@@ -25,4 +25,4 @@ class Property(models.Model):
     price = models.IntegerField(validators=[MinValueValidator(1)])
     no_guests = models.IntegerField(validators=[MinValueValidator(1)])
     no_beds = models.IntegerField(validators=[MinValueValidator(1)])
-    no_bathrooms = models.IntegerField(validators=[MinValueValidator(1)])  
+    no_bathrooms = models.IntegerField(validators=[MinValueValidator(1)])

@@ -6,6 +6,7 @@ class PropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
         fields = '__all__'
+        lookup_field = 'id'
 
 class AddPropertySerializer(serializers.ModelSerializer):
     class Meta:
