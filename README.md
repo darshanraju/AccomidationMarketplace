@@ -42,3 +42,4 @@ Serve django web applicatoin
 
 ## Swagger Rest API documentation
 `localhost:8000/swagger` after serving the django web app
+Ignore the following: authlogin, authlogout, authlogoutall
