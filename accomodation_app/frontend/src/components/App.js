@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 import HomePage from './HomePage';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
+import Properties from './Properties';
+import Trips from './Trips';
+import Profile from './Profile';
 
 class App extends Component {
   render() {
@@ -21,6 +24,9 @@ class App extends Component {
           {this.props.auth.loggedIn && <SideBar />}
           <Switch>
             <Route exact path="/" component={HomePage} />
+            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/trips" component={Trips} />
+            <Route exact path="/properties" component={Properties} />
           </Switch>
         </HashRouter>
       </React.Fragment>
