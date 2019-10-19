@@ -41,4 +41,6 @@ Serve django web applicatoin
 `python manage.py runserver`
 
 ## Swagger Rest API documentation
-`localhost:8000/swagger` after serving the django web app
+`localhost:8000/swagger` after serving the django web app.
+
+Ignore the following: authlogin, authlogout, authlogoutall
