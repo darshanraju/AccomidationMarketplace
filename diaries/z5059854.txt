@@ -8,3 +8,4 @@ Week 4
 Week 5
 - Added navbar and sidebar to frontend
 - Added state management system to frontend
+- Added layout for landing, properties and profile pages
