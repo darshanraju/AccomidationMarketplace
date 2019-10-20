@@ -5,7 +5,7 @@ class Trips extends Component {
   render () {
     return (
       <React.Fragment>
-        <Typography variant="h1">-----------------Trips</Typography>
+        <Typography variant="h1">Trips</Typography>
       </React.Fragment>
     )
   }

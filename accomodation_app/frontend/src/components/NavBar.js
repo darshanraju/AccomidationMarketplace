@@ -24,8 +24,8 @@ class NavBar extends Component  {
           <Typography variant="h3">Accomodation App</Typography>
           <Box flexGrow={1} />
           {this.props.auth.loggedIn ?
-            <Button onClick={this.props.logout}>Logout</Button> :
-            <Button onClick={this.props.login}>Login</Button> 
+            <Button color="inherit" onClick={this.props.logout}>Logout</Button> :
+            <Button color="inherit" onClick={this.props.login}>Login</Button> 
           }
         </Toolbar>
       </AppBar>
