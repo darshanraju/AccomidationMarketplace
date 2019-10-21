@@ -35,6 +35,19 @@ class UpdateReviewPropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
+class GetAllPropertyReviewsAPI(generics.GenericAPIView):
+    queryset = Review_property.objects.all()
+    serializer_class = ReviewPropertySerializer
+
+    def get(self, request, property_id):
+        reviews = Review_property.objects.filter(booking_id__property_id = property_id)
+        resp = {}
+        i = 1
+        for review in reviews:
+            resp[str(i)] = ReviewPropertySerializer(review, context=self.get_serializer_context()).data
+            i += 1
+        return Response(resp)
+
 
 class ReviewUserAPI(generics.RetrieveAPIView):
     queryset = Review_user.objects.all()
@@ -68,4 +81,17 @@ class UpdateReviewUserAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+class GetAllUserReviewsAPI(generics.GenericAPIView):
+    queryset = Review_user.objects.all()
+    serializer_class = ReviewUserSerializer
+
+    def get(self, request, user_id):
+        reviews = Review_user.objects.filter(booking_id__user_id = user_id)
+        resp = {}
+        i = 1
+        for review in reviews:
+            resp[str(i)] = ReviewUserSerializer(review, context=self.get_serializer_context()).data
+            i += 1
+        return Response(resp)
 
