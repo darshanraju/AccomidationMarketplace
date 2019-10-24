@@ -2,61 +2,29 @@ import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
-const houseDetails = {
-  address: '25 Hollywood Street',
-  numBathrooms: '2',
-  numPeople: '5',
-  price: '55',
-}
+import { connect } from 'react-redux';
 
 class Properties extends Component {
   render () {
     return (
       <Grid container spacing={3}>
-        <Grid item xs={3}>
-          <Paper>
-            <Typography variant="subtitle2">Address: {houseDetails.address}</Typography>
-            <Typography variant="subtitle2">Bathrooms: {houseDetails.numBathrooms}</Typography>
-            <Typography variant="subtitle2">Fits: {houseDetails.numPeople} people</Typography>
-            <Typography variant="subtitle2">Price: ${houseDetails.price}/night</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper>
-            <Typography variant="subtitle2">Address: {houseDetails.address}</Typography>
-            <Typography variant="subtitle2">Bathrooms: {houseDetails.numBathrooms}</Typography>
-            <Typography variant="subtitle2">Fits: {houseDetails.numPeople} people</Typography>
-            <Typography variant="subtitle2">Price: ${houseDetails.price}/night</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper>
-            <Typography variant="subtitle2">Address: {houseDetails.address}</Typography>
-            <Typography variant="subtitle2">Bathrooms: {houseDetails.numBathrooms}</Typography>
-            <Typography variant="subtitle2">Fits: {houseDetails.numPeople} people</Typography>
-            <Typography variant="subtitle2">Price: ${houseDetails.price}/night</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper>
-            <Typography variant="subtitle2">Address: {houseDetails.address}</Typography>
-            <Typography variant="subtitle2">Bathrooms: {houseDetails.numBathrooms}</Typography>
-            <Typography variant="subtitle2">Fits: {houseDetails.numPeople} people</Typography>
-            <Typography variant="subtitle2">Price: ${houseDetails.price}/night</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper>
-            <Typography variant="subtitle2">Address: {houseDetails.address}</Typography>
-            <Typography variant="subtitle2">Bathrooms: {houseDetails.numBathrooms}</Typography>
-            <Typography variant="subtitle2">Fits: {houseDetails.numPeople} people</Typography>
-            <Typography variant="subtitle2">Price: ${houseDetails.price}/night</Typography>
-          </Paper>
-        </Grid>
+        { this.props.uProperties.map((currentProperty) => (
+          <Grid item xs={3} key={currentProperty.id}>
+            <Paper>
+              <Typography variant="subtitle2">Address: {currentProperty.address}</Typography>
+              <Typography variant="subtitle2">Bathrooms: {currentProperty.numBathrooms}</Typography>
+              <Typography variant="subtitle2">Fits: {currentProperty.numPeople} people</Typography>
+              <Typography variant="subtitle2">Price: ${currentProperty.price}/night</Typography>
+            </Paper>
+          </Grid>
+        ))}
       </Grid>
     )
   }
 }
 
-export default Properties;
+const mapStateToProps = (state) => {
+  return { uProperties: state.uProperties };
+};
+
+export default connect(mapStateToProps)(Properties);

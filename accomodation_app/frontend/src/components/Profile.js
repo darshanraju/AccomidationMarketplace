@@ -12,10 +12,10 @@ class Profile extends Component {
   render () {
     return (
       <Box display="flex" flexDirection="column" justifyContent="center" >
-        <Box width={1/2} justifySelf="center" component={Paper}>
+        <Paper width={1/2}>
           <Typography variant="subtitle2">Name: {userDetails.name}</Typography>
           <Typography variant="subtitle2">Phone Number: {userDetails.phoneNumber}</Typography>
-        </Box>
+        </Paper>
       </Box>
     )
   }

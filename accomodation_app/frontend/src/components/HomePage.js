@@ -16,7 +16,7 @@ class HomePage extends Component {
     return (
       <Box display="flex" component={MuiPickersUtilsProvider} utils={DateFnsUtils}>
         <Box display="flex" flexDirection="column" component={Paper} width={1/4} m={10} p={2} elevation={3}>
-          <Typography variant="heading3">Book a Trip!</Typography>
+          <Typography variant="h3">Book a Trip!</Typography>
           <TextField id="location" label="Location" />
           <KeyboardDatePicker id="start-date" label="Start Date" variant="inline" />
           <KeyboardDatePicker id="end-date" label="End Date" variant="inline" />
