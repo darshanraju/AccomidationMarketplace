@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
 
-class Properties extends Component {
+class PropertiesPage extends Component {
   render () {
     return (
       <Grid container spacing={3}>
@@ -27,4 +27,4 @@ const mapStateToProps = (state) => {
   return { uProperties: state.uProperties };
 };
 
-export default connect(mapStateToProps)(Properties);
+export default connect(mapStateToProps)(PropertiesPage);

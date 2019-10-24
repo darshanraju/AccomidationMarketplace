@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   HashRouter,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from "react-router-dom";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,9 +14,9 @@ import clsx from 'clsx';
 import HomePage from './HomePage';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
-import Properties from './Properties';
-import Trips from './Trips';
-import Profile from './Profile';
+import PropertiesPage from './PropertiesPage';
+import TripsPage from './TripsPage';
+import ProfilePage from './ProfilePage';
 
 const styles = (theme) => ({
   content: {
@@ -26,6 +27,14 @@ const styles = (theme) => ({
     paddingLeft: '15vw',
   },
 })
+
+const ProtectedRoute = ({ isAllowed, ...props }) => {
+  if (isAllowed) {
+    return <Route {...props} />;
+  } else {
+    return <Redirect to="/" />;
+  }
+};
 
 class App extends Component {
   render() {
@@ -43,9 +52,9 @@ class App extends Component {
           >
             <Switch>
               <Route exact path="/" component={HomePage} />
-              <Route exact path="/profile" component={Profile} />
-              <Route exact path="/trips" component={Trips} />
-              <Route exact path="/properties" component={Properties} />
+              <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/profile" component={ProfilePage} />
+              <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/trips" component={TripsPage} />
+              <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties" component={PropertiesPage} />
             </Switch>
           </main>
         </HashRouter>

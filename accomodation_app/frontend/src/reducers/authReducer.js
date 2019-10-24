@@ -6,6 +6,8 @@ import {
 
 const initialState = {
   loggedIn: false,
+  name: 'James Clear',
+  phoneNumber: '0419628394',
 };
 
 export default (auth = initialState, action) => {
