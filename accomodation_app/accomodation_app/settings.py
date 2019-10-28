@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'frontend',
     'authentication',
     'property',
-    'booking'
+    'booking',
+    'reviews'
 ]
 
 REST_FRAMEWORK = {

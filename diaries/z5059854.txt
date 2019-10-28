@@ -1,0 +1,11 @@
+Week 3
+- Created boilerplate code for application
+- Added technical details, project choice, team skillset and standup sprint schedule to project plan
+
+Week 4
+- Worked on frontend of web application
+
+Week 5
+- Added navbar and sidebar to frontend
+- Added state management system to frontend
+- Added layout for landing, properties and profile pages

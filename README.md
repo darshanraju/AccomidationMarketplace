@@ -39,3 +39,8 @@ This command is similar but will continuously watch your files for changes - Sav
 
 Serve django web applicatoin
 `python manage.py runserver`
+
+## Swagger Rest API documentation
+`localhost:8000/swagger` after serving the django web app.
+
+Ignore the following: authlogin, authlogout, authlogoutall

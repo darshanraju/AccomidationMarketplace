@@ -35,3 +35,16 @@ class UpdateBookingAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+        
+class GetAllBookingsAPI(generics.GenericAPIView):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer
+
+    def get(self, request, property_id):
+        bookings = Booking.objects.filter(property_id = property_id)
+        resp = {}
+        i = 1
+        for booking in bookings:
+            resp[str(i)] = BookingSerializer(booking, context=self.get_serializer_context()).data
+            i += 1
+        return Response(resp)
