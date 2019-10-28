@@ -18,3 +18,13 @@ class MakeBookingSerializer(serializers.ModelSerializer):
                                          checkin=validated_data['checkin'],
                                          checkout=validated_data['checkout'])
         return booking
+
+    def validate_date(self, value):
+        checkin = self.get_initial().get("checkin")
+        checkout = self.get_initial().get("checkout")
+
+        print('Printing ------')
+        print(checkin)
+        print(checkout)
+        if checkout < checkin:
+            raise serializers.ValidationError("Check-in date must be on or before check-out")
