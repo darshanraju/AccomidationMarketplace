@@ -1,0 +1,27 @@
+Week 1 
+
+Group formed. there was no tutorials and the projects were onaly up for a short amount of time so nothing else was done. team disscuessed frameworks to use for the project, and decided that django will most likly be used, so this week i did tutorials to lean how to use django and read through the projects once they were released.
+
+Week 2
+
+This Week We decided on doing project 7 and begain work on the proposal. I was reasurching and writing the background section of the proposal document. This involved looking into existing booking websites curently avaliable and analizing there dificulty to be used. i analized there dificulty by conducted test by getting people unfarmiliar with useing such products to try and navigate the website and found that they forund the website too cluttered and dificult to use. 
+
+Week 3
+
+This Week on the monday meeting we worked on fomalising the plain and working out what functionalitys we wanted the project to have. we did this through the use of non-formalized user stories for the two types of users. on the wendsay meeting we had a little bife catchup on how we were going for each section. This week i have been working through more django tutorials and learning how react works, as well as going through the repo structure to get more farmilyer with the setup for when we get started on the project. 
+
+Week4
+
+This Week i Worked on the ui for the login and register page, just front end not connected to backend. 
+
+Week5 
+
+This Week i created the backend for making updating and getting reviews for a property and user(the person renting in the property). 
+
+Week 6 
+
+i also added the functionality for fetiching all the reviews for a particular property and for a particular user. and conducted significent testing with test data to insure the reviews system would connect together aproprietly.  
+
+Week 7 
+
+I added functionality to fetch all bookings for a particular property. I also found some posible Google maps api's that we could use to check and get propety location infomation. The api's are <https://developers.google.com/maps/documentation/javascript/geocoding>, <https://developers.google.com/places/web-service/details>, <https://developers.google.com/places/web-service/search>
