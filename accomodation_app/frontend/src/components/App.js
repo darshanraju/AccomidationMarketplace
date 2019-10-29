@@ -18,6 +18,7 @@ import PropertiesPage from './PropertiesPage';
 import TripsPage from './TripsPage';
 import ProfilePage from './ProfilePage';
 import ManageProperty from './ManageProperty';
+import AddProperty from './AddProperty';
 
 const styles = (theme) => ({
   content: {
@@ -57,6 +58,7 @@ class App extends Component {
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/trips" component={TripsPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties" component={PropertiesPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties/manage" component={ManageProperty} />
+              <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties/add" component={AddProperty} />
             </Switch>
           </main>
         </HashRouter>
