@@ -35,3 +35,16 @@ class UpdatePropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+class GetOwnerPropertyAPI(generics.GenericAPIView):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+
+    def get(self, request, owner_id):
+        properties = Property.objects.filter(owner_id = owner_id)
+        resp = {}
+        i = 1
+        for prop in properties:
+            resp[str(i)] = PropertySerializer(prop, context=self.get_serializer_context()).data
+            i += 1
+        return Response(resp)
