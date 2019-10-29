@@ -17,6 +17,7 @@ import SideBar from './SideBar';
 import PropertiesPage from './PropertiesPage';
 import TripsPage from './TripsPage';
 import ProfilePage from './ProfilePage';
+import ManageProperty from './ManageProperty';
 
 const styles = (theme) => ({
   content: {
@@ -55,6 +56,7 @@ class App extends Component {
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/profile" component={ProfilePage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/trips" component={TripsPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties" component={PropertiesPage} />
+              <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties/manage" component={ManageProperty} />
             </Switch>
           </main>
         </HashRouter>

@@ -8,12 +8,12 @@ class PropertiesPage extends Component {
   render () {
     return (
       <Grid container spacing={3}>
-        { this.props.uProperties.map((currentProperty) => (
+        { this.props.uProperties.properties.map((currentProperty) => (
           <Grid item xs={3} key={currentProperty.id}>
             <Paper>
               <Typography variant="subtitle2">Address: {currentProperty.address}</Typography>
-              <Typography variant="subtitle2">Bathrooms: {currentProperty.numBathrooms}</Typography>
-              <Typography variant="subtitle2">Fits: {currentProperty.numPeople} people</Typography>
+              <Typography variant="subtitle2">Bathrooms: {currentProperty.no_bathrooms}</Typography>
+              <Typography variant="subtitle2">Fits: {currentProperty.no_guests} people</Typography>
               <Typography variant="subtitle2">Price: ${currentProperty.price}/night</Typography>
             </Paper>
           </Grid>
