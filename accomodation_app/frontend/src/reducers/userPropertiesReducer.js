@@ -1,5 +1,6 @@
 import {
-  FETCH_PROPERTY
+  FETCH_PROPERTY,
+  FETCH_USER_PROPERTIES
 } from '../actions/types';
 
 const initialState = {
@@ -59,11 +60,14 @@ const initialState = {
 }
 
 export default (uProperties = initialState, action) => {
+  let newState = { ...uProperties };
   switch(action.type) {
     case FETCH_PROPERTY:
-      let newState = { ...uProperties };
-      newState.properties.push(action.payload.data);
+      newState.properties.push(action.payload);
       newState.selectedProperty = newState.properties.length - 1;
+      return newState;
+    case FETCH_USER_PROPERTIES:
+      newState.properties = Object.values(action.payload);
       return newState;
     default:
       return uProperties;

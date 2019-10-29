@@ -9,8 +9,8 @@ class ProfilePage extends Component {
     return (
       <Box display="flex" flexDirection="column" justifyContent="center" >
         <Paper width={1/2}>
-          <Typography variant="subtitle2">Name: {this.props.auth.name}</Typography>
-          <Typography variant="subtitle2">Phone Number: {this.props.auth.phoneNumber}</Typography>
+          <Typography variant="subtitle2">Name: {this.props.auth.user.name}</Typography>
+          <Typography variant="subtitle2">Phone Number: {this.props.auth.user.phoneNumber}</Typography>
         </Paper>
       </Box>
     )

@@ -3,8 +3,15 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+
+import { fetchUserProperties } from '../actions';
 
 class PropertiesPage extends Component {
+  componentDidMount () {
+    this.props.fetchUserProperties(this.props.auth.user.id);
+  }
+
   render () {
     return (
       <Grid container spacing={3}>
@@ -18,13 +25,19 @@ class PropertiesPage extends Component {
             </Paper>
           </Grid>
         ))}
+        <Grid item xs={3} component={NavLink} to="/properties/add">
+          <Typography variant="subtitle1">Add Property</Typography>
+        </Grid>
       </Grid>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  return { uProperties: state.uProperties };
+  return { 
+    auth: state.auth,
+    uProperties: state.uProperties 
+  };
 };
 
-export default connect(mapStateToProps)(PropertiesPage);
+export default connect(mapStateToProps, { fetchUserProperties })(PropertiesPage);
