@@ -13,6 +13,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { logout } from '../actions';
 
@@ -45,15 +46,15 @@ class SideBar extends Component {
       >
         <div className={classes.toolbar} />
         <List>
-          <ListItem component={NavLink} to="profile">
+          <ListItem component={NavLink} to="/profile">
             <ListItemIcon><PersonIcon /></ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItem>
-          <ListItem component={NavLink} to="trips">
+          <ListItem component={NavLink} to="/trips">
             <ListItemIcon><AirportShuttleIcon /></ListItemIcon>
             <ListItemText primary="Trips" />
           </ListItem>
-          <ListItem component={NavLink} to="properties">
+          <ListItem component={NavLink} to="/properties">
             <ListItemIcon><HomeWorkIcon /></ListItemIcon>
             <ListItemText primary="Properties" />
           </ListItem>
@@ -69,4 +70,8 @@ SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, { logout })(withRouter(withStyles(styles)(SideBar)));
+export default compose(
+  connect(null, { logout }),
+  withRouter,
+  withStyles(styles)
+)(SideBar);

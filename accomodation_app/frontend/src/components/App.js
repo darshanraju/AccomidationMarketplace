@@ -8,15 +8,18 @@ import {
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import HomePage from './HomePage';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
-import PropertiesPage from './PropertiesPage';
 import TripsPage from './TripsPage';
 import ProfilePage from './ProfilePage';
+import ManageProperty from './properties/ManageProperty';
+import AddProperty from './properties/AddProperty';
+import PropertiesPage from './properties/PropertiesPage';
 
 const styles = (theme) => ({
   content: {
@@ -55,6 +58,8 @@ class App extends Component {
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/profile" component={ProfilePage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/trips" component={TripsPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties" component={PropertiesPage} />
+              <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties/manage" component={ManageProperty} />
+              <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties/add" component={AddProperty} />
             </Switch>
           </main>
         </HashRouter>
@@ -71,4 +76,7 @@ const mapStateToProps = (state) => {
   return { auth: state.auth };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(App));
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(App);
