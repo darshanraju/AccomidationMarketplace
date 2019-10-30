@@ -8,17 +8,18 @@ import {
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import HomePage from './HomePage';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
-import PropertiesPage from './PropertiesPage';
 import TripsPage from './TripsPage';
 import ProfilePage from './ProfilePage';
-import ManageProperty from './ManageProperty';
-import AddProperty from './AddProperty';
+import ManageProperty from './properties/ManageProperty';
+import AddProperty from './properties/AddProperty';
+import PropertiesPage from './properties/PropertiesPage';
 
 const styles = (theme) => ({
   content: {
@@ -75,4 +76,7 @@ const mapStateToProps = (state) => {
   return { auth: state.auth };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(App));
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(App);

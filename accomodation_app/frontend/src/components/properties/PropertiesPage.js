@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { fetchUserProperties } from '../actions';
+import { fetchUserProperties } from '../../actions';
 
 class PropertiesPage extends Component {
   componentDidMount () {

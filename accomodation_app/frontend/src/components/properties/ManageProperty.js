@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 
-import { fetchProperty } from '../actions';
+import { fetchProperty } from '../../actions';
 
 class ManageProperty extends Component {
   componentDidMount () {

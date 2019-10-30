@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { fade, withStyles } from '@material-ui/core/styles';
+import { compose } from 'redux';
 
 import { login } from '../actions';
 
@@ -61,4 +62,7 @@ const mapStateToProps = (state) => {
   return { auth: state.auth };
 };
 
-export default connect(mapStateToProps, { login })(withStyles(styles)(NavBar));
+export default compose(
+  connect(mapStateToProps, { login }),
+  withStyles(styles)
+)(NavBar);

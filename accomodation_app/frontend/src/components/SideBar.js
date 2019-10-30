@@ -13,6 +13,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { logout } from '../actions';
 
@@ -69,4 +70,8 @@ SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, { logout })(withRouter(withStyles(styles)(SideBar)));
+export default compose(
+  connect(null, { logout }),
+  withRouter,
+  withStyles(styles)
+)(SideBar);
