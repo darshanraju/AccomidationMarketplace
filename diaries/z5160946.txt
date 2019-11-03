@@ -24,4 +24,16 @@ i also added the functionality for fetiching all the reviews for a particular pr
 
 Week 7 
 
-I added functionality to fetch all bookings for a particular property. I also found some posible Google maps api's that we could use to check and get propety location infomation. The api's are <https://developers.google.com/maps/documentation/javascript/geocoding>, <https://developers.google.com/places/web-service/details>, <https://developers.google.com/places/web-service/search>
+I added functionality to fetch all bookings for a particular property. I also found some posible Google maps api's that we could use to check and get propety location infomation. The api's are <https://developers.google.com/maps/documentation/javascript/geocoding>, <https://developers.google.com/places/web-service/details>, <https://developers.google.com/places/web-service/search>. I added the backed section of search, paramiteres are passed in through the get request querry string. the surch functionality suported are:
+- suburb
+- post-code
+- price -- the maxinum price 
+- check-in 
+- check-out
+- guests -- min number 
+- beds -- min number 
+- bathrooms -- min number 
+note that both check-in and checkout must be present for the result to be filtered on them. 
+it is posible to pass in none of these filter peramiteres, in which case all properties will be resturned. 
+the results will be order by price (accending)
+search was bassed of the following tutorial <https://wsvincent.com/django-search/>

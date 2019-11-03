@@ -74,19 +74,23 @@ class GetSearchResultsAPI(generics.GenericAPIView):
             results = results.filter(price__lte = price)
 
         #filter by at least #guests 
-        no_guests = request.Get.get("#guests")
+        no_guests = request.GET.get("guests")
         if no_guests != None :
             results = results.filter(no_guests__gte = no_guests)
 
         #filter by at least #rooms
-        no_rooms = request.Get.get("#rooms")
-        if no_rooms != None :
-            results = results.filter(no_rooms__gte = no_rooms)
+        no_beds = request.GET.get("beds")
+        if no_beds != None :
+            results = results.filter(no_beds__gte = no_rooms)
 
         #filter by #bathrooms
-        no_bathrooms = request.Get.get("#bathrooms")
+        no_bathrooms = request.GET.get("bathrooms")
         if no_bathrooms != None :
             results = results.filter(no_bathrooms__gte = no_bathrooms)
+
+        #TODO filter by additional features as they are added. 
+
+        #TODO filter by rating freatures as i work out how to do that. 
 
         # filter results by propeties avaliable from check-in and check-out dates. 
         start_date = request.GET.get('check-in')
