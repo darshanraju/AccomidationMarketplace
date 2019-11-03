@@ -72,7 +72,8 @@ export const loginUser = (formValues) => async (dispatch, getState) => {
     password: formValues.password
   }
 
-  const response = await accommodation.post('auth/login', postData, header);
+  const response = await accommodation.post('auth/login', postData, header)
+    .catch(response => console.log("Error: ", response))
 
   console.log("Valid Cred: ", response)
 
