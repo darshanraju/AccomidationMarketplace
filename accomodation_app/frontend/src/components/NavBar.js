@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { fade, withStyles } from '@material-ui/core/styles';
+import { NavLink, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
 import { login } from '../actions';
@@ -21,27 +22,27 @@ const styles = (theme) => ({
   }
 });
 
-class NavBar extends Component  {
+class NavBar extends Component {
   state = {
     searchString: ''
   };
 
   handleTextFieldChange = (event) => {
     if (event.target.value) {
-      this.setState({searchString: event.target.value});
+      this.setState({ searchString: event.target.value });
     } else {
-      this.setState({searchString: ''})
+      this.setState({ searchString: '' })
     }
   };
 
-  render () {
+  render() {
     const { classes } = this.props;
     return (
       <AppBar position="sticky" className={classes.appBar}>
         <Toolbar display="flex">
           <Typography variant="h3">Accomodation App</Typography>
           <Box flexGrow={1} />
-          {this.props.auth.loggedIn ? 
+          {this.props.auth.loggedIn ?
             <div className={classes.search}>
               <TextField
                 label="Search Location"
@@ -50,7 +51,11 @@ class NavBar extends Component  {
                 onChange={this.handleTextFieldChange}
               />
             </div> :
-            <Button color="inherit" onClick={this.props.login}>Login</Button> 
+            [
+              <Button color="inherit" component={NavLink} to="/register" >Register</Button>
+              ,
+              <Button color="inherit" component={NavLink} to="/login">Login</Button>
+            ]
           }
         </Toolbar>
       </AppBar>

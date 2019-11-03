@@ -20,6 +20,8 @@ import ProfilePage from './ProfilePage';
 import ManageProperty from './properties/ManageProperty';
 import AddProperty from './properties/AddProperty';
 import PropertiesPage from './properties/PropertiesPage';
+import LoginPage from './accounts/LoginPage';
+import RegisterPage from './accounts/RegisterPage';
 
 const styles = (theme) => ({
   content: {
@@ -41,14 +43,15 @@ const ProtectedRoute = ({ isAllowed, ...props }) => {
 
 class App extends Component {
   render() {
-    const {classes } = this.props;
+    const { classes } = this.props;
     return (
       <React.Fragment>
         <CssBaseline />
         <HashRouter>
           <NavBar />
+          {console.log("BEING RE-RENDERED", this.props.auth.loggedIn)}
           {this.props.auth.loggedIn && <SideBar />}
-          <main 
+          <main
             className={clsx(classes.content, {
               [classes.contentSidebar]: this.props.auth.loggedIn,
             })}
@@ -60,6 +63,8 @@ class App extends Component {
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties" component={PropertiesPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties/manage" component={ManageProperty} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties/add" component={AddProperty} />
+              <ProtectedRoute isAllowed={!this.props.auth.loggedIn} exact path="/register" component={RegisterPage} />
+              <ProtectedRoute isAllowed={!this.props.auth.loggedIn} exact path="/login" component={LoginPage} />
             </Switch>
           </main>
         </HashRouter>
