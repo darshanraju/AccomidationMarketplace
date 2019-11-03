@@ -1,6 +1,8 @@
 import {
   LOGIN,
-  LOGOUT
+  LOGOUT,
+  REGISTER_USER,
+  LOGIN_USER
 } from '../actions/types';
 
 
@@ -16,13 +18,19 @@ const initialState = {
 
 export default (auth = initialState, action) => {
   let newState = { ...auth };
-  switch(action.type) {
-    case LOGIN:
-      newState.loggedIn = true;
-      return newState;
+  switch (action.type) {
 
     case LOGOUT:
       newState.loggedIn = false;
+      return newState;
+
+    case REGISTER_USER:
+      return newState;
+
+    case LOGIN_USER:
+      newState.loggedIn = true
+      newState.user = action.payload.data.user
+      newState.token = action.payload.data.token
       return newState;
 
     default:

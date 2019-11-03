@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'authentication',
     'property',
     'booking',
-    'reviews'
+    'reviews',
 ]
 
 REST_FRAMEWORK = {
@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'accomodation_app.urls'
 
