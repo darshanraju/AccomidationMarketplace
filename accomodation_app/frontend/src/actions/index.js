@@ -5,7 +5,8 @@ import {
   FETCH_USER_PROPERTIES,
   ADD_PROPERTY,
   REGISTER_USER,
-  LOGIN_USER
+  LOGIN_USER,
+  ERROR_MSG
 } from './types';
 
 export const logout = () => {
@@ -57,7 +58,16 @@ export const registerUser = (formValues) => async (dispatch, getState) => {
     last_name: formValues.last_name,
     password: formValues.password
   }
-  const response = await accommodation.post('auth/register', postData, header);
+  const response = await accommodation.post('auth/register', postData, header)
+    .then(response => {
+      console.log("Success:", response)
+      dispatch({ type: REGISTER_USER, payload: response });
+    })
+    .catch(err => {
+      console.log("Fail: ", err.response)
+      dispatch({ type: ERROR_MSG, payload: err.response })
+    })
+
   dispatch({ type: REGISTER_USER, payload: response });
 }
 
@@ -72,11 +82,14 @@ export const loginUser = (formValues) => async (dispatch, getState) => {
     password: formValues.password
   }
 
-  const response = await accommodation.post('auth/login', postData, header);
+  const response = await accommodation.post('auth/login', postData, header)
+    .then(response => {
+      console.log("Success:", response)
+      dispatch({ type: LOGIN_USER, payload: response })
+    })
+    .catch(err => {
+      console.log("Error: ", err.response)
+      dispatch({ type: ERROR_MSG, payload: err.response })
+    })
 
-  console.log("Valid Cred: ", response)
-
-  if (response) {
-    dispatch({ type: LOGIN_USER, payload: response });
-  }
 }

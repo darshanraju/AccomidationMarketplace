@@ -6,10 +6,17 @@ import { compose } from 'redux';
 import { registerUser } from '../../actions';
 import RegisterPageForm from './RegisterPageForm';
 
+
+
 class RegisterPage extends Component {
   submit = (formValues) => {
-    this.props.registerUser(formValues);
-    this.props.history.push('/login');
+    this.props.registerUser(formValues) //How to make this async
+    // console.log("INSIDE SUBMITE: ", this.props)
+    // console.log(this.props.auth.errorMessage.length)
+    // console.log(this.props.auth.errorMessage)
+    if (this.props.auth.errorMessage.length == 0) {
+      this.props.history.push('/login');
+    }
   }
 
   render() {
@@ -21,7 +28,11 @@ class RegisterPage extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return { auth: state.auth };
+};
+
 export default compose(
-  connect(null, { registerUser }),
+  connect(mapStateToProps, { registerUser }),
   withRouter
 )(RegisterPage);
