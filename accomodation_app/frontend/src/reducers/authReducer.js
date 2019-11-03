@@ -19,10 +19,6 @@ const initialState = {
 export default (auth = initialState, action) => {
   let newState = { ...auth };
   switch (action.type) {
-    case LOGIN:
-      newState.loggedIn = true;
-      console.log("LoggedIn State: ", newState.loggedIn)
-      return newState;
 
     case LOGOUT:
       newState.loggedIn = false;
@@ -35,7 +31,6 @@ export default (auth = initialState, action) => {
       newState.loggedIn = true
       newState.user = action.payload.data.user
       newState.token = action.payload.data.token
-      console.log("New LoggedIn State: ", newState)
       return newState;
 
     default:

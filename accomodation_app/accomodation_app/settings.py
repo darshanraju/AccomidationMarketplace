@@ -45,13 +45,7 @@ INSTALLED_APPS = [
     'property',
     'booking',
     'reviews',
-    'corsheaders'
 ]
-
-# MIDDLEWARE_CLASSES = (
-#     'django.middleware.common.CommonMiddleware'
-# )
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),  
@@ -65,7 +59,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
 ]
 
 

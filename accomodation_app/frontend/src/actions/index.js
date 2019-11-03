@@ -1,6 +1,5 @@
 import accommodation from '../apis/accommodation';
 import {
-  LOGIN,
   LOGOUT,
   FETCH_PROPERTY,
   FETCH_USER_PROPERTIES,
@@ -8,11 +7,6 @@ import {
   REGISTER_USER,
   LOGIN_USER
 } from './types';
-
-// export const login = () => {
-//   return { type: LOGIN };
-// };
-
 
 export const logout = () => {
   return { type: LOGOUT };
