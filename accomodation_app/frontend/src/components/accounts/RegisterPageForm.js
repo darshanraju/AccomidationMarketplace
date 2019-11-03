@@ -13,7 +13,7 @@ class RegisterUserForm extends Component {
                     <div><Field name="email" component={renderTextField} label="Email" /></div>
                     <div><Field name="first_name" component={renderTextField} label="FirstName" /></div>
                     <div><Field name="last_name" component={renderTextField} label="LastName" /></div>
-                    <div><Field name="password" component={renderTextField} label="password" /></div>
+                    <div><Field name="password" component={renderTextField} label="password" type="password" /></div>
                     <Button type="submit">Submit</Button>
                 </form>
             </React.Fragment>
