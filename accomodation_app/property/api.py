@@ -54,28 +54,51 @@ class GetSearchResultsAPI(generics.GenericAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
 
-    #def get_queryset(self):
 
     def get(self, request):
         results = Property.objects.all()
+
+        # filter resuts by suburb
         suburb = request.GET.get('suburb')
         if suburb != None :
             results = results.filter(suburb = suburb)
+
+        # filter results by a specific post_code 
         post_code = request.GET.get("post_code")
         if  post_code != None :
             results = results.filter(postcode = post_code)
+
+        # filter results for properties bellow a specified price 
         price = request.GET.get("price")
         if price != None :
             results = results.filter(price__lte = price)
-        start_date = request.GET.get('start_date')
-        end_date = request.GET.get('end_date')
-        if start_date != None and end_date!= None:
-            propertiesNotAvaliable = Booking.objects.filter(checkin__lte = end_date, checkout__gte = start_date).values_list('property_id', flat=True).distinct()
-            results = results.exclude(id__in = propertiesNotAvaliable)
 
+        #filter by at least #guests 
+        no_guests = request.Get.get("#guests")
+        if no_guests != None :
+            results = results.filter(no_guests__gte = no_guests)
+
+        #filter by at least #rooms
+        no_rooms = request.Get.get("#rooms")
+        if no_rooms != None :
+            results = results.filter(no_rooms__gte = no_rooms)
+
+        #filter by #bathrooms
+        no_bathrooms = request.Get.get("#bathrooms")
+        if no_bathrooms != None :
+            results = results.filter(no_bathrooms__gte = no_bathrooms)
+
+        # filter results by propeties avaliable from check-in and check-out dates. 
+        start_date = request.GET.get('check-in')
+        end_date = request.GET.get('check-out')
+        if start_date != None and end_date!= None:
+            propertiesNotAvaliable = Booking.objects.filter(property_id__in = results.values_list('property_id', flat=True), checkin__lte = end_date, checkout__gte = start_date).values_list('property_id', flat=True).distinct()
+            results = results.exclude(id__in = propertiesNotAvaliable);
+
+        # format resposnce and sort by price 
         resp = {}
         i = 1
-        for prop in results:
+        for prop in results.order_by('price'):
             resp[str(i)] = PropertySerializer(prop, context=self.get_serializer_context()).data
             i += 1
         return Response(resp)
