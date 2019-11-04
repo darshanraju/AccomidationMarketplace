@@ -54,7 +54,21 @@ class GetSearchResultsAPI(generics.GenericAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
 
-
+    # Get Search Request: url = http://127.0.0.1:8000/api/property/search/?guests=3
+    # Filters are passed in through the get request querry string. 
+    # The surch functionality suported are:
+    # - suburb
+    # - post-code
+    # - price -- filter by the maxinum price 
+    # - check-in 
+    # - check-out
+    # - guests -- filter by the min number 
+    # - beds -- filter by the min number 
+    # - bathrooms -- filter by the min number 
+    # Note that both check-in and checkout must be present for the result to be filtered on them. 
+    # The results will be order by price (accending)
+    # Any combination of filteres can be passed in, including None. 
+    # NOTE : this will not send an error if you type in a invalid filter name.
     def get(self, request):
         results = Property.objects.all()
 
@@ -64,7 +78,7 @@ class GetSearchResultsAPI(generics.GenericAPIView):
             results = results.filter(suburb = suburb)
 
         # filter results by a specific post_code 
-        post_code = request.GET.get("post_code")
+        post_code = request.GET.get("post-code")
         if  post_code != None :
             results = results.filter(postcode = post_code)
 
@@ -90,13 +104,11 @@ class GetSearchResultsAPI(generics.GenericAPIView):
 
         #TODO filter by additional features as they are added. 
 
-        #TODO filter by rating freatures as i work out how to do that. 
-
         # filter results by propeties avaliable from check-in and check-out dates. 
         start_date = request.GET.get('check-in')
         end_date = request.GET.get('check-out')
         if start_date != None and end_date!= None:
-            propertiesNotAvaliable = Booking.objects.filter(property_id__in = results.values_list('property_id', flat=True), checkin__lte = end_date, checkout__gte = start_date).values_list('property_id', flat=True).distinct()
+            propertiesNotAvaliable = Booking.objects.filter(property_id__in = results.values_list('id', flat=True), checkin__lte = end_date, checkout__gte = start_date).values_list('property_id', flat=True).distinct()
             results = results.exclude(id__in = propertiesNotAvaliable);
 
         # format resposnce and sort by price 
