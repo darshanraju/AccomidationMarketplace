@@ -49,7 +49,6 @@ class App extends Component {
         <CssBaseline />
         <HashRouter>
           <NavBar />
-          {console.log("BEING RE-RENDERED", this.props.auth.loggedIn)}
           {this.props.auth.loggedIn && <SideBar />}
           <main
             className={clsx(classes.content, {
