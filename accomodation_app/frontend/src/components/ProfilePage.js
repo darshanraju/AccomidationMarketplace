@@ -9,8 +9,6 @@ class ProfilePage extends Component {
     return (
       <Box display="flex" flexDirection="column" justifyContent="center" >
         <Paper width={1 / 2}>
-          {console.log("PROFILE PAGE RERENDERED")}
-          {console.log(this.props.auth)}
           <Typography variant="subtitle2">Username: {this.props.auth.user.username}</Typography>
           <Typography variant="subtitle2">Name: {this.props.auth.user.first_name} {this.props.auth.user.last_name}</Typography>
           <Typography variant="subtitle2">Email : {this.props.auth.user.email}</Typography>

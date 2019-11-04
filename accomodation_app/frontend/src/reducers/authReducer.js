@@ -30,7 +30,6 @@ export default (auth = initialState, action) => {
       return newState;
 
     case LOGIN_USER:
-      console.log("Inside reducer: ", action.payload)
       newState.loggedIn = true
       newState.user = action.payload.user
       newState.token = action.payload.token
