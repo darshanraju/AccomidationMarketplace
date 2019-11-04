@@ -84,8 +84,8 @@ export const loginUser = (formValues) => async (dispatch, getState) => {
 
   const response = await accommodation.post('auth/login', postData, header)
     .then(response => {
-      console.log("Success:", response)
-      dispatch({ type: LOGIN_USER, payload: response })
+      console.log("Success:", response.data)
+      dispatch({ type: LOGIN_USER, payload: response.data })
     })
     .catch(err => {
       console.log("Error: ", err.response)
