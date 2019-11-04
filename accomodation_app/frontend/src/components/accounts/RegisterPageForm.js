@@ -5,10 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { renderTextField } from '../../utils/renderFormComponents';
 
 const required = value => (value || typeof value === 'number' ? undefined : 'Required')
-const inUse = value => ({
 
-
-})
 
 
 const email = value =>
