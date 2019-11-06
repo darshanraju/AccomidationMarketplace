@@ -10,14 +10,7 @@ class BookingSerializer(serializers.ModelSerializer):
 class MakeBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
-        exclude = ['id']
-    
-    def create(self, validated_data):
-        booking = Booking.objects.create(user_id=validated_data['user_id'],
-                                         property_id=validated_data['property_id'],
-                                         checkin=validated_data['checkin'],
-                                         checkout=validated_data['checkout'])
-        return booking
+        exclude = ['id', 'user_id']
 
     def validate_date(self, value):
         checkin = self.get_initial().get("checkin")
@@ -28,3 +21,8 @@ class MakeBookingSerializer(serializers.ModelSerializer):
         print(checkout)
         if checkout < checkin:
             raise serializers.ValidationError("Check-in date must be on or before check-out")
+
+class UpdateBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        exclude = ['id', 'user_id', 'property_id']

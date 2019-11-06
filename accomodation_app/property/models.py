@@ -18,7 +18,7 @@ def unique_error_message(self, Property, unique_check):
 # Create your models here.
 class Property(models.Model):
     id = models.AutoField(primary_key=True)
-    owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     address = models.CharField(max_length = 150)
     suburb = models.CharField(max_length = 50)
     postcode = models.IntegerField(validators=[valid_postcode])

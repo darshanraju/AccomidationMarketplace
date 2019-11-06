@@ -11,7 +11,7 @@ class PropertySerializer(serializers.ModelSerializer):
 class AddPropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        exclude = ['id']
+        exclude = ['id', 'owner_id']
         validators = [
             UniqueTogetherValidator(
                 queryset=Property.objects.all(),
@@ -20,13 +20,7 @@ class AddPropertySerializer(serializers.ModelSerializer):
             )
         ]
 
-    def create(self, validated_data):
-        prop = Property.objects.create(owner_id=validated_data['owner_id'],
-                                           address=validated_data['address'],
-                                           suburb=validated_data['suburb'],
-                                           postcode=validated_data['postcode'],
-                                           price=validated_data['price'],
-                                           no_guests=validated_data['no_guests'],
-                                           no_beds=validated_data['no_beds'],
-                                           no_bathrooms=validated_data['no_bathrooms'])
-        return prop
+class UpdatePropertySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Property
+        exclude = ['id', 'owner_id']    

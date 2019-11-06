@@ -1,8 +1,9 @@
 from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from .models import Property
 from booking.models import Booking
-from .serializers import PropertySerializer, AddPropertySerializer
+from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer
 
 class PropertyAPI(generics.RetrieveAPIView):
     queryset = Property.objects.all()
@@ -23,15 +24,22 @@ class AddPropertyAPI(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         data = request.data
         serializer = AddPropertySerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        prop = serializer.save()
-        return Response ({
-            "property": PropertySerializer(prop, context=self.get_serializer_context()).data
-        })
+        if serializer.is_valid():
+            new_property = Property.objects.create(owner_id=request.user,
+                                  address=data['address'],
+                                  suburb=data['suburb'],
+                                  postcode=data['postcode'],
+                                  price=data['price'],
+                                  no_guests=data['no_guests'],
+                                  no_beds=data['no_beds'],
+                                  no_bathrooms=data['no_bathrooms'])
+            new_property.save()
+            return Response (serializer.data, HTTP_200_OK)
+        return Response (serializer.errors, HTTP_400_BAD_REQUEST)
 
 class UpdatePropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
     queryset = Property.objects.all()
-    serializer_class = PropertySerializer
+    serializer_class = UpdatePropertySerializer
     lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):

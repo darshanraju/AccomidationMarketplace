@@ -16,6 +16,11 @@ class ReviewPropertySerializer(serializers.ModelSerializer):
 		instance.save()
 		return instance
 
+class UpdateReviewPropertySerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Review_property
+		exclude = ['booking_id']
+
 class ReviewUserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Review_user
@@ -28,3 +33,8 @@ class ReviewUserSerializer(serializers.ModelSerializer):
 		instance.rating = validate_data.get('rating', instance.rating)
 		instance.save()
 		return instance
+
+class UpdateReviewUserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Review_user
+		exclude = ['owner_id','booking_id']
