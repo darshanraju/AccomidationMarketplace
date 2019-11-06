@@ -5,6 +5,7 @@ from .models import Booking, Property
 from .serializers import BookingSerializer, MakeBookingSerializer, UpdateBookingSerializer
 
 class BookingAPI(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
     lookup_field = 'id'
@@ -18,6 +19,10 @@ class BookingAPI(generics.RetrieveAPIView):
         })   
 
 class MakeBookingAPI(generics.GenericAPIView):
+    """
+    @description: Requires token
+    """
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = MakeBookingSerializer
 
     def post(self, request, *args, **kwargs):
@@ -35,6 +40,8 @@ class MakeBookingAPI(generics.GenericAPIView):
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
 
 class UpdateBookingAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
+    permission_classes = [permissions.IsAuthenticated]
+
     queryset = Booking.objects.all()
     serializer_class = UpdateBookingSerializer
     lookup_field = 'id'
@@ -43,6 +50,8 @@ class UpdateBookingAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
         return self.partial_update(request, *args, **kwargs)
         
 class GetBookingsByPropertyAPI(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
 
@@ -56,6 +65,8 @@ class GetBookingsByPropertyAPI(generics.GenericAPIView):
         return Response(resp)
 
 class GetBookingsByGuestAPI(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
 
