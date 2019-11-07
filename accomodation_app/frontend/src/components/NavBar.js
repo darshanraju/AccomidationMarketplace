@@ -52,9 +52,9 @@ class NavBar extends Component {
               />
             </div> :
             [
-              <Button color="inherit" component={NavLink} to="/register" >Register</Button>
+              <Button color="inherit" component={NavLink} to="/register" key="register">Register</Button>
               ,
-              <Button color="inherit" component={NavLink} to="/login">Login</Button>
+              <Button color="inherit" component={NavLink} to="/login" key="login">Login</Button>
             ]
           }
         </Toolbar>

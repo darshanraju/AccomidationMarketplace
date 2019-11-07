@@ -1,5 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import { format, parseISO } from 'date-fns';
 
 export const renderTextField = ({
   label,
@@ -16,3 +18,17 @@ export const renderTextField = ({
     {...custom}
   />
 )
+
+export const renderKeyboardDatePicker = ({
+  label,
+  input,
+  ...custom
+}) => (
+  <KeyboardDatePicker
+    label={label}
+    onChange={(e, val) => {return input.onChange(val)}}
+    format="MM/dd/yyyy"
+    value={input.value}
+    {...custom}
+  />
+);

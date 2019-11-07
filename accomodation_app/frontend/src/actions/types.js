@@ -12,5 +12,7 @@ export const LOGIN_USER = 'loginUser';
 
 export const ERROR_MSG = 'errorMessage';
 
+export const SEARCH_PROPERTIES = 'searchProperties';
+
 
 

@@ -6,7 +6,8 @@ import {
   ADD_PROPERTY,
   REGISTER_USER,
   LOGIN_USER,
-  ERROR_MSG
+  ERROR_MSG,
+  SEARCH_PROPERTIES
 } from './types';
 
 export const logout = () => {
@@ -20,7 +21,12 @@ export const fetchProperty = (propertyID) => async (dispatch, getState) => {
 };
 
 export const fetchUserProperties = (userID) => async (dispatch, getState) => {
-  const response = await accommodation.get('property/owner/' + userID);
+  const header = {
+    headers: {
+      Authorization: "Token " + getState().auth.token
+    }
+  }
+  const response = await accommodation.get('property/owner/' + userID, header);
   const data = response.data;
   dispatch({ type: FETCH_USER_PROPERTIES, payload: data })
 }
@@ -28,8 +34,11 @@ export const fetchUserProperties = (userID) => async (dispatch, getState) => {
 export const addProperty = (formValues) => async (dispatch, getState) => {
 
   const header = {
-    'Content-Type': 'application/json',
-  }
+    headers: {
+      Authorization: "Token " + getState().auth.token,
+      'Content-Type': 'application/json',
+    }
+  };
 
   const postData = {
     address: formValues.address,
@@ -92,4 +101,23 @@ export const loginUser = (formValues) => async (dispatch, getState) => {
       dispatch({ type: ERROR_MSG, payload: err.response })
     })
 
+}
+
+export const searchProperties = (formValues) => async (dispatch, getState) => {
+  const config = {
+    params: {
+      suburb: formValues.suburb,
+      "post-code": formValues.postCode,
+      price: formValues.price,
+      "check-in": formValues.checkIn,
+      "check-out": formValues.checkOut,
+      guests: formValues.guests,
+      beds: formValues.beds,
+      bathrooms: formValues.bathrooms
+    }
+  };
+  console.log(config);
+
+  const response = await accommodation.get('/property/search', config);
+  console.log(response);
 }
