@@ -5,7 +5,6 @@ from .models import Booking, Property
 from .serializers import BookingSerializer, MakeBookingSerializer, UpdateBookingSerializer
 
 class BookingAPI(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
     lookup_field = 'id'
@@ -20,7 +19,7 @@ class BookingAPI(generics.RetrieveAPIView):
 
 class MakeBookingAPI(generics.GenericAPIView):
     """
-    @description: Requires token
+    @description: Requires token of user making the booking
     """
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = MakeBookingSerializer
@@ -40,6 +39,9 @@ class MakeBookingAPI(generics.GenericAPIView):
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
 
 class UpdateBookingAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
+    """
+    @description: Requires token of the user with booking
+    """
     permission_classes = [permissions.IsAuthenticated]
 
     queryset = Booking.objects.all()
@@ -50,6 +52,9 @@ class UpdateBookingAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
         return self.partial_update(request, *args, **kwargs)
         
 class GetBookingsByPropertyAPI(generics.GenericAPIView):
+    """
+    @description: Requires token of the property owner
+    """
     permission_classes = [permissions.IsAuthenticated]
 
     queryset = Booking.objects.all()
@@ -57,14 +62,15 @@ class GetBookingsByPropertyAPI(generics.GenericAPIView):
 
     def get(self, request, property_id):
         bookings = Booking.objects.filter(property_id = property_id)
-        resp = {}
-        i = 1
+        resp = []
         for booking in bookings:
-            resp[str(i)] = BookingSerializer(booking, context=self.get_serializer_context()).data
-            i += 1
+            resp.append(BookingSerializer(booking, context=self.get_serializer_context()).data)
         return Response(resp)
 
 class GetBookingsByGuestAPI(generics.GenericAPIView):
+    """
+    @description: Requires token of the user(guest)
+    """
     permission_classes = [permissions.IsAuthenticated]
 
     queryset = Booking.objects.all()
@@ -72,9 +78,7 @@ class GetBookingsByGuestAPI(generics.GenericAPIView):
 
     def get(self, request, guest_id):
         bookings = Booking.objects.filter(user_id = guest_id)
-        resp = {}
-        i = 1
+        resp = []
         for booking in bookings:
-            resp[str(i)] = BookingSerializer(booking, context=self.get_serializer_context()).data
-            i += 1
+            resp.append(BookingSerializer(booking, context=self.get_serializer_context()).data)
         return Response(resp)        

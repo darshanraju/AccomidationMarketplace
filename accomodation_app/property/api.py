@@ -6,7 +6,6 @@ from booking.models import Booking
 from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer
 
 class PropertyAPI(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
     lookup_field = 'id'
@@ -43,6 +42,9 @@ class AddPropertyAPI(generics.GenericAPIView):
         return Response (serializer.errors, HTTP_400_BAD_REQUEST)
 
 class UpdatePropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
+    """
+    @description: Requires token of the owner
+    """
     permission_classes = [permissions.IsAuthenticated]
 
     queryset = Property.objects.all()
@@ -53,6 +55,9 @@ class UpdatePropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
         return self.partial_update(request, *args, **kwargs)
 
 class GetOwnerPropertyAPI(generics.GenericAPIView):
+    """
+    @description: Requires token of the owner
+    """
     permission_classes = [permissions.IsAuthenticated]
 
     queryset = Property.objects.all()
@@ -60,11 +65,9 @@ class GetOwnerPropertyAPI(generics.GenericAPIView):
 
     def get(self, request, owner_id):
         properties = Property.objects.filter(owner_id = owner_id)
-        resp = {}
-        i = 1
+        resp = []
         for prop in properties:
-            resp[str(i)] = PropertySerializer(prop, context=self.get_serializer_context()).data
-            i += 1
+            resp.append(PropertySerializer(prop, context=self.get_serializer_context()).data)
         return Response(resp)
 
 class GetSearchResultsAPI(generics.GenericAPIView):
@@ -129,9 +132,7 @@ class GetSearchResultsAPI(generics.GenericAPIView):
             results = results.exclude(id__in = propertiesNotAvaliable);
 
         # format resposnce and sort by price 
-        resp = {}
-        i = 1
+        resp = []
         for prop in results.order_by('price'):
-            resp[str(i)] = PropertySerializer(prop, context=self.get_serializer_context()).data
-            i += 1
+            resp.append(PropertySerializer(prop, context=self.get_serializer_context()).data)
         return Response(resp)
