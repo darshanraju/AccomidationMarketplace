@@ -11,13 +11,7 @@ import HomeSearchForm from './search/HomeSearchForm';
 
 class HomePage extends Component {
   submit = (formValues) => {
-    const parameters = {
-      suburb: "Cabramatta",
-      checkIn: "2019-05-05",
-      checkOut: "2019-06-06" 
-    }
-    console.log(formValues);
-    this.props.searchProperties(parameters);
+    this.props.searchProperties(formValues);
   }
 
   render () {

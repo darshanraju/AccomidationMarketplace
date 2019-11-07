@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import enLocale from 'date-fns/locale/en-AU';
-import { format, addDays } from 'date-fns';
+import { addDays } from 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -13,7 +12,7 @@ import { renderTextField, renderKeyboardDatePicker } from '../../utils/renderFor
 class HomeSearchForm extends Component {
   render () {
     return (
-      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={enLocale} >
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <form onSubmit={this.props.handleSubmit}>
           <div><Field name="suburb" component={renderTextField} label="Suburb" /></div>
           <div>

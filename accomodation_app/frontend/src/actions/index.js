@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 import accommodation from '../apis/accommodation';
 import {
   LOGOUT,
@@ -109,8 +111,8 @@ export const searchProperties = (formValues) => async (dispatch, getState) => {
       suburb: formValues.suburb,
       "post-code": formValues.postCode,
       price: formValues.price,
-      "check-in": formValues.checkIn,
-      "check-out": formValues.checkOut,
+      "check-in": format(formValues.checkIn, 'yyyy-MM-dd'),
+      "check-out": format(formValues.checkOut, 'yyyy-MM-dd'),
       guests: formValues.guests,
       beds: formValues.beds,
       bathrooms: formValues.bathrooms

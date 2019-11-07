@@ -19,16 +19,26 @@ export const renderTextField = ({
   />
 )
 
-export const renderKeyboardDatePicker = ({
-  label,
-  input,
-  ...custom
-}) => (
-  <KeyboardDatePicker
-    label={label}
-    onChange={(e, val) => {return input.onChange(val)}}
-    format="MM/dd/yyyy"
-    value={input.value}
-    {...custom}
-  />
-);
+export const renderKeyboardDatePicker = (props) => {
+  const {
+    meta: { error, touched },
+    input: { onBlur, value, ...inputProps },
+    ...others
+  } = props;
+  
+  const onChange = (date) => {
+    Date.parse(date) ? inputProps.onChange(date.toISOString()) : inputProps.onChange(null);
+  };
+
+  return (
+    <KeyboardDatePicker
+      onChange={onChange}
+      format="dd/MM/yyyy"
+      value={value ? new Date(value) : null}
+      onBlur={() => onBlur(value ? new Date(value).toISOString() : null)}
+      error={error && touched}
+      {...inputProps}
+      {...others}
+    />
+  )
+};
