@@ -1,7 +1,8 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { format, parseISO } from 'date-fns';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 
 export const renderTextField = ({
   label,
@@ -42,3 +43,31 @@ export const renderKeyboardDatePicker = (props) => {
     />
   )
 };
+
+export const renderSelectField = ({
+  input,
+  label,
+  children,
+  ...custom
+}) => (
+  <React.Fragment>
+    <InputLabel htmlFor={name}>{label}</InputLabel>
+    <Select
+      native
+      {...input}
+      {...custom}
+      id={name}
+    >
+      {children}
+    </Select>
+  </React.Fragment>
+)
+
+export const numericOptions = () => {
+  const maxNum = 15;
+  const options = [];
+  for (let i = 1; i < maxNum + 1; i++) {
+    options.push(<option key={i} value={i}>{i}</option>);
+  }
+  return options;
+}

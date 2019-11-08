@@ -115,7 +115,7 @@ class GetSearchResultsAPI(generics.GenericAPIView):
         #filter by at least #rooms
         no_beds = request.GET.get("beds")
         if no_beds != None :
-            results = results.filter(no_beds__gte = no_rooms)
+            results = results.filter(no_beds__gte = no_beds)
 
         #filter by #bathrooms
         no_bathrooms = request.GET.get("bathrooms")

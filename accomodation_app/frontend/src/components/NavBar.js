@@ -3,14 +3,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { fade, withStyles } from '@material-ui/core/styles';
 import { NavLink, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
-import { login, searchProperties } from '../actions';
+import { searchProperties } from '../actions';
 import SearchBarForm from './search/SearchBarForm';
 
 const styles = (theme) => ({
@@ -68,7 +67,7 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-  connect(mapStateToProps, { login, searchProperties }),
+  connect(mapStateToProps, { searchProperties }),
   withRouter,
   withStyles(styles)
 )(NavBar);
