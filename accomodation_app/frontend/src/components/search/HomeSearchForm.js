@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { addDays } from 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -12,28 +10,26 @@ import { renderTextField, renderKeyboardDatePicker } from '../../utils/renderFor
 class HomeSearchForm extends Component {
   render () {
     return (
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <form onSubmit={this.props.handleSubmit}>
-          <div><Field name="suburb" component={renderTextField} label="Suburb" /></div>
-          <div>
-            <Field
-              name="checkIn"
-              label="Check In"
-              variant="inline"
-              component={renderKeyboardDatePicker}
-            />
-          </div>
-          <div>
-            <Field
-              name="checkOut"
-              label="Check Out"
-              variant="inline"
-              component={renderKeyboardDatePicker}
-            />
-          </div>
-          <Button variant="contained" color="primary" type="submit">Submit</Button>
-        </form>
-      </MuiPickersUtilsProvider>
+      <form onSubmit={this.props.handleSubmit}>
+        <div><Field name="suburb" component={renderTextField} label="Suburb" /></div>
+        <div>
+          <Field
+            name="checkIn"
+            label="Check In"
+            variant="inline"
+            component={renderKeyboardDatePicker}
+          />
+        </div>
+        <div>
+          <Field
+            name="checkOut"
+            label="Check Out"
+            variant="inline"
+            component={renderKeyboardDatePicker}
+          />
+        </div>
+        <Button variant="contained" color="primary" type="submit">Submit</Button>
+      </form>
     )
   }
 }

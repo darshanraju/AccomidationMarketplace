@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 import { searchProperties } from '../actions';
 import HomeSearchForm from './search/HomeSearchForm';
 
 class HomePage extends Component {
-  submit = (formValues) => {
-    this.props.searchProperties(formValues);
+  submit = async (formValues) => {
+    await this.props.searchProperties(formValues);
+    this.props.history.push('/search');
   }
 
   render () {
@@ -23,4 +23,7 @@ class HomePage extends Component {
   }
 }
 
-export default connect(null, { searchProperties })(HomePage);
+export default compose(
+  connect(null, { searchProperties }),
+  withRouter
+)(HomePage);

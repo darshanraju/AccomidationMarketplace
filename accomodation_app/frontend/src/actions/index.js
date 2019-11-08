@@ -106,20 +106,22 @@ export const loginUser = (formValues) => async (dispatch, getState) => {
 }
 
 export const searchProperties = (formValues) => async (dispatch, getState) => {
+  const checkIn = formValues.checkIn ? format(formValues.checkIn, 'yyy-MM-dd') : null;
+  const checkOut = formValues.checkOut ? format(formValues.checkOut, 'yyy-MM-dd') : null;
+
   const config = {
     params: {
       suburb: formValues.suburb,
       "post-code": formValues.postCode,
       price: formValues.price,
-      "check-in": format(formValues.checkIn, 'yyyy-MM-dd'),
-      "check-out": format(formValues.checkOut, 'yyyy-MM-dd'),
+      "check-in": checkIn, 
+      "check-out": checkOut,
       guests: formValues.guests,
       beds: formValues.beds,
       bathrooms: formValues.bathrooms
     }
   };
-  console.log(config);
 
   const response = await accommodation.get('/property/search', config);
-  console.log(response);
+  dispatch({ type: SEARCH_PROPERTIES, payload: response.data });
 }

@@ -22,6 +22,7 @@ import AddProperty from './properties/AddProperty';
 import PropertiesPage from './properties/PropertiesPage';
 import LoginPage from './accounts/LoginPage';
 import RegisterPage from './accounts/RegisterPage';
+import SearchPage from './search/SearchPage';
 
 const styles = (theme) => ({
   content: {
@@ -57,6 +58,7 @@ class App extends Component {
           >
             <Switch>
               <Route exact path="/" component={HomePage} />
+              <Route exact path="/search" component={SearchPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/profile" component={ProfilePage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/trips" component={TripsPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties" component={PropertiesPage} />

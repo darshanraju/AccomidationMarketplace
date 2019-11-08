@@ -10,7 +10,8 @@ import { fade, withStyles } from '@material-ui/core/styles';
 import { NavLink, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
-import { login } from '../actions';
+import { login, searchProperties } from '../actions';
+import SearchBarForm from './search/SearchBarForm';
 
 const styles = (theme) => ({
   appBar: {
@@ -18,7 +19,6 @@ const styles = (theme) => ({
   },
   search: {
     backgroundColor: fade(theme.palette.common.white, 0.25),
-    width: '20%'
   }
 });
 
@@ -35,6 +35,11 @@ class NavBar extends Component {
     }
   };
 
+  submit = async (formValues) => {
+    await this.props.searchProperties(formValues);
+    this.props.history.push('/search');
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -42,15 +47,10 @@ class NavBar extends Component {
         <Toolbar display="flex">
           <Typography variant="h3">Accomodation App</Typography>
           <Box flexGrow={1} />
-          {this.props.auth.loggedIn ?
-            <div className={classes.search}>
-              <TextField
-                label="Search Location"
-                type="search"
-                fullWidth
-                onChange={this.handleTextFieldChange}
-              />
-            </div> :
+          <div className={classes.search}>
+            <SearchBarForm type="search" fullWidth onSubmit={this.submit} />
+          </div>
+          {!this.props.auth.loggedIn && 
             [
               <Button color="inherit" component={NavLink} to="/register" key="register">Register</Button>
               ,
@@ -68,6 +68,7 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-  connect(mapStateToProps, { login }),
+  connect(mapStateToProps, { login, searchProperties }),
+  withRouter,
   withStyles(styles)
 )(NavBar);
