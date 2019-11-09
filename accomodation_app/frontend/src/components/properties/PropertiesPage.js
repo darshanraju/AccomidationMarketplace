@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 
-import { fetchUserProperties } from '../../actions';
+import { fetchProperty, fetchUserProperties } from '../../actions';
 
 class PropertiesPage extends Component {
   componentDidMount () {
     this.props.fetchUserProperties(this.props.auth.user.id);
+  }
+
+  handleOnClick = async (id, e) => {
+    await this.props.fetchProperty(id);
+    this.props.history.push('/properties/manage');
   }
 
   render () {
@@ -22,6 +29,7 @@ class PropertiesPage extends Component {
               <Typography variant="subtitle2">Bathrooms: {currentProperty.no_bathrooms}</Typography>
               <Typography variant="subtitle2">Fits: {currentProperty.no_guests} people</Typography>
               <Typography variant="subtitle2">Price: ${currentProperty.price}/night</Typography>
+              <Button onClick={(e) => this.handleOnClick(currentProperty.id, e)}>Manage</Button>
             </Paper>
           </Grid>
         ))}
@@ -40,4 +48,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchUserProperties })(PropertiesPage);
+export default compose(
+  connect(mapStateToProps, { fetchUserProperties, fetchProperty }),
+  withRouter
+)(PropertiesPage);
