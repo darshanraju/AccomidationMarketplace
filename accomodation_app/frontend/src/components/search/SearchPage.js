@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-import { searchProperties } from '../../actions';
+import { searchProperties, fetchSearchProperty } from '../../actions';
 import SearchOptions from './SearchOptions';
 
 class SearchPage extends Component {
   submit = async (formValues) => {
     await this.props.searchProperties(formValues);
+  }
+
+  handleOnClick = async (id, e) => {
+    await this.props.fetchSearchProperty(id);
+    this.props.history.push('/search/view');
   }
 
   render () {
@@ -25,6 +32,7 @@ class SearchPage extends Component {
                 <Typography variant="subtitle2">Bathrooms: {currentProperty.no_bathrooms}</Typography>
                 <Typography variant="subtitle2">Fits: {currentProperty.no_guests} people</Typography>
                 <Typography variant="subtitle2">Price: ${currentProperty.price}/night</Typography>
+                <Button onClick={(e) => this.handleOnClick(currentProperty.id, e)}>Manage</Button>
               </Paper>
             </Grid>
           ))}
@@ -41,5 +49,6 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-  connect(mapStateToProps, { searchProperties })
+  connect(mapStateToProps, { searchProperties, fetchSearchProperty }),
+  withRouter
 )(SearchPage);

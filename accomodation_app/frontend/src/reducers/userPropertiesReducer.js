@@ -13,8 +13,7 @@ export default (uProperties = initialState, action) => {
   let newState = { ...uProperties };
   switch(action.type) {
     case FETCH_PROPERTY:
-      newState.properties.push(action.payload);
-      newState.selectedProperty = newState.properties.length - 1;
+      newState.selectedProperty = action.payload;
       return newState;
     case FETCH_USER_PROPERTIES:
       newState.properties = Object.values(action.payload);

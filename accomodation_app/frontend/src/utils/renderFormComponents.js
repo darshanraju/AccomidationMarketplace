@@ -67,7 +67,7 @@ export const numericOptions = () => {
   const maxNum = 15;
   const options = [];
   for (let i = 1; i < maxNum + 1; i++) {
-    options.push(<option key={i} value={i}>{i}</option>);
+    options.push(<option key={i} value={i}>{i+'+'}</option>);
   }
   return options;
 }

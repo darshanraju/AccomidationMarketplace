@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 
-class ManageProperty extends Component {
+class ViewProperty extends Component {
   render () {
-    const selectedProperty = this.props.uProperties.selectedProperty || {};
+    const selectedProperty = this.props.sProperties.selectedProperty || {};
     return (
       <React.Fragment>
         <Typography variant="subtitle2">id: {selectedProperty.id}</Typography>
@@ -17,7 +17,7 @@ class ManageProperty extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { uProperties: state.uProperties };
+  return { sProperties: state.sProperties };
 };
 
-export default connect(mapStateToProps)(ManageProperty);
+export default connect(mapStateToProps)(ViewProperty);

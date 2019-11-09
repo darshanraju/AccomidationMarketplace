@@ -9,7 +9,8 @@ import {
   REGISTER_USER,
   LOGIN_USER,
   ERROR_MSG,
-  SEARCH_PROPERTIES
+  SEARCH_PROPERTIES,
+  FETCH_SEARCH_PROPERTY
 } from './types';
 
 export const logout = () => {
@@ -20,6 +21,12 @@ export const fetchProperty = (propertyID) => async (dispatch, getState) => {
   const response = await accommodation.get('property/' + propertyID);
   const data = response.data;
   dispatch({ type: FETCH_PROPERTY, payload: data })
+};
+
+export const fetchSearchProperty = (propertyID) => async (dispatch, getState) => {
+  const response = await accommodation.get('property/' + propertyID);
+  const data = response.data;
+  dispatch({ type: FETCH_SEARCH_PROPERTY, payload: data })
 };
 
 export const fetchUserProperties = (userID) => async (dispatch, getState) => {
