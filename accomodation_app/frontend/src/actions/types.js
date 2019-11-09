@@ -16,5 +16,4 @@ export const SEARCH_PROPERTIES = 'searchProperties';
 
 export const FETCH_SEARCH_PROPERTY = 'fetchSearchProperty';
 
-
-
+export const BOOK_PROPERTY = 'bookProperty';

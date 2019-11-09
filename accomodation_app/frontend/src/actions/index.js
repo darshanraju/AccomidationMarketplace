@@ -10,7 +10,8 @@ import {
   LOGIN_USER,
   ERROR_MSG,
   SEARCH_PROPERTIES,
-  FETCH_SEARCH_PROPERTY
+  FETCH_SEARCH_PROPERTY,
+  BOOK_PROPERTY
 } from './types';
 
 export const logout = () => {
@@ -131,4 +132,26 @@ export const searchProperties = (formValues) => async (dispatch, getState) => {
 
   const response = await accommodation.get('/property/search', config);
   dispatch({ type: SEARCH_PROPERTIES, payload: response.data });
+}
+
+export const bookProperty = (formValues, propertyID) => async (dispatch, getState) => {
+  const checkIn = format(formValues.checkIn, 'yyy-MM-dd');
+  const checkOut = format(formValues.checkOut, 'yyy-MM-dd');
+  
+  const header = {
+    headers: {
+      Authorization: "Token " + getState().auth.token,
+      'Content-Type': 'application/json'
+    }
+  }
+
+  const postData = {
+    checkin: checkIn,
+    checkout: checkOut,
+    no_guests: 1,
+    property_id: propertyID
+  }
+
+  const response = await accommodation.post('booking/add', postData, header);
+  dispatch({ type: BOOK_PROPERTY, payload: response.data });
 }

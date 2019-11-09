@@ -32,7 +32,7 @@ class SearchPage extends Component {
                 <Typography variant="subtitle2">Bathrooms: {currentProperty.no_bathrooms}</Typography>
                 <Typography variant="subtitle2">Fits: {currentProperty.no_guests} people</Typography>
                 <Typography variant="subtitle2">Price: ${currentProperty.price}/night</Typography>
-                <Button onClick={(e) => this.handleOnClick(currentProperty.id, e)}>Manage</Button>
+                <Button onClick={(e) => this.handleOnClick(currentProperty.id, e)}>View</Button>
               </Paper>
             </Grid>
           ))}
