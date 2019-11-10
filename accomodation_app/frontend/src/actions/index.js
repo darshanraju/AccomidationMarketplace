@@ -11,7 +11,8 @@ import {
   ERROR_MSG,
   SEARCH_PROPERTIES,
   FETCH_SEARCH_PROPERTY,
-  BOOK_PROPERTY
+  BOOK_PROPERTY,
+  DELETE_TRIP
 } from './types';
 
 export const logout = () => {
@@ -122,7 +123,7 @@ export const searchProperties = (formValues) => async (dispatch, getState) => {
       suburb: formValues.suburb,
       "post-code": formValues.postCode,
       price: formValues.price,
-      "check-in": checkIn, 
+      "check-in": checkIn,
       "check-out": checkOut,
       guests: formValues.guests,
       beds: formValues.beds,
@@ -137,7 +138,7 @@ export const searchProperties = (formValues) => async (dispatch, getState) => {
 export const bookProperty = (formValues, propertyID) => async (dispatch, getState) => {
   const checkIn = format(formValues.checkIn, 'yyy-MM-dd');
   const checkOut = format(formValues.checkOut, 'yyy-MM-dd');
-  
+
   const header = {
     headers: {
       Authorization: "Token " + getState().auth.token,
@@ -154,4 +155,22 @@ export const bookProperty = (formValues, propertyID) => async (dispatch, getStat
 
   const response = await accommodation.post('booking/add', postData, header);
   dispatch({ type: BOOK_PROPERTY, payload: response.data });
+}
+
+export const deleteTrip = (id) => async (dispatch, getState) => {
+
+  var deleteID = 'booking/' + id
+  console.log(deleteID)
+
+  const response = await accommodation.delete(deleteID)
+    .then(response => {
+      console.log("Success:", response.data)
+      console.log(response)
+      dispatch({ type: DELETE_TRIP, payload: response })
+    })
+    .catch(err => {
+      console.log("Error: ", err.response.data)
+      dispatch({ type: ERROR_MSG, payload: err.response })
+    })
+
 }
