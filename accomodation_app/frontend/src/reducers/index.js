@@ -9,7 +9,7 @@ import searchReducer from './searchReducer';
 const rootReducer = combineReducers({
   auth: authReducer,
   uProperties: userPropertiesReducer,
-  trips: tripsReducer,
+  userTrips: tripsReducer,
   form: formReducer,
   sProperties: searchReducer
 });

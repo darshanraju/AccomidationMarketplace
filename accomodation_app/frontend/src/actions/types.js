@@ -17,3 +17,7 @@ export const SEARCH_PROPERTIES = 'searchProperties';
 export const FETCH_SEARCH_PROPERTY = 'fetchSearchProperty';
 
 export const BOOK_PROPERTY = 'bookProperty';
+
+export const FETCH_USER_TRIPS = 'fetchUserTrips';
+
+export const ADD_USER_TRIP = 'addUserTrip';
