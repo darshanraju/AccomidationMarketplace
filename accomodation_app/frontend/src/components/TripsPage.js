@@ -20,9 +20,10 @@ class TripsPage extends Component {
         {this.props.userTrips.trips.map((currentTrip) => (
           <Grid item xs={3} key={currentTrip.id}>
             <Paper>
-              <Typography variant="subtitle2">Property id: {currentTrip.property_id}</Typography>
-              <Typography variant="subtitle2">Check-In: {currentTrip.checkin}</Typography>
-              <Typography variant="subtitle2">Check-Out: {currentTrip.checkout}</Typography>
+              <Typography variant="subtitle2">Address: {currentTrip.property.address}</Typography>
+              <Typography variant="subtitle2">Suburb: {currentTrip.property.suburb} Postcode: {currentTrip.property.postcode}</Typography>
+              <Typography variant="subtitle2">Check-In: {currentTrip.booking.checkin}</Typography>
+              <Typography variant="subtitle2">Check-Out: {currentTrip.booking.checkout}</Typography>
             </Paper>
           </Grid>
         ))}
