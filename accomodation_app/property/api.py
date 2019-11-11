@@ -84,23 +84,33 @@ class GetSearchResultsAPI(generics.GenericAPIView):
 
         # filter results for properties bellow a specified price 
         price = request.GET.get("price")
-        if price != None :
-            results = results.filter(price__lte = price)
+        #if price != None :
+        #    results = results.filter(price__lte = price)
+        if price == None :
+            price = 2147483647
 
         #filter by at least #guests 
         no_guests = request.GET.get("guests")
-        if no_guests != None :
-            results = results.filter(no_guests__gte = no_guests)
+        #if no_guests != None :
+            #results = results.filter(no_guests__gte = no_guests)
+        if no_guests == None :
+            no_guests = 1
 
         #filter by at least #rooms
         no_beds = request.GET.get("beds")
-        if no_beds != None :
-            results = results.filter(no_beds__gte = no_rooms)
+        #if no_beds != None :
+            #results = results.filter(no_beds__gte = no_rooms)
+        if no_beds == None :
+            no_beds = 1
 
         #filter by #bathrooms
         no_bathrooms = request.GET.get("bathrooms")
-        if no_bathrooms != None :
-            results = results.filter(no_bathrooms__gte = no_bathrooms)
+        #if no_bathrooms != None :
+            #results = results.filter(no_bathrooms__gte = no_bathrooms)
+        if no_bathrooms == None :
+            no_bathrooms = 1
+
+        results = results.filter(price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
 
         #TODO filter by additional features as they are added. 
 
