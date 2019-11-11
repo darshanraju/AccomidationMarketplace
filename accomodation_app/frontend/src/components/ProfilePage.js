@@ -5,12 +5,13 @@ import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
 
 class ProfilePage extends Component {
-  render () {
+  render() {
     return (
       <Box display="flex" flexDirection="column" justifyContent="center" >
-        <Paper width={1/2}>
-          <Typography variant="subtitle2">Name: {this.props.auth.user.name}</Typography>
-          <Typography variant="subtitle2">Phone Number: {this.props.auth.user.phoneNumber}</Typography>
+        <Paper width={1 / 2}>
+          <Typography variant="subtitle2">Username: {this.props.auth.user.username}</Typography>
+          <Typography variant="subtitle2">Name: {this.props.auth.user.first_name} {this.props.auth.user.last_name}</Typography>
+          <Typography variant="subtitle2">Email : {this.props.auth.user.email}</Typography>
         </Paper>
       </Box>
     )

@@ -7,8 +7,8 @@ import { addProperty } from '../../actions';
 import AddPropertyForm from './AddPropertyForm';
 
 class ManageProperty extends Component {
-  submit = (formValues) => {
-    this.props.addProperty(formValues);
+  submit = async (formValues) => {
+    await this.props.addProperty(formValues);
     this.props.history.push('/properties');
   }
 

@@ -12,5 +12,8 @@ export const LOGIN_USER = 'loginUser';
 
 export const ERROR_MSG = 'errorMessage';
 
+export const SEARCH_PROPERTIES = 'searchProperties';
 
+export const FETCH_SEARCH_PROPERTY = 'fetchSearchProperty';
 
+export const BOOK_PROPERTY = 'bookProperty';

@@ -1,8 +1,9 @@
 from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from .models import Property
 from booking.models import Booking
-from .serializers import PropertySerializer, AddPropertySerializer
+from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer
 
 class PropertyAPI(generics.RetrieveAPIView):
     queryset = Property.objects.all()
@@ -18,36 +19,55 @@ class PropertyAPI(generics.RetrieveAPIView):
         })   
 
 class AddPropertyAPI(generics.GenericAPIView):
+    """
+    @description: Requires token
+    """
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = AddPropertySerializer
 
     def post(self, request, *args, **kwargs):
         data = request.data
         serializer = AddPropertySerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        prop = serializer.save()
-        return Response ({
-            "property": PropertySerializer(prop, context=self.get_serializer_context()).data
-        })
+        if serializer.is_valid():
+            new_property = Property.objects.create(owner_id=request.user,
+                                  address=data['address'],
+                                  suburb=data['suburb'],
+                                  postcode=data['postcode'],
+                                  price=data['price'],
+                                  no_guests=data['no_guests'],
+                                  no_beds=data['no_beds'],
+                                  no_bathrooms=data['no_bathrooms'])
+            new_property.save()
+            return Response (serializer.data, HTTP_200_OK)
+        return Response (serializer.errors, HTTP_400_BAD_REQUEST)
 
 class UpdatePropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
+    """
+    @description: Requires token of the owner
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
     queryset = Property.objects.all()
-    serializer_class = PropertySerializer
+    serializer_class = UpdatePropertySerializer
     lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
 class GetOwnerPropertyAPI(generics.GenericAPIView):
+    """
+    @description: Requires token of the owner
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
 
     def get(self, request, owner_id):
         properties = Property.objects.filter(owner_id = owner_id)
-        resp = {}
-        i = 1
+        resp = []
         for prop in properties:
-            resp[str(i)] = PropertySerializer(prop, context=self.get_serializer_context()).data
-            i += 1
+            resp.append(PropertySerializer(prop, context=self.get_serializer_context()).data)
         return Response(resp)
 
 class GetSearchResultsAPI(generics.GenericAPIView):
@@ -99,7 +119,7 @@ class GetSearchResultsAPI(generics.GenericAPIView):
         #filter by at least #rooms
         no_beds = request.GET.get("beds")
         #if no_beds != None :
-            #results = results.filter(no_beds__gte = no_rooms)
+            #results = results.filter(no_beds__gte = no_beds)
         if no_beds == None :
             no_beds = 1
 
@@ -122,9 +142,7 @@ class GetSearchResultsAPI(generics.GenericAPIView):
             results = results.exclude(id__in = propertiesNotAvaliable);
 
         # format resposnce and sort by price 
-        resp = {}
-        i = 1
+        resp = []
         for prop in results.order_by('price'):
-            resp[str(i)] = PropertySerializer(prop, context=self.get_serializer_context()).data
-            i += 1
+            resp.append(PropertySerializer(prop, context=self.get_serializer_context()).data)
         return Response(resp)

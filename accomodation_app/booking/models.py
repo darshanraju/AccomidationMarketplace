@@ -10,3 +10,4 @@ class Booking(models.Model):
     property_id = models.ForeignKey(Property, on_delete=models.CASCADE)
     checkin = models.DateField()
     checkout = models.DateField()
+    no_guests = models.IntegerField()

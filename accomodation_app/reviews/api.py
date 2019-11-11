@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
 from .models import Review_property, Review_user
-from .serializers import ReviewPropertySerializer, ReviewUserSerializer
+from .serializers import ReviewPropertySerializer, UpdateReviewPropertySerializer, ReviewUserSerializer, UpdateReviewUserSerializer
 
 class ReviewPropertyAPI(generics.RetrieveAPIView):
     queryset = Review_property.objects.all()
@@ -29,7 +29,7 @@ class MakeReviewPropertyAPI(generics.GenericAPIView):
 
 class UpdateReviewPropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
     queryset = Review_property.objects.all()
-    serializer_class = ReviewPropertySerializer
+    serializer_class = UpdateReviewPropertySerializer
     lookup_field = 'booking_id'
 
     def put(self, request, *args, **kwargs):
@@ -76,7 +76,7 @@ class MakeReviewUserAPI(generics.GenericAPIView):
 
 class UpdateReviewUserAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
     queryset = Review_user.objects.all()
-    serializer_class = ReviewUserSerializer
+    serializer_class = UpdateReviewUserSerializer
     lookup_field = 'booking_id'
 
     def put(self, request, *args, **kwargs):
