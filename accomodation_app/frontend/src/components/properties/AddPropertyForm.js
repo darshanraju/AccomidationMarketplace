@@ -20,7 +20,6 @@ const RenderDropzoneField = () => {
     const headers = {
       headers: {
         Authorization: "Client-ID f347b312670daae",
-        "Content-Type": "multipart/form-data"
       }
     };
 
