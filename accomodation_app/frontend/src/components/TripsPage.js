@@ -27,9 +27,6 @@ class TripsPage extends Component {
               <button onClick={() => {
                 this.props.deleteTrip(currentTrip.booking.id)
                 }}>Delete</button>
-              <Grid item xs={3} component={NavLink} to="/properties/add">
-          <Typography variant="subtitle1">Add Property</Typography>
-        </Grid>
             </Paper>
           </Grid>
         ))}
