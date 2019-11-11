@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from .models import Booking, Property
 from .serializers import BookingSerializer, MakeBookingSerializer, UpdateBookingSerializer
+from property.serializers import PropertySerializer
 
 class BookingAPI(generics.RetrieveAPIView):
     queryset = Booking.objects.all()
@@ -80,5 +81,12 @@ class GetBookingsByGuestAPI(generics.GenericAPIView):
         bookings = Booking.objects.filter(user_id = guest_id)
         resp = []
         for booking in bookings:
-            resp.append(BookingSerializer(booking, context=self.get_serializer_context()).data)
+            #resp.append(BookingSerializer(booking, context=self.get_serializer_context()).data)
+            #print(booking.property_id)
+
+            trip = {
+                "booking": BookingSerializer(booking, context=self.get_serializer_context()).data,
+                "property": PropertySerializer(booking.property_id, context=self.get_serializer_context()).data
+            }
+            resp.append(trip)
         return Response(resp)        

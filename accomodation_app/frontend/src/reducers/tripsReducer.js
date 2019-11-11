@@ -1,27 +1,22 @@
-const initialState = [
-{
-  id: 1,
-  destination: 'Wagga Wagga',
-  startDate: '25/12/19',
-  endDate: '01/01/20',
-},
-{
-  id: 2,
-  destination: 'Bankstown',
-  startDate: '25/12/19',
-  endDate: '01/01/20',
-},
-{
-  id: 3,
-  destination: 'Kensington',
-  startDate: '25/12/19',
-  endDate: '01/01/20',
-},
-]
+import {
+  FETCH_USER_TRIPS,
+  ADD_USER_TRIP,
+  DELETE_TRIP
+} from '../actions/types'
 
-export default (trips = initialState, action) => {
-  switch(action.type) {
+const initialState = {
+  trips: [],
+}
+
+export default (userTrips = initialState, action) => {
+  switch (action.type) {
+    case FETCH_USER_TRIPS:
+      return { ...userTrips, trips: action.payload };
+    case ADD_USER_TRIP:
+      return userTrips;
+    case DELETE_TRIP:
+      return { ...userTrips, trips: action.payload };
     default:
-      return trips;
+      return userTrips;
   }
 }
