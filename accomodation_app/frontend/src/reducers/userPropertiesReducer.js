@@ -1,7 +1,8 @@
 import {
   FETCH_PROPERTY,
   FETCH_USER_PROPERTIES,
-  ADD_PROPERTY
+  ADD_PROPERTY,
+  DELETE_PROPERTY
 } from '../actions/types';
 
 const initialState = {
@@ -19,6 +20,9 @@ export default (uProperties = initialState, action) => {
       newState.properties = Object.values(action.payload);
       return newState;
     case ADD_PROPERTY:
+      return newState;
+    case DELETE_PROPERTY:
+      newState.properties = Object.values(action.payload);
       return newState;
     default:
       return uProperties;

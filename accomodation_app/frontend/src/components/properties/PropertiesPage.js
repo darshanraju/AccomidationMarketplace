@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { deleteProperty } from '../../actions/index'
+
 
 import { fetchProperty, fetchUserProperties } from '../../actions';
 
@@ -30,6 +32,9 @@ class PropertiesPage extends Component {
               <Typography variant="subtitle2">Fits: {currentProperty.no_guests} people</Typography>
               <Typography variant="subtitle2">Price: ${currentProperty.price}/night</Typography>
               <Button onClick={(e) => this.handleOnClick(currentProperty.id, e)}>Manage</Button>
+              <button onClick={() => {
+                this.props.deleteProperty(currentProperty.id, this.props.auth.user.id)
+                }}>Delete</button>
             </Paper>
           </Grid>
         ))}
@@ -49,6 +54,6 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-  connect(mapStateToProps, { fetchUserProperties, fetchProperty }),
+  connect(mapStateToProps, { fetchUserProperties, fetchProperty, deleteProperty}),
   withRouter
 )(PropertiesPage);
