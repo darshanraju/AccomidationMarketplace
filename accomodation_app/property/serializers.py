@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from .models import Property
+from .models import Property, Feature
 
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,4 +23,9 @@ class AddPropertySerializer(serializers.ModelSerializer):
 class UpdatePropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        exclude = ['id', 'owner_id']    
+        exclude = ['id', 'owner_id']
+
+class FeatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feature
+        exclude = ['id']

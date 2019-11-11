@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Property
+from .models import Property, Feature
 from django.contrib.auth.models import User
 import csv
 import os
@@ -91,6 +91,39 @@ class GenerateTestPropertys:
                                   no_bathrooms=int(row[6]));
 				new_property.save()
 			return "success"
+
+	def generate_Feature():
+		for i in range(42):
+			if i < 20:
+				new_feature = Feature(property_id=Property.objects.get(i), 
+									name="Air Conditioner")
+				new_feature.save()
+			if i > 5 and i < 25:
+				new_feature = Feature(property_id=Property.objects.get(i), 
+									name="Wifi")
+				new_feature.save()
+			if i > 10 and i < 30:
+				new_feature = Feature(property_id=Property.objects.get(i), 
+									name="Heating")
+				new_feature.save()
+			if i > 15 and i < 35:
+				new_feature = Feature(property_id=Property.objects.get(i), 
+									name="Free Parking")
+				new_feature.save()
+			if i > 20 and i < 40:
+				new_feature = Feature(property_id=Property.objects.get(i), 
+									name="Pool")
+				new_feature.save()
+			if i == 40:
+				new_feature = Feature(property_id=Property.objects.get(i), 
+									name="Heating")
+				new_feature.save()
+			if i == 41:
+				new_feature = Feature(property_id=Property.objects.get(i), 
+									name="Free Parking")
+				new_feature.save()
+
+
 
 	def test():
 		print("hello world");
