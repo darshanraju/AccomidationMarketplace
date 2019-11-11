@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 import { renderKeyboardDatePicker } from '../../utils/renderFormComponents';
 
-class BookTripForm extends Component {
+class UpdateTripForm extends Component {
   render () {
     return (
       <form onSubmit={this.props.handleSubmit}>
@@ -24,12 +24,12 @@ class BookTripForm extends Component {
             component={renderKeyboardDatePicker}
           />
         </div>
-        <Button variant="contained" color="primary" type="submit">Book</Button>
+        <Button variant="contained" color="primary" type="submit">Update</Button>
       </form>
     )
   }
 }
 
 export default reduxForm({
-  form: 'bookTripForm',
-})(BookTripForm);
+  form: 'UpdateTripForm',
+})(UpdateTripForm);

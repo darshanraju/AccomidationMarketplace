@@ -3,13 +3,18 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
-import { fetchUserTrips } from '../actions/index';
-import { deleteTrip } from '../actions/index'
-import accommodation from '../apis/accommodation';
+import { fetchUserTrip, fetchUserTrips, deleteTrip } from '../../actions/index';
+import Button from '@material-ui/core/Button';
+import accommodation from '../../apis/accommodation';
 
 class TripsPage extends Component {
   state = { properties: {} }
 
+  handleOnClick = async (id, e) => {
+    await this.props.fetchUserTrip(id);
+    this.props.history.push('/trips/update');
+  }
+  
   componentDidMount() {
     this.props.fetchUserTrips();
   }
@@ -27,9 +32,7 @@ class TripsPage extends Component {
               <button onClick={() => {
                 this.props.deleteTrip(currentTrip.booking.id)
                 }}>Delete</button>
-              <Grid item xs={3} component={NavLink} to="/properties/add">
-          <Typography variant="subtitle1">Add Property</Typography>
-        </Grid>
+              <Button onClick={(e) => this.handleOnClick(currentTrip.booking.id, e)}>Update</Button>
             </Paper>
           </Grid>
         ))}
@@ -42,4 +45,4 @@ const mapStateToProps = (state) => {
   return { userTrips: state.userTrips };
 };
 
-export default connect(mapStateToProps, { fetchUserTrips, deleteTrip })(TripsPage);
+export default connect(mapStateToProps, { fetchUserTrips, deleteTrip, fetchUserTrip})(TripsPage);
