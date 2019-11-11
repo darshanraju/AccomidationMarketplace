@@ -3,9 +3,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
-import { fetchUserTrip, fetchUserTrips, deleteTrip } from '../../actions/index';
+import { fetchUserTrip, fetchUserTrips, deleteTrip } from '../actions/index';
 import Button from '@material-ui/core/Button';
-import accommodation from '../../apis/accommodation';
+import accommodation from '../apis/accommodation';
 
 class TripsPage extends Component {
   state = { properties: {} }

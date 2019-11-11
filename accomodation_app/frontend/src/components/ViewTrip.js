@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 
 import UpdateTripForm from './UpdateTripForm';
-import { updateTrip } from '../../actions';
+import { updateTrip } from '../actions';
 
 class ViewTrip extends Component {
   submit = (formValues) => {

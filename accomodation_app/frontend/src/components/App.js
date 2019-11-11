@@ -15,7 +15,7 @@ import clsx from 'clsx';
 import HomePage from './HomePage';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
-import TripsPage from './trips/TripsPage';
+import TripsPage from './TripsPage';
 import ProfilePage from './ProfilePage';
 import ManageProperty from './properties/ManageProperty';
 import AddProperty from './properties/AddProperty';
@@ -24,7 +24,7 @@ import LoginPage from './accounts/LoginPage';
 import RegisterPage from './accounts/RegisterPage';
 import SearchPage from './search/SearchPage';
 import ViewProperty from './search/ViewProperty';
-import ViewTrip from './trips/ViewTrip';
+import ViewTrip from './ViewTrip';
 
 
 const styles = (theme) => ({

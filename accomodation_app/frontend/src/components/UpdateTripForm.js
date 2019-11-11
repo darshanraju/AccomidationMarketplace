@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
 
-import { renderKeyboardDatePicker } from '../../utils/renderFormComponents';
+import { renderKeyboardDatePicker } from '../utils/renderFormComponents';
 
 class UpdateTripForm extends Component {
   render () {
