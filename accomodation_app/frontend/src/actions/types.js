@@ -21,3 +21,7 @@ export const BOOK_PROPERTY = 'bookProperty';
 export const FETCH_USER_TRIPS = 'fetchUserTrips';
 
 export const ADD_USER_TRIP = 'addUserTrip';
+
+export const DELETE_TRIP = 'deleteTrip';
+
+export const DELETE_PROPERTY = 'deleteProperty';
