@@ -92,34 +92,35 @@ class GenerateTestPropertys:
 				new_property.save()
 			return "success"
 
+	# GenerateTestPropertys.generate_Feature()
 	def generate_Feature():
-		for i in range(42):
+		for i in range(1,43):
 			if i < 20:
-				new_feature = Feature(property_id=Property.objects.get(i), 
+				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Air Conditioner")
 				new_feature.save()
 			if i > 5 and i < 25:
-				new_feature = Feature(property_id=Property.objects.get(i), 
+				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Wifi")
 				new_feature.save()
 			if i > 10 and i < 30:
-				new_feature = Feature(property_id=Property.objects.get(i), 
+				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Heating")
 				new_feature.save()
 			if i > 15 and i < 35:
-				new_feature = Feature(property_id=Property.objects.get(i), 
+				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Free Parking")
 				new_feature.save()
 			if i > 20 and i < 40:
-				new_feature = Feature(property_id=Property.objects.get(i), 
+				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Pool")
 				new_feature.save()
 			if i == 40:
-				new_feature = Feature(property_id=Property.objects.get(i), 
+				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Heating")
 				new_feature.save()
 			if i == 41:
-				new_feature = Feature(property_id=Property.objects.get(i), 
+				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Free Parking")
 				new_feature.save()
 

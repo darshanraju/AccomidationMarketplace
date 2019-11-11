@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from django.conf.urls import url
-from .api import PropertyAPI, AddPropertyAPI, UpdatePropertyAPI, GetOwnerPropertyAPI, GetSearchResultsAPI, GetPropertyFeatureAPI, AddPropertyFeatcherAPI, GetRecordedFeatureAPI
+from .api import PropertyAPI, AddPropertyAPI, UpdatePropertyAPI, GetOwnerPropertyAPI, GetSearchResultsAPI, GetPropertyFeatureAPI, AddPropertyFeatureAPI, GetRecordedFeatureAPI
 
 
 urlpatterns = [
@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^api/property/update/(?P<id>\d+)$', UpdatePropertyAPI.as_view()),
     url(r'^api/property/owner/(?P<owner_id>\d+)$', GetOwnerPropertyAPI.as_view()),
     re_path(r'^api/property/search/$', GetSearchResultsAPI.as_view()),
-    url(r'^api/feature/add', AddPropertyFeatcherAPI.as_view()),
+    url(r'^api/feature/add', AddPropertyFeatureAPI.as_view()),
     url(r'^api/feature/(?P<property_id>\d+)$', GetPropertyFeatureAPI.as_view()),
     url(r'^api/feature/all/$', GetRecordedFeatureAPI.as_view())
 ]

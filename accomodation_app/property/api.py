@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from .models import Property, Featcher
+from .models import Property, Feature
 from booking.models import Booking
 from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer, FeatureSerializer
 
@@ -149,16 +149,16 @@ class GetSearchResultsAPI(generics.GenericAPIView):
 
 class GetPropertyFeatureAPI(generics.GenericAPIView):
 
-    queryset = Featcher.objects.all()
+    queryset = Feature.objects.all()
 
     def get(self, request, property_id):
-        property_features = Featcher.objects.filter(property_id = property_id).values_list('name', flat=True).distinct()
+        property_features = Feature.objects.filter(property_id = property_id).values_list('name', flat=True).distinct()
         resp = []
         for feature in property_features:
             resp.append(feature)
         return Response(resp)
 
-class AddPropertyFeatcherAPI(generics.GenericAPIView):
+class AddPropertyFeatureAPI(generics.GenericAPIView):
 
     serializer_class = FeatureSerializer
 
@@ -166,7 +166,7 @@ class AddPropertyFeatcherAPI(generics.GenericAPIView):
         data = request.data
         serializer = FeatureSerializer(data=data)
         if serializer.is_valid():
-            new_feature = Feature.objects.create(property_id=data['property_id'],
+            new_feature = Feature.objects.create(property_id=Property.objects.get(id=data['property_id']),
                                   name=data['name'])
             new_feature.save()
             return Response (serializer.data, HTTP_200_OK)
@@ -176,10 +176,10 @@ class AddPropertyFeatcherAPI(generics.GenericAPIView):
 # this api will search the database for all distinct featchures
 class GetRecordedFeatureAPI(generics.GenericAPIView):
     
-    queryset = Featcher.objects.all()
+    queryset = Feature.objects.all()
 
     def get(self, request):
-        property_features = Featcher.objects.all().values_list('name', flat=True).distinct()
+        property_features = Feature.objects.all().values_list('name', flat=True).distinct()
         resp = []
         for feature in property_features:
             resp.append(feature)
