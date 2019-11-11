@@ -38,7 +38,6 @@ export const fetchSearchProperty = (propertyID) => async (dispatch, getState) =>
 export const fetchUserTrip = (bookingID) => async (dispatch, getState) => {
   const response = await accommodation.get('booking/' + bookingID);
   const data = response.data;
-  console.log("FETCH Action Creator: ", data)
   dispatch({ type: FETCH_USER_TRIP, payload: data })
 };
 

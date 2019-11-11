@@ -8,13 +8,10 @@ import { updateTrip } from '../../actions';
 class ViewTrip extends Component {
   submit = (formValues) => {
     this.props.updateTrip(formValues, this.props.userTrips.selectedTrip.id);
-    this.props.history.push('/trips');
   }
   
   render () {
-    console.log("ViewTrip Props: ", this.props)
     const selectedTrip = this.props.userTrips.selectedTrip || {};
-    console.log("Selected Trip: ",selectedTrip)
     return (
       <React.Fragment>
         <Typography variant="subtitle2">id: {selectedTrip.id}</Typography>
