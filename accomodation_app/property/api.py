@@ -95,7 +95,7 @@ class GetSearchResultsAPI(generics.GenericAPIView):
         # filter resuts by suburb
         suburb = request.GET.get('suburb')
         if suburb != None :
-            results = results.filter(suburb = suburb)
+            results = results.filter(suburb__iexact = suburb)
 
         # filter results by a specific post_code 
         post_code = request.GET.get("post-code")
