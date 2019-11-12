@@ -18,7 +18,9 @@ the database should now be loaded with the new files.
 It assumes that you have a user with user wih id 1 who will own the property, if you don't it will not work 
 
 in the csv file property.csv are the base instances of the property's
-there are all real addresses sourced from google maps, though not nessasarily hotels or houses :\
+there are all real addresses sourced from google maps and the following website
+https://www.google.com.au/travel/hotels/New%20South%20Wales?g2lb=2502405%2C2502548%2C4208993%2C4254308%2C4258168%2C4260007%2C4270442%2C4274032%2C4285990%2C4288513%2C4289525%2C4291318%2C4296668%2C4301054%2C4305595%2C4308216%2C4311410%2C4313006%2C4315873%2C4317816%2C4317915%2C4318271%2C4319579%2C4324289%2C4329496%2C4270859%2C4284970%2C4291517%2C4292955%2C4316256&hl=en&gl=au&un=1&ap=SAEqKAoSCdx2xgH9aEHAEUh-j4MvtmFAEhIJakBfjU1LOMARSH6Pgz-lYkAwAlqNAQoFCKwCEAAiA0FVRCoWCgcI4w8QDBgBEgcI4w8QDBgCGAEoALABAFgBaAGKASgKEgn5GHoNw9RBwBHwnMorh6NhQBISCfWAFtDzOjnAEfCcyiuXkmJAmgEREg9OZXcgU291dGggV2FsZXOiARsKCC9tLzA1Zmx5Eg9OZXcgU291dGggV2FsZXOSAQIgAQ&q=hotels%20motels%20nsw&rp=EMSIt6rMru2FBBCWw-qr1NjplYwBEKvJq4_ZgqewExDqp5n9sb2aoZUBaAE4AUAASAI&ictx=1&ved=2ahUKEwjA1NKlruHlAhXRXisKHfA2BwMQtgN6BAgKEE0&hrf=CgUIrAIQACIDQVVEKhYKBwjjDxAMGAESBwjjDxAMGAIYASgAsAEAWAFoAYoBKAoSCdx2xgH9aEHAEUh-j4MvtmFAEhIJakBfjU1LOMARSH6Pgz-lYkCaARESD05ldyBTb3V0aCBXYWxlc6IBGwoIL20vMDVmbHkSD05ldyBTb3V0aCBXYWxlc5IBAiAB&tcfs=EjUKCC9tLzA1Zmx5Eg9OZXcgU291dGggV2FsZXMaGAoKMjAxOS0xMi0wMRIKMjAxOS0xMi0wMiIYCgoyMDE5LTEyLTAxEgoyMDE5LTEyLTAyUgA,
+, though not nessasarily hotels or houses :\
 this function will then generate more property by enumerating the house number on those addresses. 
 it will generate 10 houses per house in the csv file. 
 Note that if you run this program twise it will make multiple coppys of the same house in the database :(
