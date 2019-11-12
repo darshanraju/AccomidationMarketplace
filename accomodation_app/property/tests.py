@@ -95,6 +95,7 @@ class GenerateTestPropertys:
 			return "success"
 
 	# GenerateTestPropertys.generate_Feature()
+	# generates fetures for the first 42 propertys
 	def generate_Feature():
 		for i in range(1,43):
 			if i < 20:
