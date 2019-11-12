@@ -132,7 +132,7 @@ class GetSearchResultsAPI(generics.GenericAPIView):
 
         results = results.filter(price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
 
-        #TODO filter by additional features as they are added. 
+        #TODO filter by additional features.
 
         # filter results by propeties avaliable from check-in and check-out dates. 
         start_date = request.GET.get('check-in')
@@ -140,6 +140,13 @@ class GetSearchResultsAPI(generics.GenericAPIView):
         if start_date != None and end_date!= None:
             propertiesNotAvaliable = Booking.objects.filter(property_id__in = results.values_list('id', flat=True), checkin__lte = end_date, checkout__gte = start_date).values_list('property_id', flat=True).distinct()
             results = results.exclude(id__in = propertiesNotAvaliable);
+
+        # filter by additional features. 
+        features = request.GET.get("filters")
+        if features != None :
+            features = features.split(",")
+            for feat in features:
+                results = results.filter(feature__name__icontains=feat)
 
         # format resposnce and sort by price 
         resp = []
