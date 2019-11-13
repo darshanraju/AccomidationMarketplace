@@ -6,13 +6,13 @@ import { compose } from 'redux';
 import { addProperty } from '../../actions';
 import AddPropertyForm from './AddPropertyForm';
 
-class ManageProperty extends Component {
+class AddProperty extends Component {
   submit = async (formValues) => {
     await this.props.addProperty(formValues);
     this.props.history.push('/properties');
   }
 
-  render () {
+  render() {
     return (
       <React.Fragment>
         <AddPropertyForm onSubmit={this.submit} />
@@ -24,4 +24,4 @@ class ManageProperty extends Component {
 export default compose(
   connect(null, { addProperty }),
   withRouter
-)(ManageProperty);
+)(AddProperty);

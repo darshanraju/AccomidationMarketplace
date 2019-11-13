@@ -6,6 +6,7 @@ import {
   FETCH_PROPERTY,
   FETCH_USER_PROPERTIES,
   ADD_PROPERTY,
+  UPDATE_PROPERTY,
   REGISTER_USER,
   LOGIN_USER,
   ERROR_MSG,
@@ -63,6 +64,32 @@ export const addProperty = (formValues) => async (dispatch, getState) => {
   }
   const response = await accommodation.post('property/add', postData, header);
   dispatch({ type: ADD_PROPERTY, payload: response });
+}
+
+export const updateProperty = (formValues) => async (dispatch, getState) => {
+  console.log('Updating property');
+  const headers = {
+    headers: {
+      Authorization: "Token " + getState().auth.token,
+      'Content-Type': 'application/json',
+    }
+  };
+
+  const updateData = {
+    address: formValues.address,
+    suburb: formValues.suburb,
+    postcode: formValues.postcode,
+    price: formValues.price,
+    no_guests: formValues.no_guests,
+    no_beds: formValues.no_beds,
+    no_bathrooms: formValues.no_bathrooms
+  }
+
+  const propertyId = getState().uProperties.selectedProperty.id;
+
+  const response = await accommodation.put('property/update/' + propertyId, updateData, headers)
+  console.log(response);
+  dispatch({ type: UPDATE_PROPERTY });
 }
 
 export const registerUser = (formValues) => async (dispatch, getState) => {

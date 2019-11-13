@@ -1,17 +1,18 @@
 import {
   FETCH_PROPERTY,
   FETCH_USER_PROPERTIES,
-  ADD_PROPERTY
+  ADD_PROPERTY,
+  UPDATE_PROPERTY
 } from '../actions/types';
 
 const initialState = {
   properties: [],
-  selectedProperty: null 
+  selectedProperty: null
 }
 
 export default (uProperties = initialState, action) => {
   let newState = { ...uProperties };
-  switch(action.type) {
+  switch (action.type) {
     case FETCH_PROPERTY:
       newState.selectedProperty = action.payload;
       return newState;
@@ -19,6 +20,8 @@ export default (uProperties = initialState, action) => {
       newState.properties = Object.values(action.payload);
       return newState;
     case ADD_PROPERTY:
+      return newState;
+    case UPDATE_PROPERTY:
       return newState;
     default:
       return uProperties;
