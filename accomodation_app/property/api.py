@@ -92,16 +92,6 @@ class GetSearchResultsAPI(generics.GenericAPIView):
     def get(self, request):
         results = Property.objects.all()
 
-        # filter resuts by suburb
-        suburb = request.GET.get('suburb')
-        if suburb != None :
-            results = results.filter(suburb__iexact = suburb)
-
-        # filter results by a specific post_code 
-        post_code = request.GET.get("post-code")
-        if  post_code != None :
-            results = results.filter(postcode = post_code)
-
         # filter results for properties bellow a specified price 
         price = request.GET.get("price")
         #if price != None :
@@ -130,9 +120,17 @@ class GetSearchResultsAPI(generics.GenericAPIView):
         if no_bathrooms == None :
             no_bathrooms = 1
 
-        results = results.filter(price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
+        # filter resuts by suburb
+        suburb = request.GET.get('suburb')
+        # filter results by a specific post_code 
+        post_code = request.GET.get("post-code")
+        if suburb != None  and  post_code != None :
+            results = Property.objects.filter(suburb__iexact = suburb, postcode = post_code, price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
+        elif suburb != None :
+            results = Property.objects.filter(suburb__iexact = suburb, price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
+        elif  post_code != None :
+            results = Property.objects.filter(postcode = post_code, price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
 
-        #TODO filter by additional features.
 
         # filter results by propeties avaliable from check-in and check-out dates. 
         start_date = request.GET.get('check-in')

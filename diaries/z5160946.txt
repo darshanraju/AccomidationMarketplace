@@ -67,4 +67,7 @@ this function will then generate more property by enumerating the house number o
 it will generate 10 houses per house in the csv file. 
 Note that if you run this program twise it will make multiple coppys of the same house in the database :(
 '''
-i also finished and moved the feature/filter work from last week and added another function inside the tests.py file to generate featcures for the first 42 propertys. 
+i also finished and moved the feature/filter work from last week and added another function inside the tests.py file to generate features for the first 42 propertys. 
+
+i added the functionality to block out selecting checking and checkout dates that were inapropriate, ie you cany select in the past and that the cheking must be before the checkout and visa versa.
+i added front end for the additional filteres, i tryed to get the drop down checkbox list and i found somthing that might work, a multiple selection box, but it needs state inorder to update and store its selections and i was unable to get that part working. i think it looks a bit cleaner with just the checkboxes anyway. 
