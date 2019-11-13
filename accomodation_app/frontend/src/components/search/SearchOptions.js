@@ -54,7 +54,7 @@ class SearchOptions extends Component {
           <Grid container spacing={5}>
             <Grid item>
               <Grid container direction="column">
-                <Field name="suburb" component={renderTextField} label="Suburb" />
+                <Field name="suburbOrPostcode" component={renderTextField} label="Suburb or Postcode" />
                 <Field
                   name="checkIn"
                   label="Check In"

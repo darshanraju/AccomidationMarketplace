@@ -140,10 +140,13 @@ export const searchProperties = (formValues) => async (dispatch, getState) => {
   const filters = (hasfilters)? filter_list.join(",") : null;
   console.log(filters);
 
+  const suburbName = (isNaN(formValues.suburbOrPostcode)) ? formValues.suburbOrPostcode : null;
+  const postcode = (isNaN(formValues.suburbOrPostcode)) ? null : formValues.suburbOrPostcode;
+
   const config = {
     params: {
-      suburb: formValues.suburb,
-      "post-code": formValues.postCode,
+      suburb: suburbName,
+      "post-code": postcode,
       price: formValues.price,
       "check-in": checkIn,
       "check-out": checkOut,
