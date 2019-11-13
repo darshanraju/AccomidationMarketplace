@@ -119,6 +119,26 @@ export const loginUser = (formValues) => async (dispatch, getState) => {
 export const searchProperties = (formValues) => async (dispatch, getState) => {
   const checkIn = formValues.checkIn ? format(formValues.checkIn, 'yyy-MM-dd') : null;
   const checkOut = formValues.checkOut ? format(formValues.checkOut, 'yyy-MM-dd') : null;
+  var filter_list = [];
+  var hasfilters = false;
+  if (formValues.Pool){
+    hasfilters = true;
+    filter_list =  [...filter_list, "Pool"];
+  }
+  if (formValues.Aircon){
+    hasfilters = true;
+    filter_list =  [...filter_list, "Air Conditioner"];
+  }
+  if (formValues.Wifi){
+    hasfilters = true;
+    filter_list =  [...filter_list, "Wifi"];
+  }
+  if (formValues.FreeParking){
+    hasfilters = true;
+    filter_list =  [...filter_list, "Free Parking"];
+  }
+  const filters = (hasfilters)? filter_list.join(",") : null;
+  console.log(filters);
 
   const config = {
     params: {
@@ -129,7 +149,8 @@ export const searchProperties = (formValues) => async (dispatch, getState) => {
       "check-out": checkOut,
       guests: formValues.guests,
       beds: formValues.beds,
-      bathrooms: formValues.bathrooms
+      bathrooms: formValues.bathrooms,
+      "filters": filters
     }
   };
 

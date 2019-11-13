@@ -3,6 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 export const renderTextField = ({
   label,
@@ -72,3 +74,24 @@ export const numericOptions = () => {
   }
   return options;
 }
+
+export const renderCheckbox = ({ 
+  input, 
+  label ,
+  ...custom
+}) => (
+  <React.Fragment>
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={input.value ? true : false}
+          onChange={input.onChange}
+          color="primary"
+          {...custom}
+          id={name}
+        />
+      }
+      label={label}
+    />
+  </React.Fragment>
+)

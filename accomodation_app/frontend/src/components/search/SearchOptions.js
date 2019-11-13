@@ -7,16 +7,17 @@ import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 import SearchIcon from '@material-ui/icons/Search';
 
-
 import { 
   renderTextField,
   renderKeyboardDatePicker,
   renderSelectField,
-  numericOptions
+  numericOptions,
+  renderCheckbox,
 } from '../../utils/renderFormComponents';
 
 var checkin_date = Date.now();
 var checkout_date;
+var open = false;
 
 function setCheckin(date) {
   checkin_date = Date.parse(date);
@@ -32,6 +33,16 @@ function disableBeforeCheckin(date) {
 
 function disableAfterCheckout(date) {
   return date > checkout_date;
+}
+
+function expand(){
+  console.log("expand button pressed");
+  open = !open;
+  console.log(open);
+}
+
+function getOpen(){
+  return open
 }
 
 class SearchOptions extends Component {
@@ -89,6 +100,28 @@ class SearchOptions extends Component {
               >
                 {numericOptions()}
               </Field>
+            </Grid>
+            <Grid item> 
+              <Field
+                name="Pool"
+                label="Pool"
+                component={renderCheckbox}
+              />
+              <Field
+                name="Aircon"
+                label="Air Conditioner"
+                component={renderCheckbox}
+              />
+              <Field
+                name="Wifi"
+                label="Wifi"
+                component={renderCheckbox}
+              />
+              <Field
+                name="FreeParking"
+                label="Free Parking"
+                component={renderCheckbox}
+              />
             </Grid>
           </Grid>
         </form>
