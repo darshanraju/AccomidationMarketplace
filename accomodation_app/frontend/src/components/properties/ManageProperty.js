@@ -13,8 +13,7 @@ import ManagePropertyForm from './ManagePropertyForm';
 */
 
 class ManageProperty extends Component {
-  submit = async (formValues, e) => {
-    console.log(e);
+  submit = async (formValues) => {
     await this.props.updateProperty(formValues);
     this.props.fetchProperty(this.props.uProperties.selectedProperty.id);
   }
@@ -23,7 +22,7 @@ class ManageProperty extends Component {
     const selectedProperty = this.props.uProperties.selectedProperty || {};
     return (
       <React.Fragment>
-        <ManagePropertyForm onSubmit={(formValues, e) => this.submit(formValues, e)} />
+        <ManagePropertyForm onSubmit={(formValues) => this.submit(formValues)} />
       </React.Fragment>
     )
   }
