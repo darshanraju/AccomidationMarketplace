@@ -6,6 +6,8 @@ export const FETCH_USER_PROPERTIES = 'fetchUserProperties';
 
 export const ADD_PROPERTY = 'addProperty';
 
+export const UPDATE_PROPERTY = 'updateProperty';
+
 export const REGISTER_USER = 'registerUser';
 
 export const LOGIN_USER = 'loginUser';

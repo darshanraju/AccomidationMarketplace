@@ -14,7 +14,7 @@ def unique_error_message(self, Property, unique_check):
     if len(unique_check) != 1:
         error.message = 'Your custom message'
     return error
-
+ 
 # Create your models here.
 class Property(models.Model):
     id = models.AutoField(primary_key=True)
@@ -26,3 +26,8 @@ class Property(models.Model):
     no_guests = models.IntegerField(validators=[MinValueValidator(1)])
     no_beds = models.IntegerField(validators=[MinValueValidator(1)])
     no_bathrooms = models.IntegerField(validators=[MinValueValidator(1)])
+
+class Feature(models.Model):
+    id = models.AutoField(primary_key=True)
+    property_id = models.ForeignKey(Property, on_delete=models.CASCADE, blank=True)
+    name = models.CharField(max_length = 150)

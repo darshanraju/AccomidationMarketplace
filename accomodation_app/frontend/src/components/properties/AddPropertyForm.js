@@ -20,7 +20,6 @@ const RenderDropzoneField = () => {
     const headers = {
       headers: {
         Authorization: "Client-ID f347b312670daae",
-        "Content-Type": "multipart/form-data"
       }
     };
 
@@ -64,7 +63,7 @@ const RenderDropzoneField = () => {
   )
 }
 
-class AddProperty extends Component {
+class AddPropertyForm extends Component {
   state = { images: [] }
 
   previewImage = (event) => {
@@ -96,4 +95,4 @@ class AddProperty extends Component {
   }
 }
 
-export default reduxForm({ form: 'addProperty' })(AddProperty);
+export default reduxForm({ form: 'addProperty' })(AddPropertyForm);

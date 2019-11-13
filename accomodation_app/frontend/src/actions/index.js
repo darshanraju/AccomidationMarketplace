@@ -6,6 +6,7 @@ import {
   FETCH_PROPERTY,
   FETCH_USER_PROPERTIES,
   ADD_PROPERTY,
+  UPDATE_PROPERTY,
   REGISTER_USER,
   LOGIN_USER,
   ERROR_MSG,
@@ -75,6 +76,32 @@ export const addProperty = (formValues) => async (dispatch, getState) => {
   dispatch({ type: ADD_PROPERTY, payload: response });
 }
 
+export const updateProperty = (formValues) => async (dispatch, getState) => {
+  console.log('Updating property');
+  const headers = {
+    headers: {
+      Authorization: "Token " + getState().auth.token,
+      'Content-Type': 'application/json',
+    }
+  };
+
+  const updateData = {
+    address: formValues.address,
+    suburb: formValues.suburb,
+    postcode: formValues.postcode,
+    price: formValues.price,
+    no_guests: formValues.no_guests,
+    no_beds: formValues.no_beds,
+    no_bathrooms: formValues.no_bathrooms
+  }
+
+  const propertyId = getState().uProperties.selectedProperty.id;
+
+  const response = await accommodation.put('property/update/' + propertyId, updateData, headers)
+  console.log(response);
+  dispatch({ type: UPDATE_PROPERTY });
+}
+
 export const registerUser = (formValues) => async (dispatch, getState) => {
 
   const header = {
@@ -127,17 +154,41 @@ export const loginUser = (formValues) => async (dispatch, getState) => {
 export const searchProperties = (formValues) => async (dispatch, getState) => {
   const checkIn = formValues.checkIn ? format(formValues.checkIn, 'yyy-MM-dd') : null;
   const checkOut = formValues.checkOut ? format(formValues.checkOut, 'yyy-MM-dd') : null;
+  var filter_list = [];
+  var hasfilters = false;
+  if (formValues.Pool) {
+    hasfilters = true;
+    filter_list = [...filter_list, "Pool"];
+  }
+  if (formValues.Aircon) {
+    hasfilters = true;
+    filter_list = [...filter_list, "Air Conditioner"];
+  }
+  if (formValues.Wifi) {
+    hasfilters = true;
+    filter_list = [...filter_list, "Wifi"];
+  }
+  if (formValues.FreeParking) {
+    hasfilters = true;
+    filter_list = [...filter_list, "Free Parking"];
+  }
+  const filters = (hasfilters) ? filter_list.join(",") : null;
+  console.log(filters);
+
+  const suburbName = (isNaN(formValues.suburbOrPostcode)) ? formValues.suburbOrPostcode : null;
+  const postcode = (isNaN(formValues.suburbOrPostcode)) ? null : formValues.suburbOrPostcode;
 
   const config = {
     params: {
-      suburb: formValues.suburb,
-      "post-code": formValues.postCode,
+      suburb: suburbName,
+      "post-code": postcode,
       price: formValues.price,
       "check-in": checkIn,
       "check-out": checkOut,
       guests: formValues.guests,
       beds: formValues.beds,
-      bathrooms: formValues.bathrooms
+      bathrooms: formValues.bathrooms,
+      "filters": filters
     }
   };
 
@@ -201,25 +252,18 @@ export const deleteTrip = (id) => async (dispatch, getState) => {
 
 }
 
-export const deleteProperty = (propertyID, userID) => async (dispatch, getState) => {
-
+export const deleteProperty = (propertyID) => async (dispatch, getState) => {
+  console.log('deleting property clicked');
   const header = {
     headers: {
-      Authorization: "Token " + getState().auth.token,
-      'Content-Type': 'application/json'
+      Authorization: "Token " + getState().auth.token
     }
   }
 
-  var deleteID = 'property/' + propertyID
-  console.log(deleteID)
 
-  const response1 = await accommodation.delete(deleteID, header)
-  console.log(response1)
-  const response2 = await accommodation.get('property/owner/' + userID, header);
-  console.log(response2)
-
-  dispatch({ type: DELETE_PROPERTY, payload: response2.data })
-
+  const response = await accommodation.delete('property/' + propertyID, header)
+  console.log(response);
+  dispatch({ type: DELETE_PROPERTY });
 }
 
 export const updateTrip = (formValues, bookingID) => async (dispatch, getState) => {

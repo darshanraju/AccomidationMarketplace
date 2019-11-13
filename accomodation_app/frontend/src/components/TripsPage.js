@@ -45,4 +45,5 @@ const mapStateToProps = (state) => {
   return { userTrips: state.userTrips };
 };
 
+
 export default connect(mapStateToProps, { fetchUserTrips, deleteTrip, fetchUserTrip})(TripsPage);

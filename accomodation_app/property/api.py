@@ -1,9 +1,10 @@
 from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from .models import Property
+from django.core import exceptions
+from .models import Property, Feature
 from booking.models import Booking
-from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer
+from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer, FeatureSerializer
 
 class PropertyAPI(generics.RetrieveAPIView):
     queryset = Property.objects.all()
@@ -11,12 +12,15 @@ class PropertyAPI(generics.RetrieveAPIView):
     lookup_field = 'id'
 
     # Does not currently authenticate user for delete
-    def delete(self, request, id):
-        Property.objects.filter(id=id).delete()
-
-        return Response ({
-            "test": "hello"
-        })   
+    def delete(self, request, id, *args, **kwargs):
+        try:
+            prop = Property.objects.get(id=id)
+            user = request.user
+            if prop.owner_id == user:
+                prop.delete()
+        except exceptions.ObjectDoesNotExist:
+            return Response(HTTP_400_BAD_REQUEST)
+        return Response("Property Removed", HTTP_200_OK)
 
 class AddPropertyAPI(generics.GenericAPIView):
     """
@@ -92,37 +96,45 @@ class GetSearchResultsAPI(generics.GenericAPIView):
     def get(self, request):
         results = Property.objects.all()
 
-        # filter resuts by suburb
-        suburb = request.GET.get('suburb')
-        if suburb != None :
-            results = results.filter(suburb = suburb)
-
-        # filter results by a specific post_code 
-        post_code = request.GET.get("post-code")
-        if  post_code != None :
-            results = results.filter(postcode = post_code)
-
         # filter results for properties bellow a specified price 
         price = request.GET.get("price")
-        if price != None :
-            results = results.filter(price__lte = price)
+        #if price != None :
+        #    results = results.filter(price__lte = price)
+        if price == None :
+            price = 2147483647
 
         #filter by at least #guests 
         no_guests = request.GET.get("guests")
-        if no_guests != None :
-            results = results.filter(no_guests__gte = no_guests)
+        #if no_guests != None :
+            #results = results.filter(no_guests__gte = no_guests)
+        if no_guests == None :
+            no_guests = 1
 
         #filter by at least #rooms
         no_beds = request.GET.get("beds")
-        if no_beds != None :
-            results = results.filter(no_beds__gte = no_beds)
+        #if no_beds != None :
+            #results = results.filter(no_beds__gte = no_beds)
+        if no_beds == None :
+            no_beds = 1
 
         #filter by #bathrooms
         no_bathrooms = request.GET.get("bathrooms")
-        if no_bathrooms != None :
-            results = results.filter(no_bathrooms__gte = no_bathrooms)
+        #if no_bathrooms != None :
+            #results = results.filter(no_bathrooms__gte = no_bathrooms)
+        if no_bathrooms == None :
+            no_bathrooms = 1
 
-        #TODO filter by additional features as they are added. 
+        # filter resuts by suburb
+        suburb = request.GET.get('suburb')
+        # filter results by a specific post_code 
+        post_code = request.GET.get("post-code")
+        if suburb != None  and  post_code != None :
+            results = Property.objects.filter(suburb__iexact = suburb, postcode = post_code, price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
+        elif suburb != None :
+            results = Property.objects.filter(suburb__iexact = suburb, price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
+        elif  post_code != None :
+            results = Property.objects.filter(postcode = post_code, price__lte = price, no_guests__gte = no_guests, no_beds__gte = no_beds, no_bathrooms__gte = no_bathrooms)
+
 
         # filter results by propeties avaliable from check-in and check-out dates. 
         start_date = request.GET.get('check-in')
@@ -131,8 +143,53 @@ class GetSearchResultsAPI(generics.GenericAPIView):
             propertiesNotAvaliable = Booking.objects.filter(property_id__in = results.values_list('id', flat=True), checkin__lte = end_date, checkout__gte = start_date).values_list('property_id', flat=True).distinct()
             results = results.exclude(id__in = propertiesNotAvaliable);
 
+        # filter by additional features. 
+        features = request.GET.get("filters")
+        if features != None :
+            features = features.split(",")
+            for feat in features:
+                results = results.filter(feature__name__icontains=feat)
+
         # format resposnce and sort by price 
         resp = []
         for prop in results.order_by('price'):
             resp.append(PropertySerializer(prop, context=self.get_serializer_context()).data)
+        return Response(resp)
+
+class GetPropertyFeatureAPI(generics.GenericAPIView):
+
+    queryset = Feature.objects.all()
+
+    def get(self, request, property_id):
+        property_features = Feature.objects.filter(property_id = property_id).values_list('name', flat=True).distinct()
+        resp = []
+        for feature in property_features:
+            resp.append(feature)
+        return Response(resp)
+
+class AddPropertyFeatureAPI(generics.GenericAPIView):
+
+    serializer_class = FeatureSerializer
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        serializer = FeatureSerializer(data=data)
+        if serializer.is_valid():
+            new_feature = Feature.objects.create(property_id=Property.objects.get(id=data['property_id']),
+                                  name=data['name'])
+            new_feature.save()
+            return Response (serializer.data, HTTP_200_OK)
+        return Response (serializer.errors, HTTP_400_BAD_REQUEST)
+
+# Function to get all the featchures that the database currntly knows about. 
+# this api will search the database for all distinct featchures
+class GetRecordedFeatureAPI(generics.GenericAPIView):
+    
+    queryset = Feature.objects.all()
+
+    def get(self, request):
+        property_features = Feature.objects.all().values_list('name', flat=True).distinct()
+        resp = []
+        for feature in property_features:
+            resp.append(feature)
         return Response(resp)
