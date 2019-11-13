@@ -37,3 +37,38 @@ note that both check-in and checkout must be present for the result to be filter
 it is posible to pass in none of these filter peramiteres, in which case all properties will be resturned. 
 the results will be order by price (accending)
 search was bassed of the following tutorial <https://wsvincent.com/django-search/>
+
+Week 8 
+
+working on trying to make search more efficent and adding the sunctionality to search by fetchers/filters (e.g Air conditioning, pool)
+didn't actualy get the filter by fetchures finished due to complications in working out the most effective method of storage due to the way django allows
+Querying of the database (no sublist checking). But shouldn't take much longer now as i have now worked a plan that should be resonably efficent. current plan is to have a featchures table that can be updated and view seperatly. by having it as a spertate table it allows the most veritility on adding differnet fetchures at a latter data while still allowing resonable efficent querrying. i will have to move this to a new clone of the repository through as the curnet one is two messy.
+
+Week 9 
+
+This week i have made the search for suburbs case insensitive, added a Method to autimaticaly generate propertys for testing. if can be found in the property/tests.py file,
+The following is a copy of the explanitory comment from the file:
+'''
+This class generates a bunch of propertys and loads them into the database for testing purposes. 
+to run this function: 
+	run the django manage.py shell
+	type 'from property.tests import GenerateTestPropertys'
+	then type 'GenerateTestPropertys.generate()'
+the database should now be loaded with the new files. 
+
+*** Important ****
+It assumes that you have a user with user wih id 1 who will own the property, if you don't it will not work 
+
+in the csv file property.csv are the base instances of the property's
+there are all real addresses sourced from google maps and the following website
+https://www.google.com.au/travel/hotels/New%20South%20Wales?g2lb=2502405%2C2502548%2C4208993%2C4254308%2C4258168%2C4260007%2C4270442%2C4274032%2C4285990%2C4288513%2C4289525%2C4291318%2C4296668%2C4301054%2C4305595%2C4308216%2C4311410%2C4313006%2C4315873%2C4317816%2C4317915%2C4318271%2C4319579%2C4324289%2C4329496%2C4270859%2C4284970%2C4291517%2C4292955%2C4316256&hl=en&gl=au&un=1&ap=SAEqKAoSCdx2xgH9aEHAEUh-j4MvtmFAEhIJakBfjU1LOMARSH6Pgz-lYkAwAlqNAQoFCKwCEAAiA0FVRCoWCgcI4w8QDBgBEgcI4w8QDBgCGAEoALABAFgBaAGKASgKEgn5GHoNw9RBwBHwnMorh6NhQBISCfWAFtDzOjnAEfCcyiuXkmJAmgEREg9OZXcgU291dGggV2FsZXOiARsKCC9tLzA1Zmx5Eg9OZXcgU291dGggV2FsZXOSAQIgAQ&q=hotels%20motels%20nsw&rp=EMSIt6rMru2FBBCWw-qr1NjplYwBEKvJq4_ZgqewExDqp5n9sb2aoZUBaAE4AUAASAI&ictx=1&ved=2ahUKEwjA1NKlruHlAhXRXisKHfA2BwMQtgN6BAgKEE0&hrf=CgUIrAIQACIDQVVEKhYKBwjjDxAMGAESBwjjDxAMGAIYASgAsAEAWAFoAYoBKAoSCdx2xgH9aEHAEUh-j4MvtmFAEhIJakBfjU1LOMARSH6Pgz-lYkCaARESD05ldyBTb3V0aCBXYWxlc6IBGwoIL20vMDVmbHkSD05ldyBTb3V0aCBXYWxlc5IBAiAB&tcfs=EjUKCC9tLzA1Zmx5Eg9OZXcgU291dGggV2FsZXMaGAoKMjAxOS0xMi0wMRIKMjAxOS0xMi0wMiIYCgoyMDE5LTEyLTAxEgoyMDE5LTEyLTAyUgA,
+, though not nessasarily hotels or houses :\
+this function will then generate more property by enumerating the house number on those addresses. 
+it will generate 10 houses per house in the csv file. 
+Note that if you run this program twise it will make multiple coppys of the same house in the database :(
+'''
+i also finished and moved the feature/filter work from last week and added another function inside the tests.py file to generate features for the first 42 propertys. 
+
+i added the functionality to block out selecting checking and checkout dates that were inapropriate, ie you cany select in the past and that the cheking must be before the checkout and visa versa.
+i added front end for the additional filteres, i tryed to get the drop down checkbox list and i found somthing that might work, a multiple selection box, but it needs state inorder to update and store its selections and i was unable to get that part working. i think it looks a bit cleaner with just the checkboxes anyway. 
+i also modified the suburb form input to accept both postcode and suburb input. 

@@ -1,6 +1,7 @@
 import {
   FETCH_USER_TRIPS,
-  ADD_USER_TRIP
+  ADD_USER_TRIP,
+  DELETE_TRIP
 } from '../actions/types'
 
 const initialState = {
@@ -13,6 +14,8 @@ export default (userTrips = initialState, action) => {
       return { ...userTrips, trips: action.payload };
     case ADD_USER_TRIP:
       return userTrips;
+    case DELETE_TRIP:
+      return { ...userTrips, trips: action.payload };
     default:
       return userTrips;
   }

@@ -13,7 +13,9 @@ import {
   SEARCH_PROPERTIES,
   FETCH_SEARCH_PROPERTY,
   BOOK_PROPERTY,
-  FETCH_USER_TRIPS
+  FETCH_USER_TRIPS,
+  DELETE_TRIP,
+  DELETE_PROPERTY
 } from './types';
 
 export const logout = () => {
@@ -144,17 +146,41 @@ export const loginUser = (formValues) => async (dispatch, getState) => {
 export const searchProperties = (formValues) => async (dispatch, getState) => {
   const checkIn = formValues.checkIn ? format(formValues.checkIn, 'yyy-MM-dd') : null;
   const checkOut = formValues.checkOut ? format(formValues.checkOut, 'yyy-MM-dd') : null;
+  var filter_list = [];
+  var hasfilters = false;
+  if (formValues.Pool) {
+    hasfilters = true;
+    filter_list = [...filter_list, "Pool"];
+  }
+  if (formValues.Aircon) {
+    hasfilters = true;
+    filter_list = [...filter_list, "Air Conditioner"];
+  }
+  if (formValues.Wifi) {
+    hasfilters = true;
+    filter_list = [...filter_list, "Wifi"];
+  }
+  if (formValues.FreeParking) {
+    hasfilters = true;
+    filter_list = [...filter_list, "Free Parking"];
+  }
+  const filters = (hasfilters) ? filter_list.join(",") : null;
+  console.log(filters);
+
+  const suburbName = (isNaN(formValues.suburbOrPostcode)) ? formValues.suburbOrPostcode : null;
+  const postcode = (isNaN(formValues.suburbOrPostcode)) ? null : formValues.suburbOrPostcode;
 
   const config = {
     params: {
-      suburb: formValues.suburb,
-      "post-code": formValues.postCode,
+      suburb: suburbName,
+      "post-code": postcode,
       price: formValues.price,
       "check-in": checkIn,
       "check-out": checkOut,
       guests: formValues.guests,
       beds: formValues.beds,
-      bathrooms: formValues.bathrooms
+      bathrooms: formValues.bathrooms,
+      "filters": filters
     }
   };
 
@@ -195,4 +221,38 @@ export const fetchUserTrips = () => async (dispatch, getState) => {
   const response = await accommodation.get('booking/guest/' + getState().auth.user.id, header);
   console.log(response);
   dispatch({ type: FETCH_USER_TRIPS, payload: response.data })
+}
+
+export const deleteTrip = (id) => async (dispatch, getState) => {
+
+  const header = {
+    headers: {
+      Authorization: "Token " + getState().auth.token,
+      'Content-Type': 'application/json'
+    }
+  }
+
+  var deleteID = 'booking/' + id
+  console.log(deleteID)
+
+  const response1 = await accommodation.delete(deleteID, header)
+  console.log(response1)
+  const response2 = await accommodation.get('booking/guest/' + getState().auth.user.id, header);
+  console.log(response2)
+
+  dispatch({ type: DELETE_TRIP, payload: response2.data })
+
+}
+
+export const deleteProperty = (propertyID) => async (dispatch, getState) => {
+  console.log('deleting property clicked');
+  const header = {
+    headers: {
+      Authorization: "Token " + getState().auth.token
+    }
+  }
+
+  const response = await accommodation.delete('property/' + propertyID, header)
+  console.log(response);
+  dispatch({ type: DELETE_PROPERTY });
 }

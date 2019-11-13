@@ -11,7 +11,7 @@ class HomeSearchForm extends Component {
   render () {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <div><Field name="suburb" component={renderTextField} label="Suburb" /></div>
+        <div><Field name="suburbOrPostcode" component={renderTextField} label="Suburb or Postcode" /></div>
         <div>
           <Field
             name="checkIn"
