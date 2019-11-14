@@ -15,7 +15,9 @@ import {
   BOOK_PROPERTY,
   FETCH_USER_TRIPS,
   DELETE_TRIP,
-  DELETE_PROPERTY
+  DELETE_PROPERTY,
+  FETCH_USER_TRIP,
+  UPDATE_TRIP
 } from './types';
 
 export const logout = () => {
@@ -32,6 +34,12 @@ export const fetchSearchProperty = (propertyID) => async (dispatch, getState) =>
   const response = await accommodation.get('property/' + propertyID);
   const data = response.data;
   dispatch({ type: FETCH_SEARCH_PROPERTY, payload: data })
+};
+
+export const fetchUserTrip = (bookingID) => async (dispatch, getState) => {
+  const response = await accommodation.get('booking/' + bookingID);
+  const data = response.data;
+  dispatch({ type: FETCH_USER_TRIP, payload: data })
 };
 
 export const fetchUserProperties = (userID) => async (dispatch, getState) => {
@@ -252,7 +260,33 @@ export const deleteProperty = (propertyID) => async (dispatch, getState) => {
     }
   }
 
+
   const response = await accommodation.delete('property/' + propertyID, header)
   console.log(response);
   dispatch({ type: DELETE_PROPERTY });
+}
+
+export const updateTrip = (formValues, bookingID) => async (dispatch, getState) => {
+  const checkIn = format(formValues.checkIn, 'yyy-MM-dd');
+  const checkOut = format(formValues.checkOut, 'yyy-MM-dd');
+  const no_guests = formValues.no_guests
+
+  const header = {
+    headers: {
+      Authorization: "Token " + getState().auth.token,
+      'Content-Type': 'application/json'
+    }
+  }
+
+  const postData = {
+    checkin: checkIn,
+    checkout: checkOut,
+    no_guests: no_guests
+  }
+
+  const updateURL = "booking/update/"+bookingID
+
+  const response = await accommodation.put(updateURL, postData, header);
+  console.log("Update Trip: ", response)
+  dispatch({ type: UPDATE_TRIP, payload: response.data });
 }

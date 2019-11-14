@@ -24,6 +24,8 @@ import LoginPage from './accounts/LoginPage';
 import RegisterPage from './accounts/RegisterPage';
 import SearchPage from './search/SearchPage';
 import ViewProperty from './search/ViewProperty';
+import ViewTrip from './ViewTrip';
+
 
 const styles = (theme) => ({
   content: {
@@ -61,6 +63,7 @@ class App extends Component {
               <Route exact path="/" component={HomePage} />
               <Route exact path="/search" component={SearchPage} />
               <Route exact path="/search/view" component={ViewProperty} />
+              <Route exact path="/trips/update" component={ViewTrip} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/profile" component={ProfilePage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/trips" component={TripsPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties" component={PropertiesPage} />
