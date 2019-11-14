@@ -7,7 +7,7 @@ class SearchBarForm extends Component {
   render () {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <Field name="suburb" label="Search Suburb" component={renderTextField} />
+        <Field name="suburbOrPostcode" label="Suburb or Postcode" component={renderTextField} />
       </form>
     )
   }
