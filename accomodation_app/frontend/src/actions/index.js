@@ -17,7 +17,8 @@ import {
   DELETE_TRIP,
   DELETE_PROPERTY,
   FETCH_USER_TRIP,
-  UPDATE_TRIP
+  UPDATE_TRIP,
+  REVIEW_TRIP
 } from './types';
 
 export const logout = () => {
@@ -284,9 +285,35 @@ export const updateTrip = (formValues, bookingID) => async (dispatch, getState) 
     no_guests: no_guests
   }
 
-  const updateURL = "booking/update/"+bookingID
+  const updateURL = "booking/update/" + bookingID
 
   const response = await accommodation.put(updateURL, postData, header);
   console.log("Update Trip: ", response)
   dispatch({ type: UPDATE_TRIP, payload: response.data });
+}
+
+export const reviewTrip = (formValues, bookingID) => async (dispatch, getState) => {
+
+  const description = formValues.description
+  const rating = formValues.rating
+
+  const header = {
+    headers: {
+      Authorization: "Token " + getState().auth.token,
+      'Content-Type': 'application/json'
+    }
+  }
+
+  const postData = {
+    booking_id: bookingID,
+    description: description,
+    rating: rating
+  }
+
+  const reviewURL = "review/property/add"
+
+  const response = await accommodation.post(reviewURL, postData)
+
+  console.log("Review Trip: ", response)
+  dispatch({ type: REVIEW_TRIP, payload: response.data });
 }
