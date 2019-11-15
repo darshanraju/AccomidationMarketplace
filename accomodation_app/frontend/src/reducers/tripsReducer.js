@@ -3,7 +3,8 @@ import {
   ADD_USER_TRIP,
   DELETE_TRIP,
   FETCH_USER_TRIP,
-  UPDATE_TRIP
+  UPDATE_TRIP,
+  REVIEW_TRIP
 } from '../actions/types'
 
 const initialState = {
@@ -25,6 +26,8 @@ export default (userTrips = initialState, action) => {
       return newState;
     case UPDATE_TRIP:
       newState.selectedTrip = Object.values(action.payload);
+      return newState;
+    case REVIEW_TRIP:
       return newState;
     default:
       return userTrips;

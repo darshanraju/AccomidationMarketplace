@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import { renderKeyboardDatePicker } from '../utils/renderFormComponents';
 
 class UpdateTripForm extends Component {
-  render () {
+  render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
         <div>

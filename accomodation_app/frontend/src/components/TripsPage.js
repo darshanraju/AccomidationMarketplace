@@ -12,12 +12,24 @@ class TripsPage extends Component {
 
   handleOnClick = async (id, e) => {
     await this.props.fetchUserTrip(id);
-    this.props.history.push('/trips/update');
+    this.props.history.push('/trips/view');
   }
-  
+
+
   componentDidMount() {
     this.props.fetchUserTrips();
   }
+
+  canUpdateTrip(dateStr) {
+    var [checkoutYear, checkoutMonth, checkoutDay] = dateStr.split("-")
+    var intCheckOutMonth = Number(checkoutMonth)
+    intCheckOutMonth = intCheckOutMonth - 1
+    var checkOut = new Date(checkoutYear, intCheckOutMonth, checkoutDay)
+    var today = new Date();
+    return (checkOut > today)
+  }
+
+
 
   render() {
     return (
@@ -31,8 +43,13 @@ class TripsPage extends Component {
               <Typography variant="subtitle2">Check-Out: {currentTrip.booking.checkout}</Typography>
               <button onClick={() => {
                 this.props.deleteTrip(currentTrip.booking.id)
-                }}>Delete</button>
-              <Button onClick={(e) => this.handleOnClick(currentTrip.booking.id, e)}>Update</Button>
+              }}>Delete</button>
+              {
+                this.canUpdateTrip(currentTrip.booking.checkout) && <Button onClick={(e) => this.handleOnClick(currentTrip.booking.id, e)}>Update</Button>
+              }{
+                !this.canUpdateTrip(currentTrip.booking.checkout) && <Button onClick={(e) => this.handleOnClick(currentTrip.booking.id, e)}>Review</Button>
+              }
+
             </Paper>
           </Grid>
         ))}
@@ -42,8 +59,11 @@ class TripsPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { userTrips: state.userTrips };
+  return {
+    userTrips: state.userTrips,
+    auth: state.auth
+  };
 };
 
 
-export default connect(mapStateToProps, { fetchUserTrips, deleteTrip, fetchUserTrip})(TripsPage);
+export default connect(mapStateToProps, { fetchUserTrips, deleteTrip, fetchUserTrip })(TripsPage);

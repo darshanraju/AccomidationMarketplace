@@ -31,3 +31,5 @@ export const DELETE_PROPERTY = 'deleteProperty';
 export const FETCH_USER_TRIP = 'fetchUserTrip';
 
 export const UPDATE_TRIP = 'updateTrip';
+
+export const REVIEW_TRIP = 'reviewTrip';
