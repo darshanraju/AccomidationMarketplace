@@ -16,6 +16,7 @@ import {
   FETCH_USER_TRIPS,
   DELETE_TRIP,
   DELETE_PROPERTY,
+  FETCH_PROPERTY_BOOKINGS,
   FETCH_USER_TRIP,
   UPDATE_TRIP,
   REVIEW_TRIP
@@ -265,6 +266,19 @@ export const deleteProperty = (propertyID) => async (dispatch, getState) => {
   const response = await accommodation.delete('property/' + propertyID, header)
   console.log(response);
   dispatch({ type: DELETE_PROPERTY });
+}
+
+export const fetchPropertyBookings = () => async (dispatch, getState) => {
+  const headers = {
+    headers: {
+      Authorization: "Token " + getState().auth.token
+    }
+  }
+
+  const propertyId = getState().uProperties.selectedProperty.id
+  const response = await accommodation.get('booking/property/' + propertyId, headers)
+  console.log(response);
+  dispatch({ type: FETCH_PROPERTY_BOOKINGS, payload: response.data })
 }
 
 export const updateTrip = (formValues, bookingID) => async (dispatch, getState) => {
