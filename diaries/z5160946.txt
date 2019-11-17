@@ -72,3 +72,5 @@ i also finished and moved the feature/filter work from last week and added anoth
 i added the functionality to block out selecting checking and checkout dates that were inapropriate, ie you cany select in the past and that the cheking must be before the checkout and visa versa.
 i added front end for the additional filteres, i tryed to get the drop down checkbox list and i found somthing that might work, a multiple selection box, but it needs state inorder to update and store its selections and i was unable to get that part working. i think it looks a bit cleaner with just the checkboxes anyway. 
 i also modified the suburb form input to accept both postcode and suburb input. 
+
+i added the functionality to block out dates that are already booked. they are retrived by month and greyed out on the calendar on the Booking page

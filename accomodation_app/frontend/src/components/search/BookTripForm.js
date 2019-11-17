@@ -4,27 +4,6 @@ import Button from '@material-ui/core/Button';
 
 import { renderKeyboardDatePicker } from '../../utils/renderFormComponents';
 
-var checkin_date = Date.now();
-var checkout_date;
-var bD = [];
-
-function setCheckin(date) {
-  checkin_date = Date.parse(date);
-}
-
-function setCheckout(date) {
-  checkout_date = Date.parse(date);
-}
-
-function disableBeforeCheckin(date) {
-  console.log(date);
-  return date < checkin_date;
-}
-
-function disableAfterCheckout(date) {
-  return date > checkout_date;
-}
-
 class BookTripForm extends Component {
 
   render () {
@@ -36,9 +15,9 @@ class BookTripForm extends Component {
             label="Check In"
             variant="inline"
             component={renderKeyboardDatePicker}
-            shouldDisableDate={disableAfterCheckout}
-            onAccept={(date) => setCheckin(date)}
-            onMonthChange={this.props.changeMonthHandler(date)}
+            shouldDisableDate={this.props.disableAfterCheckout}
+            onAccept={this.props.setCheckin}
+            onMonthChange={this.props.changeMonthHandler}
           />
         </div>
         <div>
@@ -47,8 +26,8 @@ class BookTripForm extends Component {
             label="Check Out"
             variant="inline"
             component={renderKeyboardDatePicker}
-            shouldDisableDate={disableBeforeCheckin}
-            onAccept={(date) => setCheckout(date)}
+            shouldDisableDate={this.props.disableBeforeCheckin}
+            onAccept={this.props.setCheckout}
           />
         </div>
         <Button variant="contained" color="primary" type="submit">Book</Button>
