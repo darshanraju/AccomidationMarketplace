@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
-import { bookedDates } from '../../actions';
 
 import { renderKeyboardDatePicker } from '../../utils/renderFormComponents';
 
@@ -28,14 +27,6 @@ function disableAfterCheckout(date) {
 
 class BookTripForm extends Component {
 
-  getMonthBookings(date){
-    console.log(date);
-    console.log(this.props.currentProperty);
-    bookedDates(this.props.currentProperty, date);
-    console.log(this.props.bookedDates)
-  }
-
-
   render () {
     return (
       <form onSubmit={this.props.handleSubmit}>
@@ -47,7 +38,7 @@ class BookTripForm extends Component {
             component={renderKeyboardDatePicker}
             shouldDisableDate={disableAfterCheckout}
             onAccept={(date) => setCheckin(date)}
-            onMonthChange={(date) => this.getMonthBookings(date)}
+            onMonthChange={(date) => this.props.changeMonthHandler(date)}
           />
         </div>
         <div>

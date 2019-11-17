@@ -4,10 +4,18 @@ import { connect } from 'react-redux';
 
 import BookTripForm from './BookTripForm';
 import { bookProperty } from '../../actions';
+import { bookedDates } from '../../actions';
 
 class ViewProperty extends Component {
   submit = (formValues) => {
     this.props.bookProperty(formValues, this.props.sProperties.selectedProperty.id);
+  }
+
+  getMonthBookings = (date) =>{
+    console.log(date);
+    console.log(this.props.sProperties.selectedProperty.id);
+    bookedDates(this.props.sProperties.selectedProperty.id, date);
+    console.log(this.props.sProperties.selectedPropertyBookedDates);
   }
   
   render () {
@@ -18,7 +26,7 @@ class ViewProperty extends Component {
         <Typography variant="subtitle2">Bathrooms: {selectedProperty.no_bathrooms}</Typography>
         <Typography variant="subtitle2">Fits: {selectedProperty.no_guests} people</Typography>
         <Typography variant="subtitle2">Price: ${selectedProperty.price}/night</Typography>
-        <BookTripForm currentProperty={this.props.sProperties.selectedProperty.id} onSubmit={this.submit} />
+        <BookTripForm changeMonthHandler={this.getMonthBookings} onSubmit={this.submit} />
       </React.Fragment>
     )
   }
