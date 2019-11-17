@@ -3,12 +3,14 @@ import {
   FETCH_USER_PROPERTIES,
   ADD_PROPERTY,
   UPDATE_PROPERTY,
-  DELETE_PROPERTY
+  DELETE_PROPERTY,
+  FETCH_PROPERTY_BOOKINGS
 } from '../actions/types';
 
 const initialState = {
   properties: [],
-  selectedProperty: null
+  selectedProperty: null,
+  bookings: []
 }
 
 export default (uProperties = initialState, action) => {
@@ -25,6 +27,9 @@ export default (uProperties = initialState, action) => {
     case UPDATE_PROPERTY:
       return newState;
     case DELETE_PROPERTY:
+      return newState;
+    case FETCH_PROPERTY_BOOKINGS:
+      newState.bookings = action.payload;
       return newState;
     default:
       return uProperties;

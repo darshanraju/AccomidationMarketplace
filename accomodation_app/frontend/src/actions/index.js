@@ -16,9 +16,12 @@ import {
   FETCH_USER_TRIPS,
   DELETE_TRIP,
   DELETE_PROPERTY,
+  FETCH_PROPERTY_BOOKINGS,
   FETCH_USER_TRIP,
+  SORT_CURRENT_TRIPS,
   UPDATE_TRIP,
-  REVIEW_TRIP
+  REVIEW_TRIP,
+  SORT_PREVIOUS_TRIPS
 } from './types';
 
 export const logout = () => {
@@ -220,7 +223,6 @@ export const bookProperty = (formValues, propertyID) => async (dispatch, getStat
 }
 
 export const fetchUserTrips = () => async (dispatch, getState) => {
-  console.log('Fetching trips')
   const header = {
     headers: {
       Authorization: "Token " + getState().auth.token
@@ -228,8 +230,51 @@ export const fetchUserTrips = () => async (dispatch, getState) => {
   }
 
   const response = await accommodation.get('booking/guest/' + getState().auth.user.id, header);
-  console.log(response);
   dispatch({ type: FETCH_USER_TRIPS, payload: response.data })
+}
+
+function sortDatesAscending(a, b) {
+  if (a.booking.checkin < b.booking.checkin) {
+    return -1;
+  }
+  if (a.booking.checkin > b.booking.checkin) {
+    return 1;
+  }
+  return 0;
+}
+
+function dateToString() {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
+  return yyyy + '-' + mm + '-' + dd;
+}
+
+export const sortCurrentTrips = () => async (dispatch, getState) => {
+  const today = dateToString();
+  var trips = getState().userTrips.trips;
+  trips = trips.filter(trip => trip.booking.checkout >= today)
+  trips.sort(sortDatesAscending);
+  dispatch({ type: SORT_CURRENT_TRIPS, payload: trips });
+}
+
+function sortDatesDescending(a, b) {
+  if (a.booking.checkout > b.booking.checkout) {
+    return -1;
+  }
+  if (a.booking.checkout < b.booking.checkout) {
+    return 1;
+  }
+  return 0;
+}
+
+export const sortPreviousTrips = () => async (dispatch, getState) => {
+  const today = dateToString();
+  var trips = getState().userTrips.trips;
+  trips = trips.filter(trip => trip.booking.checkout < today)
+  trips.sort(sortDatesDescending);
+  dispatch({ type: SORT_PREVIOUS_TRIPS, payload: trips });
 }
 
 export const deleteTrip = (id) => async (dispatch, getState) => {
@@ -265,6 +310,19 @@ export const deleteProperty = (propertyID) => async (dispatch, getState) => {
   const response = await accommodation.delete('property/' + propertyID, header)
   console.log(response);
   dispatch({ type: DELETE_PROPERTY });
+}
+
+export const fetchPropertyBookings = () => async (dispatch, getState) => {
+  const headers = {
+    headers: {
+      Authorization: "Token " + getState().auth.token
+    }
+  }
+
+  const propertyId = getState().uProperties.selectedProperty.id
+  const response = await accommodation.get('booking/property/' + propertyId, headers)
+  console.log(response);
+  dispatch({ type: FETCH_PROPERTY_BOOKINGS, payload: response.data })
 }
 
 export const updateTrip = (formValues, bookingID) => async (dispatch, getState) => {

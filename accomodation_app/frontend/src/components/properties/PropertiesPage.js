@@ -27,6 +27,9 @@ class PropertiesPage extends Component {
   render() {
     return (
       <Grid container spacing={3}>
+        <Grid item xs={3} component={NavLink} to="/properties/add">
+          <Typography variant="subtitle1">Add Property</Typography>
+        </Grid>
         {this.props.uProperties.properties.map((currentProperty) => (
           <Grid item xs={3} key={currentProperty.id}>
             <Paper>
@@ -39,9 +42,6 @@ class PropertiesPage extends Component {
             </Paper>
           </Grid>
         ))}
-        <Grid item xs={3} component={NavLink} to="/properties/add">
-          <Typography variant="subtitle1">Add Property</Typography>
-        </Grid>
       </Grid>
     )
   }
