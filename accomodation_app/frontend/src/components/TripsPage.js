@@ -12,6 +12,8 @@ class TripsPage extends Component {
 
   handleOnClick = async (id, e) => {
     await this.props.fetchUserTrip(id);
+    var today = new Date();
+    await this.props.bookedDates(id, today);
     this.props.history.push('/trips/view');
   }
 

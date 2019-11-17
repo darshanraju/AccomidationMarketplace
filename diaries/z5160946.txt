@@ -74,3 +74,4 @@ i added front end for the additional filteres, i tryed to get the drop down chec
 i also modified the suburb form input to accept both postcode and suburb input. 
 
 i added the functionality to block out dates that are already booked. they are retrived by month and greyed out on the calendar on the Booking page
+also added the functionality to block out dates that are alleardy booked on the review trips page

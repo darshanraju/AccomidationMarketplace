@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 
 import UpdateTripForm from './UpdateTripForm';
 import ReviewTripForm from './ReviewTripForm'
-import { updateTrip, reviewTrip } from '../actions';
+import { updateTrip, reviewTrip, bookedDates } from '../actions';
 
-
+var checkin_date = Date.now();
+var checkout_date;
 
 class ViewTrip extends Component {
   submit = (formValues) => {
@@ -29,6 +30,48 @@ class ViewTrip extends Component {
     return (checkOut > today)
   }
 
+  setCheckin = (date) => {
+    checkin_date = Date.parse(date);
+  }
+
+  setCheckout = (date) => {
+    checkout_date = Date.parse(date);
+  }
+
+  AlreadyBooked(date) {
+    const list = this.props.sProperties.selectedPropertyBookedDates;
+    for (var i = 0; i < list.length; i++) {
+      if (date <= Date.parse(list[i][1]) && date >= Date.parse(list[i][0])){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  disableBeforeCheckin = (date) => {
+    console.log(date);
+    if (this.AlreadyBooked(date) == true){
+      return true;
+    }
+    return date < checkin_date;
+  }
+
+  disableAfterCheckout = (date) => {
+    if (this.AlreadyBooked(date) == true){
+      return true;
+    }
+    return date > checkout_date;
+  }
+
+  getMonthBookings = (date) =>{
+    return this.props.bookedDates(this.props.userTrips.selectedTrip.property_id, date);
+  }
+
+  resetLookup = () => {
+    var today = new Date();
+    this.props.bookedDates(this.props.userTrips.selectedTrip.property_id, today)
+  }
+
 
   render() {
     const selectedTrip = this.props.userTrips.selectedTrip || {};
@@ -38,7 +81,7 @@ class ViewTrip extends Component {
         <Typography variant="subtitle2">Checkin: {selectedTrip.checkin}</Typography>
         <Typography variant="subtitle2">Checkout: {selectedTrip.checkout}</Typography>
         <Typography variant="subtitle2">Guests: {selectedTrip.no_guests} people</Typography>
-        {this.canUpdateTrip(selectedTrip.checkout) && <UpdateTripForm onSubmit={this.submit} />}
+        {this.canUpdateTrip(selectedTrip.checkout) && <UpdateTripForm changeMonthHandler={this.getMonthBookings} setCheckin={this.setCheckin} setCheckout={this.setCheckout} disableBeforeCheckin={this.disableBeforeCheckin} disableAfterCheckout={this.disableAfterCheckout} resetLookup={this.resetLookup} onSubmit={this.submit} />}
         {!this.canUpdateTrip(selectedTrip.checkout) && <ReviewTripForm onSubmit={this.submitReview} />}
 
       </React.Fragment>
@@ -47,7 +90,10 @@ class ViewTrip extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { userTrips: state.userTrips };
+  return { 
+    userTrips: state.userTrips,
+    sProperties: state.sProperties  
+  };
 };
 
-export default connect(mapStateToProps, { updateTrip, reviewTrip })(ViewTrip);
+export default connect(mapStateToProps, { updateTrip, reviewTrip, bookedDates })(ViewTrip);

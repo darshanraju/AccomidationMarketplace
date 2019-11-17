@@ -18,6 +18,7 @@ class BookTripForm extends Component {
             shouldDisableDate={this.props.disableAfterCheckout}
             onAccept={this.props.setCheckin}
             onMonthChange={this.props.changeMonthHandler}
+            onClose={this.props.resetLookup}
           />
         </div>
         <div>
@@ -28,6 +29,8 @@ class BookTripForm extends Component {
             component={renderKeyboardDatePicker}
             shouldDisableDate={this.props.disableBeforeCheckin}
             onAccept={this.props.setCheckout}
+            onMonthChange={this.props.changeMonthHandler}
+            onClose={this.props.resetLookup}
           />
         </div>
         <Button variant="contained" color="primary" type="submit">Book</Button>

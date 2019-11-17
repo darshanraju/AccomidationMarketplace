@@ -33,8 +33,6 @@ class ViewProperty extends Component {
   }
 
   disableBeforeCheckin = (date) => {
-    console.log("function for disabling dates");
-    console.log(date);
     if (this.AlreadyBooked(date) == true){
       return true;
     }
@@ -49,11 +47,12 @@ class ViewProperty extends Component {
   }
 
   getMonthBookings = (date) =>{
-    console.log("load next month");
-    console.log(date);
-    console.log(this.props.sProperties.selectedProperty.id);
-    console.log(this.props.sProperties.selectedPropertyBookedDates);
     return this.props.bookedDates(this.props.sProperties.selectedProperty.id, date);
+  }
+
+  resetLookup = () => {
+    var today = new Date();
+    this.props.bookedDates(this.props.sProperties.selectedProperty.id, today)
   }
   
   render () {
@@ -70,6 +69,7 @@ class ViewProperty extends Component {
           setCheckout={this.setCheckout} 
           disableBeforeCheckin={this.disableBeforeCheckin}
           disableAfterCheckout={this.disableAfterCheckout} 
+          resetLookup={this.resetLookup}
           onSubmit={this.submit} 
         />
       </React.Fragment>
