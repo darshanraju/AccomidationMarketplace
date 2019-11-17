@@ -15,53 +15,6 @@ import CurrentTrips from './CurrentTrips';
 import PreviousTrips from './PreviousTrips';
 
 class TripsPage extends Component {
-  /*
-  state = { properties: {} }
-
-  handleOnClick = async (id, e) => {
-    await this.props.fetchUserTrip(id);
-    this.props.history.push('/trips/view');
-  }
-
-
-  componentDidMount() {
-    this.props.fetchUserTrips();
-  }
-
-  canUpdateTrip(dateStr) {
-    var [checkoutYear, checkoutMonth, checkoutDay] = dateStr.split("-")
-    var intCheckOutMonth = Number(checkoutMonth)
-    intCheckOutMonth = intCheckOutMonth - 1
-    var checkOut = new Date(checkoutYear, intCheckOutMonth, checkoutDay)
-    var today = new Date();
-    return (checkOut > today)
-  }
-  */
-
-  /*
-        <Grid container spacing={3} direction="column">
-        {this.props.userTrips.trips.map((currentTrip) => (
-          <Grid item xs={3} key={currentTrip.booking.id}>
-            <Paper>
-              <Typography variant="subtitle2">Address: {currentTrip.property.address}</Typography>
-              <Typography variant="subtitle2">Suburb: {currentTrip.property.suburb} Postcode: {currentTrip.property.postcode}</Typography>
-              <Typography variant="subtitle2">Check-In: {currentTrip.booking.checkin}</Typography>
-              <Typography variant="subtitle2">Check-Out: {currentTrip.booking.checkout}</Typography>
-              <button onClick={() => {
-                this.props.deleteTrip(currentTrip.booking.id)
-              }}>Delete</button>
-              {
-                this.canUpdateTrip(currentTrip.booking.checkout) && <Button onClick={(e) => this.handleOnClick(currentTrip.booking.id, e)}>Update</Button>
-              }{
-                !this.canUpdateTrip(currentTrip.booking.checkout) && <Button onClick={(e) => this.handleOnClick(currentTrip.booking.id, e)}>Review</Button>
-              }
-
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-  */
-
   state = { value: '/trips' };
 
   handleTabChange = (value) => {
