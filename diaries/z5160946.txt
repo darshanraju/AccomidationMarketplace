@@ -73,5 +73,4 @@ i added the functionality to block out selecting checking and checkout dates tha
 i added front end for the additional filteres, i tryed to get the drop down checkbox list and i found somthing that might work, a multiple selection box, but it needs state inorder to update and store its selections and i was unable to get that part working. i think it looks a bit cleaner with just the checkboxes anyway. 
 i also modified the suburb form input to accept both postcode and suburb input. 
 
-i added the functionality to block out dates that are already booked. they are retrived by month and greyed out on the calendar on the Booking page
-also added the functionality to block out dates that are alleardy booked on the review trips page
+i added the functionality to block out dates that are already booked. they are retrived by month and greyed out on the calendar on the Booking page.

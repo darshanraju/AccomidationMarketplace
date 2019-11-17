@@ -14,10 +14,6 @@ class UpdateTripForm extends Component {
             label="Check In"
             variant="inline"
             component={renderKeyboardDatePicker}
-            shouldDisableDate={this.props.disableAfterCheckout}
-            onAccept={this.props.setCheckin}
-            onMonthChange={this.props.changeMonthHandler}
-            onClose={this.props.resetLookup}
           />
         </div>
         <div>
@@ -26,10 +22,6 @@ class UpdateTripForm extends Component {
             label="Check Out"
             variant="inline"
             component={renderKeyboardDatePicker}
-            shouldDisableDate={this.props.disableBeforeCheckin}
-            onAccept={this.props.setCheckout}
-            onMonthChange={this.props.changeMonthHandler}
-            onClose={this.props.resetLookup}
           />
         </div>
         <Button variant="contained" color="primary" type="submit">Update</Button>
