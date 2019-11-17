@@ -38,7 +38,7 @@ class BookTripForm extends Component {
             component={renderKeyboardDatePicker}
             shouldDisableDate={disableAfterCheckout}
             onAccept={(date) => setCheckin(date)}
-            onMonthChange={(date) => this.props.changeMonthHandler(date)}
+            onMonthChange={this.props.changeMonthHandler(date)}
           />
         </div>
         <div>
