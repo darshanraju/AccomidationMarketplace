@@ -33,3 +33,5 @@ export const FETCH_USER_TRIP = 'fetchUserTrip';
 export const UPDATE_TRIP = 'updateTrip';
 
 export const REVIEW_TRIP = 'reviewTrip';
+
+export const BOOKED_DATES = 'bookedDates';

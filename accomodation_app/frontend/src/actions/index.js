@@ -18,7 +18,8 @@ import {
   DELETE_PROPERTY,
   FETCH_USER_TRIP,
   UPDATE_TRIP,
-  REVIEW_TRIP
+  REVIEW_TRIP,
+  BOOKED_DATES
 } from './types';
 
 export const logout = () => {
@@ -317,3 +318,9 @@ export const reviewTrip = (formValues, bookingID) => async (dispatch, getState) 
   console.log("Review Trip: ", response)
   dispatch({ type: REVIEW_TRIP, payload: response.data });
 }
+
+export const bookedDates = (propertyID, date) => async (dispatch, getState) => {
+  const response = await accommodation.get('booked_dates/' + propertyID + '/'+ format(date, 'yyy-MM-dd'));
+  const data = response.data;
+  dispatch({ type: BOOKED_DATES, payload: data })
+};

@@ -18,7 +18,7 @@ class ViewProperty extends Component {
         <Typography variant="subtitle2">Bathrooms: {selectedProperty.no_bathrooms}</Typography>
         <Typography variant="subtitle2">Fits: {selectedProperty.no_guests} people</Typography>
         <Typography variant="subtitle2">Price: ${selectedProperty.price}/night</Typography>
-        <BookTripForm onSubmit={this.submit} />
+        <BookTripForm currentProperty={this.props.sProperties.selectedProperty.id} onSubmit={this.submit} />
       </React.Fragment>
     )
   }

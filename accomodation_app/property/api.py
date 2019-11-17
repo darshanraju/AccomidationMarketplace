@@ -5,6 +5,7 @@ from django.core import exceptions
 from .models import Property, Feature
 from booking.models import Booking
 from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer, FeatureSerializer
+import datetime
 
 class PropertyAPI(generics.RetrieveAPIView):
     queryset = Property.objects.all()
@@ -193,3 +194,22 @@ class GetRecordedFeatureAPI(generics.GenericAPIView):
         for feature in property_features:
             resp.append(feature)
         return Response(resp)
+
+# Function retuns a list of the dates that are not avaliable. 
+class GetPropertyBookedDatesByMonth(generics.GenericAPIView):
+    queryset = Booking.objects.all()
+
+    def get(self, request, property_id, date):
+        datebreak = date.split('-')
+        nextMonth = int(datebreak[1]) + 1
+
+        if (nextMonth > 12):
+            datebreak[0] = str(int(datebreak[0])+1)
+            nextMonth = 1
+        datebreak[1] = str(nextMonth)
+        startofNextMoth = "-".join(datebreak)
+
+        booked_dates = Booking.objects.filter(property_id=property_id, checkout__gte=date, checkin__lt=startofNextMoth).values_list("checkin", "checkout")
+        return Response(booked_dates)
+
+
