@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import BookTripForm from './BookTripForm';
 import { bookProperty, bookedDates } from '../../actions';
+import { format } from 'date-fns';
 
 var checkin_date = Date.now();
 var checkout_date;
@@ -23,17 +24,45 @@ class ViewProperty extends Component {
   }
 
   AlreadyBooked(date) {
-    const list = this.props.sProperties.selectedPropertyBookedDates;
+    var list = this.props.sProperties.selectedPropertyBookedDates;
     for (var i = 0; i < list.length; i++) {
-      if (date <= Date.parse(list[i][1]) && date >= Date.parse(list[i][0])){
+      if ((format(date, 'yyy-MM-dd') == list[i][1]) || (format(date, 'yyy-MM-dd') == list[i][0])){
+        return true;
+      }
+      if (date < Date.parse(list[i][1]) && date > Date.parse(list[i][0])){
         return true;
       }
     }
     return false;
   }
 
+  NextBooking(){
+    var list = this.props.sProperties.selectedPropertyBookedDates;
+    for (var i = 0; i < list.length; i++) {
+      if (checkin_date < Date.parse(list[i][0])){
+        return Date.parse(list[i][0]);
+      }
+    }
+    return null;
+  }
+  AfterNextBooking(date){
+    var nextbookingstart = this.NextBooking();
+    console.log(nextbookingstart);
+    if (nextbookingstart == null){
+      console.log("no next booking");
+      return false;
+    }
+    if (format(date, 'yyy-MM-dd') == format(nextbookingstart, 'yyy-MM-dd')){
+      return true;
+    }
+    if (date > nextbookingstart){
+      return true;
+    }
+    return false;
+  }
+
   disableBeforeCheckin = (date) => {
-    if (this.AlreadyBooked(date) == true){
+    if (this.AfterNextBooking(date) == true){
       return true;
     }
     return date < checkin_date;
@@ -43,7 +72,7 @@ class ViewProperty extends Component {
     if (this.AlreadyBooked(date) == true){
       return true;
     }
-    return date > checkout_date;
+    //return date > checkout_date;
   }
 
   getMonthBookings = (date) =>{
