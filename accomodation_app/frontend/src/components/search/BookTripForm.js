@@ -6,6 +6,23 @@ import { renderKeyboardDatePicker } from '../../utils/renderFormComponents';
 
 class BookTripForm extends Component {
 
+  state = {
+    isOpen: false
+  };
+
+  closeCheckin = () => {
+    this.setState({isOpen: true});
+
+  }
+
+  closeCheckOut = () => {
+    this.setState({isOpen: false});
+  }
+
+  openCheckout = () => {
+    this.setState({isOpen: true});
+  }
+
   render () {
     return (
       <form onSubmit={this.props.handleSubmit}>
@@ -18,19 +35,22 @@ class BookTripForm extends Component {
             shouldDisableDate={this.props.disableAfterCheckout}
             onAccept={this.props.setCheckin}
             onMonthChange={this.props.changeMonthHandler}
-            onClose={this.props.resetLookup}
+            onClose={this.closeCheckin}
           />
         </div>
         <div>
           <Field
             name="checkOut"
+            id="checkOut"
             label="Check Out"
             variant="inline"
+            open={this.state.isOpen}
             component={renderKeyboardDatePicker}
             shouldDisableDate={this.props.disableBeforeCheckin}
             onAccept={this.props.setCheckout}
             onMonthChange={this.props.changeMonthHandler}
-            onClose={this.props.resetLookup}
+            onOpen={this.openCheckout}
+            onClose={this.closeCheckOut}
           />
         </div>
         <Button variant="contained" color="primary" type="submit">Book</Button>

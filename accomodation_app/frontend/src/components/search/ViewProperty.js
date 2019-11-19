@@ -12,6 +12,8 @@ var checkout_date;
 class ViewProperty extends Component {
 
   submit = (formValues) => {
+    console.log(format(formValues.checkIn, 'yyy-MM-dd'))
+    console.log(format(formValues.checkOut, 'yyy-MM-dd'))
     this.props.bookProperty(formValues, this.props.sProperties.selectedProperty.id);
   }
 
@@ -81,7 +83,12 @@ class ViewProperty extends Component {
 
   resetLookup = () => {
     var today = new Date();
-    this.props.bookedDates(this.props.sProperties.selectedProperty.id, today)
+    this.props.bookedDates(this.props.sProperties.selectedProperty.id, today);
+  }
+
+  resetAfterOpen(){
+    var today = new Date();
+    this.props.bookedDates(this.props.sProperties.selectedProperty.id, today);
   }
   
   render () {
@@ -99,6 +106,7 @@ class ViewProperty extends Component {
           disableBeforeCheckin={this.disableBeforeCheckin}
           disableAfterCheckout={this.disableAfterCheckout} 
           resetLookup={this.resetLookup}
+          resetAfterOpen={this.resetAfterOpen}
           onSubmit={this.submit} 
         />
       </React.Fragment>
