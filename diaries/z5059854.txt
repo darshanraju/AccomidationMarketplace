@@ -9,3 +9,23 @@ Week 5
 - Added navbar and sidebar to frontend
 - Added state management system to frontend
 - Added layout for landing, properties and profile pages
+
+Week 6
+- Added trips page to frontend
+- Implemented add property and get property for the frontend
+
+Week 7
+- Implemented styling library to fix up css issues with sidebar and navbar
+
+Week 8
+- Created search page
+
+Week 9
+- Connected search to backend
+- Landing page, search bar and search page can now all search
+- Added filters
+
+Week 10
+- Organised sections for report
+- 3rd Party Itegrations section of report
+= Compiled report
