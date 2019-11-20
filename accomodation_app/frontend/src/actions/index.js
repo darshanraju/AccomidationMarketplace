@@ -357,7 +357,6 @@ export const reviewTrip = (formValues, bookingID) => async (dispatch, getState) 
 
   const header = {
     headers: {
-      Authorization: "Token " + getState().auth.token,
       'Content-Type': 'application/json'
     }
   }
