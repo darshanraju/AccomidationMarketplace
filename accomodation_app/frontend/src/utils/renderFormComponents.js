@@ -5,6 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Rating from '@material-ui/lab/Rating';
 
 export const renderTextField = ({
   label,
@@ -12,15 +13,15 @@ export const renderTextField = ({
   meta: { touched, invalid, error },
   ...custom
 }) => (
-  <TextField
-    label={label}
-    placeholder={label}
-    error={touched && invalid}
-    helperText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
+    <TextField
+      label={label}
+      placeholder={label}
+      error={touched && invalid}
+      helperText={touched && error}
+      {...input}
+      {...custom}
+    />
+  )
 
 export const renderKeyboardDatePicker = (props) => {
   const {
@@ -28,7 +29,7 @@ export const renderKeyboardDatePicker = (props) => {
     input: { onBlur, value, ...inputProps },
     ...others
   } = props;
-  
+
   const onChange = (date) => {
     Date.parse(date) ? inputProps.onChange(date.toISOString()) : inputProps.onChange(null);
   };
@@ -53,45 +54,66 @@ export const renderSelectField = ({
   children,
   ...custom
 }) => (
-  <React.Fragment>
-    <InputLabel htmlFor={name}>{label}</InputLabel>
-    <Select
-      native
-      {...input}
-      {...custom}
-      id={name}
-    >
-      {children}
-    </Select>
-  </React.Fragment>
-)
+    <React.Fragment>
+      <InputLabel htmlFor={name}>{label}</InputLabel>
+      <Select
+        native
+        {...input}
+        {...custom}
+        id={name}
+      >
+        {children}
+      </Select>
+    </React.Fragment>
+  )
 
 export const numericOptions = () => {
   const maxNum = 15;
   const options = [];
   for (let i = 1; i < maxNum + 1; i++) {
-    options.push(<option key={i} value={i}>{i+'+'}</option>);
+    options.push(<option key={i} value={i}>{i + '+'}</option>);
   }
   return options;
 }
 
-export const renderCheckbox = ({ 
-  input, 
-  label ,
+export const renderCheckbox = ({
+  input,
+  label,
   ...custom
 }) => (
-  <React.Fragment>
-    <FormControlLabel
-      control={
-        <Checkbox
-          checked={input.value ? true : false}
-          onChange={input.onChange}
-          color="primary"
-          {...custom}
-          id={name}
-        />
-      }
-      label={label}
-    />
-  </React.Fragment>
-)
+    <React.Fragment>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={input.value ? true : false}
+            onChange={input.onChange}
+            color="primary"
+            {...custom}
+            id={name}
+          />
+        }
+        label={label}
+      />
+    </React.Fragment>
+  )
+
+export const renderRating = ({
+  input,
+  label,
+  ...custom
+}) => (
+    <React.Fragment>
+      <FormControlLabel
+        control={
+          <Rating
+            name="rating-controlled"
+            value={input.value}
+            precision={0.5}
+            onChange={input.onChange}
+            {...custom}
+          />
+        }
+        label={label}
+      />
+    </React.Fragment>
+  )

@@ -368,9 +368,11 @@ export const reviewTrip = (formValues, bookingID) => async (dispatch, getState) 
     rating: rating
   }
 
+  console.log(postData);
+
   const reviewURL = "review/property/add"
 
-  const response = await accommodation.post(reviewURL, postData)
+  const response = await accommodation.post(reviewURL, postData, header)
 
   console.log("Review Trip: ", response)
   dispatch({ type: REVIEW_TRIP, payload: response.data });

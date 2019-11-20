@@ -8,9 +8,10 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import { Typography } from '@material-ui/core';
+import { Typography, Collapse } from '@material-ui/core';
+import ReviewTripForm from './ReviewTripForm';
 
-import { fetchUserTrips, sortPreviousTrips } from '../actions/index';
+import { fetchUserTrips, sortPreviousTrips, reviewTrip } from '../actions/index';
 
 const styles = (theme) => ({
   item: {
@@ -25,6 +26,10 @@ const styles = (theme) => ({
 })
 
 class PreviousTrips extends Component {
+  state = {
+    expanded: []
+  };
+
   async componentDidMount() {
     await this.props.fetchUserTrips();
     this.props.sortPreviousTrips();
@@ -33,6 +38,20 @@ class PreviousTrips extends Component {
   dateParser(date) {
     var [year, month, day] = date.split('-');
     return day + '/' + month + '/' + year;
+  }
+
+  handleExpansion = (index) => {
+    const new_expanded = this.state.expanded.slice();
+    if (new_expanded[index]) {
+      new_expanded[index] = false;
+    } else {
+      new_expanded[index] = true;
+    }
+    this.setState({ expanded: new_expanded })
+  }
+
+  handleReview = (formValues, bookingID) => {
+    this.props.reviewTrip(formValues, bookingID);
   }
 
   render() {
@@ -58,10 +77,17 @@ class PreviousTrips extends Component {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button>
-                  Review
-              </Button>
+                {!trip.review.description &&
+                  <Button
+                    onClick={() => this.handleExpansion(trip.booking.id)}
+                  >
+                    Review
+                  </Button>
+                }
               </CardActions>
+              <Collapse in={this.state.expanded[trip.booking.id]} timeout="auto" unmountOnExit>
+                <ReviewTripForm onSubmit={(formValues) => this.handleReview(formValues, trip.booking.id)} />
+              </Collapse>
             </Card>
           </Grid>
         ))}
@@ -77,6 +103,6 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  connect(mapStateToProps, { fetchUserTrips, sortPreviousTrips }),
+  connect(mapStateToProps, { fetchUserTrips, sortPreviousTrips, reviewTrip }),
   withStyles(styles)
 )(PreviousTrips);

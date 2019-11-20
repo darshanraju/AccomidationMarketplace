@@ -5,6 +5,7 @@ from .models import Booking, Property
 from .serializers import BookingSerializer, MakeBookingSerializer, UpdateBookingSerializer
 from property.serializers import PropertySerializer
 from authentication.serializers import UserSerializer
+from reviews.serializers import ReviewPropertySerializer
 
 class BookingAPI(generics.RetrieveAPIView):
     queryset = Booking.objects.all()
@@ -88,10 +89,15 @@ class GetBookingsByGuestAPI(generics.GenericAPIView):
         for booking in bookings:
             #resp.append(BookingSerializer(booking, context=self.get_serializer_context()).data)
             #print(booking.property_id)
+            try:
+                property_review = ReviewPropertySerializer(booking.id, context=self.get_serializer_context()).data
+            except:
+                property_review = {}
 
             trip = {
                 "booking": BookingSerializer(booking, context=self.get_serializer_context()).data,
-                "property": PropertySerializer(booking.property_id, context=self.get_serializer_context()).data
+                "property": PropertySerializer(booking.property_id, context=self.get_serializer_context()).data,
+                "review": property_review
             }
             resp.append(trip)
         return Response(resp)        
