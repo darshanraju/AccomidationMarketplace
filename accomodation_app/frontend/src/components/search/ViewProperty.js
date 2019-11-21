@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import BookTripForm from './BookTripForm';
 import { bookProperty, bookedDates } from '../../actions';
 import { format } from 'date-fns';
+import Grid from '@material-ui/core/Grid';
 
 var checkin_date = Date.now();
 var checkout_date;
@@ -96,20 +97,31 @@ class ViewProperty extends Component {
     const selectedProperty = this.props.sProperties.selectedProperty || {};
     return (
       <React.Fragment>
-        <Typography variant="subtitle2">id: {selectedProperty.id}</Typography>
-        <Typography variant="subtitle2">Bathrooms: {selectedProperty.no_bathrooms}</Typography>
-        <Typography variant="subtitle2">Fits: {selectedProperty.no_guests} people</Typography>
-        <Typography variant="subtitle2">Price: ${selectedProperty.price}/night</Typography>
-        <BookTripForm 
-          changeMonthHandler={this.getMonthBookings} 
-          setCheckin={this.setCheckin} 
-          setCheckout={this.setCheckout} 
-          disableBeforeCheckin={this.disableBeforeCheckin}
-          disableAfterCheckout={this.disableAfterCheckout} 
-          resetLookup={this.resetLookup}
-          resetAfterOpen={this.resetAfterOpen}
-          onSubmit={this.submit} 
-        />
+        <Grid container>
+          <Grid item>
+            <h1> Pictures Go Here  </h1>
+          </Grid>
+          <Grid item>
+          <Typography variant="subtitle2">Location: {selectedProperty.address}</Typography>
+          <Typography variant="subtitle2">id: {selectedProperty.id}</Typography>
+          <Typography variant="subtitle2">Bathrooms: {selectedProperty.no_bathrooms}</Typography>
+          <Typography variant="subtitle2">Fits: {selectedProperty.no_guests} people</Typography>
+          <Typography variant="subtitle2">Price: ${selectedProperty.price}/night</Typography>
+          <BookTripForm 
+            changeMonthHandler={this.getMonthBookings} 
+            setCheckin={this.setCheckin} 
+            setCheckout={this.setCheckout} 
+            disableBeforeCheckin={this.disableBeforeCheckin}
+            disableAfterCheckout={this.disableAfterCheckout} 
+            resetLookup={this.resetLookup}
+            resetAfterOpen={this.resetAfterOpen}
+            onSubmit={this.submit} 
+          />
+          </Grid>
+          <Grid item>
+          <h1> Reviews go Here </h1>
+          </Grid>
+        </Grid>
       </React.Fragment>
     )
   }
