@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 
 var checkin_date = Date.now();
 var checkout_date;
+var nextbookingstart = null;
 
 class ViewProperty extends Component {
 
@@ -19,6 +20,7 @@ class ViewProperty extends Component {
 
   setCheckin = (date) => {
     checkin_date = Date.parse(date);
+    nextbookingstart = this.NextBooking();
   }
 
   setCheckout = (date) => {
@@ -48,7 +50,6 @@ class ViewProperty extends Component {
     return null;
   }
   AfterNextBooking(date){
-    var nextbookingstart = this.NextBooking();
     console.log(nextbookingstart);
     if (nextbookingstart == null){
       console.log("no next booking");

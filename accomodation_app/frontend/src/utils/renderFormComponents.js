@@ -34,16 +34,18 @@ export const renderKeyboardDatePicker = (props) => {
   };
 
   return (
-    <KeyboardDatePicker
-      onChange={onChange}
-      format="dd/MM/yyyy"
-      value={value ? new Date(value) : null}
-      disablePast={true}
-      onBlur={() => onBlur(value ? new Date(value).toISOString() : null)}
-      error={error && touched}
-      {...inputProps}
-      {...others}
-    />
+    <div>
+      <KeyboardDatePicker
+        onChange={onChange}
+        format="dd/MM/yyyy"
+        value={value ? new Date(value) : null}
+        disablePast={true}
+        onBlur={() => onBlur(value ? new Date(value).toISOString() : null)}
+        error={error && touched}
+        {...inputProps}
+        {...others}
+      />
+    </div>
   )
 };
 

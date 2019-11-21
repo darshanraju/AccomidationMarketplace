@@ -31,11 +31,12 @@ class BookTripForm extends Component {
             name="checkIn"
             label="Check In"
             variant="inline"
+            margin="normal"
             component={renderKeyboardDatePicker}
             shouldDisableDate={this.props.disableAfterCheckout}
             onAccept={this.props.setCheckin}
             onMonthChange={this.props.changeMonthHandler}
-            onClose={this.closeCheckin}
+            onClose={() => {this.setState({isOpen: true});}}
           />
         </div>
         <div>
@@ -44,13 +45,14 @@ class BookTripForm extends Component {
             id="checkOut"
             label="Check Out"
             variant="inline"
+            margin="normal"
             open={this.state.isOpen}
             component={renderKeyboardDatePicker}
             shouldDisableDate={this.props.disableBeforeCheckin}
             onAccept={this.props.setCheckout}
             onMonthChange={this.props.changeMonthHandler}
-            onOpen={this.openCheckout}
-            onClose={this.closeCheckOut}
+            onOpen={()=>{this.setState({isOpen: true});}}
+            onClose={() => {this.setState({isOpen: false});}}
           />
         </div>
         <Button variant="contained" color="primary" type="submit">Book</Button>
