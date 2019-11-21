@@ -6,10 +6,23 @@ import { compose } from 'redux';
 import { addProperty } from '../../actions';
 import AddPropertyForm from './AddPropertyForm';
 
+const toBase64 = file => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = error => reject(error);
+});
+
 class AddProperty extends Component {
   submit = async (formValues) => {
-    await this.props.addProperty(formValues);
-    this.props.history.push('/properties');
+    await this.props.addProperty(formValues)
+      .then(() => {
+        console.log('Time to upload the images')
+        this.props.history.push('/properties');
+      })
+      .catch(() => {
+        console.log('Add Property Form: Invalid inputs')
+      })
   }
 
   render() {

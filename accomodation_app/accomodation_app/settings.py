@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'property',
     'booking',
     'reviews',
+    'images',
 ]
 
 REST_FRAMEWORK = {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Rating from '@material-ui/lab/Rating';
+import ImageUploader from 'react-images-upload';
 
 export const renderTextField = ({
   label,
@@ -117,3 +118,35 @@ export const renderRating = ({
       />
     </React.Fragment>
   )
+
+export default class FieldFileInput extends Component {
+  constructor(props) {
+    super(props)
+    this.onChange = this.onChange.bind(this)
+  }
+
+  onChange(pictures) {
+    const { input: { onChange } } = this.props;
+    onChange(pictures)
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <FormControlLabel
+          control={
+            <ImageUploader
+              withIcon={false}
+              buttonText='Choose images'
+              label='Max file size: 5mb, accepted: jpg, png'
+              onChange={this.onChange}
+              imgExtension={['.jpg', '.png']}
+              maxFileSize={5242880}
+              withPreview={true}
+            />
+          }
+        />
+      </React.Fragment>
+    )
+  }
+}
