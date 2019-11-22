@@ -27,7 +27,7 @@ class BookTripForm extends Component {
   render () {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <Grid container direction="row" justify="space-between" alignItems='center' spacing={10}>
+        <Grid container justify="flex-start" alignItems="flex-end" spacing={5}>
           <Grid item>
             <Field
               name="checkIn"

@@ -8,8 +8,10 @@ import { format } from 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import StarRatingComponent from 'react-star-rating-component';
+import { Rating } from '@material-ui/lab';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
 
 
 var checkin_date = null;
@@ -20,7 +22,7 @@ const msOneDay = 24 * 60 * 60 * 1000; //milliseconds in a dat
 class ViewProperty extends Component {
 
   state = {
-    price: this.props.sProperties.selectedProperty.price + " per night"
+    price: (this.props.sProperties.selectedProperty == null? "":this.props.sProperties.selectedProperty.price) + " per night"
   };
 
   submit = (formValues) => {
@@ -123,6 +125,21 @@ class ViewProperty extends Component {
       this.setState({price: p});
     }
   }
+
+  AvgRating(){
+    var no_reviews = 0;
+    var ratings = 0;
+    console.log(this.props.sProperties.selectedPropertyReviews);
+    for (var review in this.props.sProperties.selectedPropertyReviews){
+      no_reviews += 1;
+      ratings += this.props.sProperties.selectedPropertyReviews[review].rating;
+    }
+    console.log(ratings)
+    if (no_reviews > 0){
+      return ratings/no_reviews;
+    }
+    return 0;
+  }
   
   render () {
     const selectedProperty = this.props.sProperties.selectedProperty || {};
@@ -133,46 +150,37 @@ class ViewProperty extends Component {
           <Grid >
             <h1> This is a plaseholder for pictures (it seems a grid list would go well here)  </h1>
           </Grid>
-          <Paper>
-            <Grid container justify="space-around" alignItems="center" >
-              <Grid item>
-                <Typography variant="h6" gutterBottom> {selectedProperty.address}, {selectedProperty.suburb}</Typography>
-              </Grid>
-            </Grid>
-            <Grid container direction="row" justify="space-around" alignItems='center'>
-              <Typography variant="body1" gutterBottom> Fits: {selectedProperty.no_guests} </Typography>
-              <Typography variant="body1" gutterBottom> Beds: {selectedProperty.no_beds} </Typography>
-              <Typography variant="body1" gutterBottom> bathrooms: {selectedProperty.no_bathrooms} </Typography>
-            </Grid>
-            <Grid container direction="row" justify="space-around" alignItems='center'>
-              { this.props.sProperties.selectedPropertyFeatures.map((feature) => (
-                <Typography variant="body1" key={feature} gutterBottom> {feature} </Typography>
-              ))}
-            </Grid>
-            <Grid container direction="row" justify="space-around">
-              <Typography variant="body1" gutterBottom> Price: ${this.state.price}</Typography>
-            </Grid>
-            <BookTripForm 
-              changeMonthHandler={this.getMonthBookings} 
-              setCheckin={this.setCheckin} 
-              setCheckout={this.setCheckout} 
-              disableBeforeCheckin={this.disableBeforeCheckin}
-              disableAfterCheckout={this.disableAfterCheckout} 
-              resetLookup={this.resetLookup}
-              resetAfterOpen={this.resetAfterOpen}
-              onSubmit={this.submit} 
-            />
-          </Paper>
-          <Grid container direction="Columns" spacing={3}>
+          <Typography variant="h4" gutterBottom> {selectedProperty.address}, {selectedProperty.suburb}</Typography>
+          <Grid container spacing={5} >
+            <Grid item > <Typography variant="body1" gutterBottom> Fits: {selectedProperty.no_guests} </Typography> </Grid>
+            <Grid item > <Typography variant="body1" gutterBottom> Beds: {selectedProperty.no_beds} </Typography> </Grid>
+            <Grid item > <Typography variant="body1" gutterBottom > Bathrooms: {selectedProperty.no_bathrooms} </Typography> </Grid>
+            { this.props.sProperties.selectedPropertyFeatures.map((feature) => (
+              <Grid item  > <Typography variant="body1" gutterBottom key={feature}> {feature} </Typography> </Grid>
+            ))}
+          </Grid>
+          <Divider />
+          <Typography variant="body1"> Price: ${this.state.price}</Typography>
+          <BookTripForm 
+            changeMonthHandler={this.getMonthBookings} 
+            setCheckin={this.setCheckin} 
+            setCheckout={this.setCheckout} 
+            disableBeforeCheckin={this.disableBeforeCheckin}
+            disableAfterCheckout={this.disableAfterCheckout} 
+            resetLookup={this.resetLookup}
+            resetAfterOpen={this.resetAfterOpen}
+            onSubmit={this.submit} 
+          />
+          <Grid container spacing={5} >
+            <Grid item > <Typography variant="h5" gutterBottom> Reviews </Typography> </Grid>
+            <Grid item > <Rating name="read-only" value={this.AvgRating()} readOnly /> </Grid>
+          </Grid>
           { this.props.sProperties.selectedPropertyReviews.map((review) => (
-            <Grid item xs={2} key={review.booking_id}>
-              <Paper>
-              <StarRatingComponent name={"review "+review.booking_id} starCount={5} value={review.rating} editing={false} />
-              <Typography variant="body1" gutterBottom> {review.description} </Typography>
-              </Paper>
+            <Grid container spacing={5} key={review.booking_id}>
+              <Grid item > <Rating name="read-only" value={review.rating} readOnly /> </Grid>
+              <Grid item > <Typography variant="body1" gutterBottom> {review.description} </Typography> </Grid>
             </Grid>
           ))}
-          </Grid>
         </Container>
       </React.Fragment>
     )
