@@ -7,7 +7,6 @@ import { bookProperty, bookedDates } from '../../actions';
 import { format } from 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import StarRatingComponent from 'react-star-rating-component';
 import { Rating } from '@material-ui/lab';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
