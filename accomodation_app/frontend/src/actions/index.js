@@ -12,6 +12,8 @@ import {
   ERROR_MSG,
   SEARCH_PROPERTIES,
   FETCH_SEARCH_PROPERTY,
+  FETCH_SEARCH_PROPERTY_FEATURES,
+  FETCH_SEARCH_PROPERTY_REVIEWS,
   BOOK_PROPERTY,
   FETCH_USER_TRIPS,
   DELETE_TRIP,
@@ -39,6 +41,18 @@ export const fetchSearchProperty = (propertyID) => async (dispatch, getState) =>
   const response = await accommodation.get('property/' + propertyID);
   const data = response.data;
   dispatch({ type: FETCH_SEARCH_PROPERTY, payload: data })
+};
+
+export const fetchSearchPropertyFeatures = (propertyID) => async (dispatch, getState) => {
+  const response = await accommodation.get('feature/' + propertyID);
+  const data = response.data;
+  dispatch({ type: FETCH_SEARCH_PROPERTY_FEATURES, payload: data })
+};
+
+export const fetchSearchPropertyReviews = (propertyID) => async (dispatch, getState) => {
+  const response = await accommodation.get('review/property/for/' + propertyID);
+  const data = response.data;
+  dispatch({ type: FETCH_SEARCH_PROPERTY_REVIEWS, payload: data })
 };
 
 export const fetchUserTrip = (bookingID) => async (dispatch, getState) => {

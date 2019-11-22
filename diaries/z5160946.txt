@@ -74,3 +74,7 @@ i added front end for the additional filteres, i tryed to get the drop down chec
 i also modified the suburb form input to accept both postcode and suburb input. 
 
 i added the functionality to block out dates that are already booked. they are retrived by month and greyed out on the calendar on the Booking page.
+
+week 10 
+
+fixed a bug that i introduced that ment that you could book over another booking, and then fixed bug that meant you could checkout before you checkin by reseting. curently the checkout dialog box opens up as soon as you close the checkin dialog box, it kinda makes it a bit confusing, perhaps could just set it so that that if the value is of checkin is > checkout checkout=checkin on close of checkin. but i need to look into that. 

@@ -18,6 +18,10 @@ export const SEARCH_PROPERTIES = 'searchProperties';
 
 export const FETCH_SEARCH_PROPERTY = 'fetchSearchProperty';
 
+export const FETCH_SEARCH_PROPERTY_FEATURES = 'fetchSearchPropertyFeatures';
+
+export const FETCH_SEARCH_PROPERTY_REVIEWS = 'fetchSearchPropertyReviews';
+
 export const BOOK_PROPERTY = 'bookProperty';
 
 export const FETCH_USER_TRIPS = 'fetchUserTrips';
