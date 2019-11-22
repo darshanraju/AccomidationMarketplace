@@ -41,11 +41,10 @@ class GetAllPropertyReviewsAPI(generics.GenericAPIView):
 
     def get(self, request, property_id):
         reviews = Review_property.objects.filter(booking_id__property_id = property_id)
-        resp = {}
+        resp = []
         i = 1
         for review in reviews:
-            resp[str(i)] = ReviewPropertySerializer(review, context=self.get_serializer_context()).data
-            i += 1
+            resp.append(ReviewPropertySerializer(review, context=self.get_serializer_context()).data)
         return Response(resp)
 
 

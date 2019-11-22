@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { searchProperties, fetchSearchProperty } from '../../actions';
+import { searchProperties, fetchSearchProperty, fetchSearchPropertyFeatures, fetchSearchPropertyReviews, bookedDates } from '../../actions';
 import SearchOptions from './SearchOptions';
 
 class SearchPage extends Component {
@@ -17,6 +17,10 @@ class SearchPage extends Component {
 
   handleOnClick = async (id, e) => {
     await this.props.fetchSearchProperty(id);
+    var today = new Date();
+    await this.props.bookedDates(id, today);
+    await this.props.fetchSearchPropertyFeatures(id);
+    await this.props.fetchSearchPropertyReviews(id);
     this.props.history.push('/search/view');
   }
 
@@ -49,6 +53,6 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-  connect(mapStateToProps, { searchProperties, fetchSearchProperty }),
+  connect(mapStateToProps, { searchProperties, fetchSearchProperty, fetchSearchPropertyFeatures, fetchSearchPropertyReviews, bookedDates }),
   withRouter
 )(SearchPage);

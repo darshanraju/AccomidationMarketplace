@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 
 import UpdateTripForm from './UpdateTripForm';
 import ReviewTripForm from './ReviewTripForm'
-import { updateTrip, reviewTrip } from '../actions';
-
-
+import { updateTrip, reviewTrip} from '../actions';
 
 class ViewTrip extends Component {
   submit = (formValues) => {
@@ -50,4 +48,4 @@ const mapStateToProps = (state) => {
   return { userTrips: state.userTrips };
 };
 
-export default connect(mapStateToProps, { updateTrip, reviewTrip })(ViewTrip);
+export default connect(mapStateToProps, { updateTrip, reviewTrip})(ViewTrip);
