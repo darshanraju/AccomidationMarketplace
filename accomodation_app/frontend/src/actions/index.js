@@ -14,6 +14,7 @@ import {
   FETCH_SEARCH_PROPERTY,
   FETCH_SEARCH_PROPERTY_FEATURES,
   FETCH_SEARCH_PROPERTY_REVIEWS,
+  FETCH_SEARCH_PROPERTY_IMAGES,
   BOOK_PROPERTY,
   FETCH_USER_TRIPS,
   DELETE_TRIP,
@@ -405,6 +406,11 @@ export const addImage = (url) => async (dispatch, getState) => {
   const response = await accommodation.post('images/add', postData)
   console.log("Added images: ", response)
   dispatch({ type: ADD_IMAGE })
+}
+
+export const fetchSearchPropertyImages = (propertyID) => async (dispatch, getState) => {
+  const response = await accommodation.get('images/property/' + propertyID);
+  dispatch({ type: FETCH_SEARCH_PROPERTY_IMAGES, payload: response.data })
 }
 
 export const bookedDates = (propertyID, date) => async (dispatch, getState) => {

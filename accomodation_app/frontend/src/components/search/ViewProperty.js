@@ -11,7 +11,10 @@ import { Rating } from '@material-ui/lab';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
-
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
 
 var checkin_date = null;
 var checkout_date = null;
@@ -140,15 +143,48 @@ class ViewProperty extends Component {
     return 0;
   }
 
+  /*
+{(images.length > 0) &&
+            <ImageGallery
+              items={images}
+              showThumbnails={false}
+              showBullets={true}
+              showPlayButton={false}
+            />
+          }
+
+            <GridList cellHeight={160}>
+            {this.props.sProperties.selectedPropertyImages.map((image) => (
+              <GridListTile key={image.id}>
+                <img src={image.url} alt='Property Image' />
+              </GridListTile>
+            ))}
+          </GridList>
+  */
+
   render() {
     const selectedProperty = this.props.sProperties.selectedProperty || {};
+
+    var images = [];
+    var imgs = this.props.sProperties.selectedPropertyImages;
+    for (var i = 0; i < imgs.length; i++) {
+      const image = {
+        original: imgs[i].url
+      };
+      images.push(image);
+    }
+
     return (
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="lg">
-          <Grid >
-            <h1> This is a plaseholder for pictures (it seems a grid list would go well here)  </h1>
-          </Grid>
+          <GridList cellHeight={160}>
+            {this.props.sProperties.selectedPropertyImages.map((image) => (
+              <GridListTile key={image.id}>
+                <img src={image.url} alt='Property Image' />
+              </GridListTile>
+            ))}
+          </GridList>
           <Typography variant="h4" gutterBottom> {selectedProperty.address}, {selectedProperty.suburb}</Typography>
           <Grid container spacing={5} >
             <Grid item > <Typography variant="body1" gutterBottom> Fits: {selectedProperty.no_guests} </Typography> </Grid>
