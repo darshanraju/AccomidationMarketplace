@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import { fetchUserTrips, deleteTrip, updateTrip, sortCurrentTrips, bookedDates } from '../actions/index';
 import { Typography, Collapse } from '@material-ui/core';
 import UpdateTripForm from './UpdateTripForm';
+import { format } from 'date-fns';
 
 var checkin_date = null;
 var checkout_date = null;
@@ -75,12 +76,10 @@ class CurrentTrips extends Component {
     setCheckin = (date) => {
     checkin_date = Date.parse(date);
     nextbookingstart = this.NextBooking();
-    this.calculatePrice();
   }
 
   setCheckout = (date) => {
     checkout_date = Date.parse(date);
-    this.calculatePrice();
   }
 
   AlreadyBooked(date) {
