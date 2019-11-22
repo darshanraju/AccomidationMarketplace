@@ -45,3 +45,5 @@ export const UPDATE_TRIP = 'updateTrip';
 export const REVIEW_TRIP = 'reviewTrip';
 
 export const BOOKED_DATES = 'bookedDates';
+
+export const OWNER_CONTACT_INFO = 'ownerContactInfo'
