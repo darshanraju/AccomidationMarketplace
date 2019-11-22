@@ -6,12 +6,22 @@ import BookTripForm from './BookTripForm';
 import { bookProperty, bookedDates } from '../../actions';
 import { format } from 'date-fns';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import StarRatingComponent from 'react-star-rating-component';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-var checkin_date = Date.now();
-var checkout_date;
+
+var checkin_date = null;
+var checkout_date = null;
 var nextbookingstart = null;
+const msOneDay = 24 * 60 * 60 * 1000; //milliseconds in a dat
 
 class ViewProperty extends Component {
+
+  state = {
+    price: this.props.sProperties.selectedProperty.price + " per night"
+  };
 
   submit = (formValues) => {
     console.log(format(formValues.checkIn, 'yyy-MM-dd'))
@@ -22,10 +32,12 @@ class ViewProperty extends Component {
   setCheckin = (date) => {
     checkin_date = Date.parse(date);
     nextbookingstart = this.NextBooking();
+    this.calculatePrice();
   }
 
   setCheckout = (date) => {
     checkout_date = Date.parse(date);
+    this.calculatePrice();
   }
 
   AlreadyBooked(date) {
@@ -51,9 +63,9 @@ class ViewProperty extends Component {
     return null;
   }
   AfterNextBooking(date){
-    console.log(nextbookingstart);
+    //console.log(nextbookingstart);
     if (nextbookingstart == null){
-      console.log("no next booking");
+      //console.log("no next booking");
       return false;
     }
     if (format(date, 'yyy-MM-dd') == format(nextbookingstart, 'yyy-MM-dd')){
@@ -66,8 +78,14 @@ class ViewProperty extends Component {
   }
 
   disableBeforeCheckin = (date) => {
-    if (this.AfterNextBooking(date) == true){
-      return true;
+    if (checkin_date == null){
+      if (this.AlreadyBooked(date) == true){
+        return true;
+      }
+    } else { 
+      if (this.AfterNextBooking(date) == true){
+        return true;
+      }
     }
     return date < checkin_date;
   }
@@ -92,36 +110,70 @@ class ViewProperty extends Component {
     var today = new Date();
     this.props.bookedDates(this.props.sProperties.selectedProperty.id, today);
   }
+
+  calculatePrice(){
+    var price_per_night = this.props.sProperties.selectedProperty.price;
+    if (checkin_date != null && checkout_date != null){
+      var days = Math.round(Math.abs((checkin_date - checkout_date) / msOneDay)) + 1;
+      console.log("this spanse "+days+"days");
+      var p =  price_per_night * days;
+      this.setState({price: p});
+    } else {
+      var p =  price_per_night + " per night";
+      this.setState({price: p});
+    }
+  }
   
   render () {
     const selectedProperty = this.props.sProperties.selectedProperty || {};
     return (
       <React.Fragment>
-        <Grid container>
-          <Grid item>
-            <h1> Pictures Go Here  </h1>
+        <CssBaseline />
+        <Container maxWidth="lg">
+          <Grid >
+            <h1> This is a plaseholder for pictures (it seems a grid list would go well here)  </h1>
           </Grid>
-          <Grid item>
-          <Typography variant="subtitle2">Location: {selectedProperty.address}</Typography>
-          <Typography variant="subtitle2">id: {selectedProperty.id}</Typography>
-          <Typography variant="subtitle2">Bathrooms: {selectedProperty.no_bathrooms}</Typography>
-          <Typography variant="subtitle2">Fits: {selectedProperty.no_guests} people</Typography>
-          <Typography variant="subtitle2">Price: ${selectedProperty.price}/night</Typography>
-          <BookTripForm 
-            changeMonthHandler={this.getMonthBookings} 
-            setCheckin={this.setCheckin} 
-            setCheckout={this.setCheckout} 
-            disableBeforeCheckin={this.disableBeforeCheckin}
-            disableAfterCheckout={this.disableAfterCheckout} 
-            resetLookup={this.resetLookup}
-            resetAfterOpen={this.resetAfterOpen}
-            onSubmit={this.submit} 
-          />
+          <Paper>
+            <Grid container justify="space-around" alignItems="center" >
+              <Grid item>
+                <Typography variant="h6" gutterBottom> {selectedProperty.address}, {selectedProperty.suburb}</Typography>
+              </Grid>
+            </Grid>
+            <Grid container direction="row" justify="space-around" alignItems='center'>
+              <Typography variant="body1" gutterBottom> Fits: {selectedProperty.no_guests} </Typography>
+              <Typography variant="body1" gutterBottom> Beds: {selectedProperty.no_beds} </Typography>
+              <Typography variant="body1" gutterBottom> bathrooms: {selectedProperty.no_bathrooms} </Typography>
+            </Grid>
+            <Grid container direction="row" justify="space-around" alignItems='center'>
+              { this.props.sProperties.selectedPropertyFeatures.map((feature) => (
+                <Typography variant="body1" key={feature} gutterBottom> {feature} </Typography>
+              ))}
+            </Grid>
+            <Grid container direction="row" justify="space-around">
+              <Typography variant="body1" gutterBottom> Price: ${this.state.price}</Typography>
+            </Grid>
+            <BookTripForm 
+              changeMonthHandler={this.getMonthBookings} 
+              setCheckin={this.setCheckin} 
+              setCheckout={this.setCheckout} 
+              disableBeforeCheckin={this.disableBeforeCheckin}
+              disableAfterCheckout={this.disableAfterCheckout} 
+              resetLookup={this.resetLookup}
+              resetAfterOpen={this.resetAfterOpen}
+              onSubmit={this.submit} 
+            />
+          </Paper>
+          <Grid container direction="Columns" spacing={3}>
+          { this.props.sProperties.selectedPropertyReviews.map((review) => (
+            <Grid item xs={2} key={review.booking_id}>
+              <Paper>
+              <StarRatingComponent name={"review "+review.booking_id} starCount={5} value={review.rating} editing={false} />
+              <Typography variant="body1" gutterBottom> {review.description} </Typography>
+              </Paper>
+            </Grid>
+          ))}
           </Grid>
-          <Grid item>
-          <h1> Reviews go Here </h1>
-          </Grid>
-        </Grid>
+        </Container>
       </React.Fragment>
     )
   }
