@@ -61,6 +61,7 @@ class AddProperty extends Component {
       })
       .catch((err) => {
         console.log('Add Property Form: Invalid inputs')
+        console.log('Change for webpack');
         console.log(err);
       })
   }

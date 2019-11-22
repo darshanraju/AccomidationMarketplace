@@ -23,13 +23,9 @@ import {
   SORT_CURRENT_TRIPS,
   UPDATE_TRIP,
   REVIEW_TRIP,
-<<<<<<< HEAD
-  SORT_PREVIOUS_TRIPS,
-  ADD_IMAGE
-=======
+  ADD_IMAGE,
   BOOKED_DATES,
   SORT_PREVIOUS_TRIPS
->>>>>>> c5c48b2afd3f21c7914d61ceb6e044f9467831d8
 } from './types';
 
 export const logout = () => {
@@ -397,7 +393,6 @@ export const reviewTrip = (formValues, bookingID) => async (dispatch, getState) 
   dispatch({ type: REVIEW_TRIP, payload: response.data });
 }
 
-<<<<<<< HEAD
 export const addImage = (url) => async (dispatch, getState) => {
   const propertyID = getState().uProperties.addedProperty;
 
@@ -410,10 +405,9 @@ export const addImage = (url) => async (dispatch, getState) => {
   console.log("Added images: ", response)
   dispatch({ type: ADD_IMAGE })
 }
-=======
+
 export const bookedDates = (propertyID, date) => async (dispatch, getState) => {
-  const response = await accommodation.get('booked_dates/' + propertyID + '/'+ format(date, 'yyy-MM-dd'));
+  const response = await accommodation.get('booked_dates/' + propertyID + '/' + format(date, 'yyy-MM-dd'));
   const data = response.data;
   dispatch({ type: BOOKED_DATES, payload: data })
 };
->>>>>>> c5c48b2afd3f21c7914d61ceb6e044f9467831d8

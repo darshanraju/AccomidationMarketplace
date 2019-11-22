@@ -1,6 +1,10 @@
 from django.test import TestCase
 from .models import Property, Feature
+from images.models import Images
 from django.contrib.auth.models import User
+from random import seed
+from random import random
+from datetime import datetime
 import csv
 import os
 
@@ -49,11 +53,11 @@ class GenerateTestPropertys:
                                   price=int(row[3]),
                                   no_guests=int(row[4]),
                                   no_beds=int(row[5]),
-                                  no_bathrooms=int(row[6]));
+                                  no_bathrooms=int(row[6]))
 				new_property.save()
 
 				# generate 10 more addresses from 1
-				splitAddress = row[0].split(' ');
+				splitAddress = row[0].split(' ')
 				number = int(splitAddress[0])
 				streetName = " ".join(splitAddress[1:])
 				for i in range(1, 11):
@@ -66,7 +70,7 @@ class GenerateTestPropertys:
                                   price=int(row[3]),
                                   no_guests=int(row[4]),
                                   no_beds=int(row[5]),
-                                  no_bathrooms=int(row[6]));
+                                  no_bathrooms=int(row[6]))
 					new_property.save()
 			return "success"
 
@@ -90,44 +94,60 @@ class GenerateTestPropertys:
                                   price=int(row[3]),
                                   no_guests=int(row[4]),
                                   no_beds=int(row[5]),
-                                  no_bathrooms=int(row[6]));
+                                  no_bathrooms=int(row[6]))
 				new_property.save()
 			return "success"
 
 	# GenerateTestPropertys.generate_Feature()
 	# generates fetures for the first 42 propertys
 	def generate_Feature():
-		for i in range(1,43):
-			if i < 20:
+		seed(datetime.now())
+		for i in range(1,562):
+			r = random()
+			if (r < 0.5):
 				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Air Conditioner")
 				new_feature.save()
-			if i > 5 and i < 25:
+
+			r = random()
+			if (r < 0.6):
 				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Wifi")
 				new_feature.save()
-			if i > 10 and i < 30:
+
+			r = random()
+			if (r < 0.5):
 				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Heating")
 				new_feature.save()
-			if i > 15 and i < 35:
+
+			r = random()
+			if (r < 0.3):
 				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Free Parking")
 				new_feature.save()
-			if i > 20 and i < 40:
+
+			r = random()
+			if (r < 0.2):
 				new_feature = Feature(property_id=Property.objects.get(id=i), 
 									name="Pool")
 				new_feature.save()
-			if i == 40:
-				new_feature = Feature(property_id=Property.objects.get(id=i), 
-									name="Heating")
-				new_feature.save()
-			if i == 41:
-				new_feature = Feature(property_id=Property.objects.get(id=i), 
-									name="Free Parking")
-				new_feature.save()
+		return "success"
 
-
+	def add_image():
+		for i in range(1,562):
+			new_image1 = Images(property_id=Property.objects.get(id=i),
+							url="https://i.imgur.com/uebjeCW.jpg")
+			new_image1.save()	
+			new_image2 = Images(property_id=Property.objects.get(id=i),
+							url="https://i.imgur.com/pXo7Otl.jpg")
+			new_image2.save()	
+			new_image3 = Images(property_id=Property.objects.get(id=i),
+							url="https://i.imgur.com/Ehulz53.jpg")
+			new_image3.save()	
+			new_image4 = Images(property_id=Property.objects.get(id=i),
+							url="https://i.imgur.com/fuIMmTr.jpg")
+			new_image4.save()	
 
 	def test():
-		print("hello world");
+		print("hello world")

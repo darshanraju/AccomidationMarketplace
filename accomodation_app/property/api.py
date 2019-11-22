@@ -5,6 +5,8 @@ from django.core import exceptions
 from django.forms.models import model_to_dict
 from .models import Property, Feature
 from booking.models import Booking
+from images.models import Images
+from images.serializers import ImageSerializer
 from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer, FeatureSerializer
 import datetime
 
@@ -156,7 +158,18 @@ class GetSearchResultsAPI(generics.GenericAPIView):
         # format resposnce and sort by price 
         resp = []
         for prop in results.order_by('price'):
-            resp.append(PropertySerializer(prop, context=self.get_serializer_context()).data)
+            imgs = Images.objects.filter(property_id = prop)
+            images = []
+            for image in imgs:
+                images.append(ImageSerializer(image, context=self.get_serializer_context()).data)
+            #print(images)
+            #resp.append(PropertySerializer(prop, context=self.get_serializer_context()).data)
+
+            result = {
+                "property": PropertySerializer(prop, context=self.get_serializer_context()).data,
+                "images": images
+            }
+            resp.append(result)
         return Response(resp)
 
 class GetPropertyFeatureAPI(generics.GenericAPIView):
