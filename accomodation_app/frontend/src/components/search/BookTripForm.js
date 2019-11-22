@@ -12,19 +12,19 @@ class BookTripForm extends Component {
   };
 
   closeCheckin = () => {
-    this.setState({isOpen: true});
+    this.setState({ isOpen: true });
 
   }
 
   closeCheckOut = () => {
-    this.setState({isOpen: false});
+    this.setState({ isOpen: false });
   }
 
   openCheckout = () => {
-    this.setState({isOpen: true});
+    this.setState({ isOpen: true });
   }
 
-  render () {
+  render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
         <Grid container justify="flex-start" alignItems="flex-end" spacing={5}>
@@ -38,7 +38,7 @@ class BookTripForm extends Component {
               shouldDisableDate={this.props.disableAfterCheckout}
               onAccept={this.props.setCheckin}
               onMonthChange={this.props.changeMonthHandler}
-              onClose={() => {this.setState({isOpen: true});}}
+              onClose={() => { this.setState({ isOpen: true }); }}
             />
           </Grid>
           <Grid item>
@@ -53,8 +53,8 @@ class BookTripForm extends Component {
               shouldDisableDate={this.props.disableBeforeCheckin}
               onAccept={this.props.setCheckout}
               onMonthChange={this.props.changeMonthHandler}
-              onOpen={()=>{this.setState({isOpen: true});}}
-              onClose={() => {this.setState({isOpen: false});}}
+              onOpen={() => { this.setState({ isOpen: true }); }}
+              onClose={() => { this.setState({ isOpen: false }); }}
             />
           </Grid>
           <Grid item>
