@@ -9,6 +9,7 @@ from images.models import Images
 from images.serializers import ImageSerializer
 from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer, FeatureSerializer
 import datetime
+from django.contrib.auth.models import User
 
 class PropertyAPI(generics.RetrieveAPIView):
     queryset = Property.objects.all()
@@ -226,5 +227,14 @@ class GetPropertyBookedDatesByMonth(generics.GenericAPIView):
 
         booked_dates = Booking.objects.filter(property_id=property_id, checkout__gte=date, checkin__lt=startofNextMoth).values_list("checkin", "checkout")
         return Response(booked_dates)
+
+class GetUserContactInformation(generics.GenericAPIView):
+
+    def get(self, request, id):
+        requested_property = Property.objects.get(id=id)
+        if requested_property:
+            return Response (requested_property.owner_id.email)
+        else:
+            return Response ("invalid user")
 
 

@@ -119,7 +119,13 @@ class CurrentTrips extends Component {
     return false;
   }
 
-  disableBeforeCheckin = (date) => {
+  disableBeforeCheckin(date, checkin, checkout){ //date
+    if (date < checkin_date){
+      return true;
+    }
+    if (format(date, 'yyy-MM-dd') == checkin || format(date, 'yyy-MM-dd') == checkout || (date > Date.parse(checkin) && date < Date.parse(checkout))){
+      return false;
+    }
     if (checkin_date == null){
       if (this.AlreadyBooked(date) == true){
         return true;
@@ -129,10 +135,13 @@ class CurrentTrips extends Component {
         return true;
       }
     }
-    return date < checkin_date;
+    return false;
   }
 
-  disableAfterCheckout = (date) => {
+  disableAfterCheckout(date, checkin, checkout){// date
+    if (format(date, 'yyy-MM-dd') == checkin || format(date, 'yyy-MM-dd') == checkout || (date > Date.parse(checkin) && date < Date.parse(checkout))){
+      return false;
+    }
     if (this.AlreadyBooked(date) == true){
       return true;
     }
@@ -192,8 +201,8 @@ class CurrentTrips extends Component {
                   changeMonthHandler={(date) => this.getMonthBookings(date, trip.booking.property_id)} 
                   setCheckin={this.setCheckin} 
                   setCheckout={this.setCheckout} 
-                  disableBeforeCheckin={this.disableBeforeCheckin}
-                  disableAfterCheckout={this.disableAfterCheckout} 
+                  disableBeforeCheckin={(date) => this.disableBeforeCheckin(date, trip.booking.checkin, trip.booking.checkout)}
+                  disableAfterCheckout={(date) => this.disableAfterCheckout(date, trip.booking.checkin, trip.booking.checkout)} 
                   resetLookup={() => this.resetLookup(trip.booking.property_id)}
                   resetAfterOpen={()=> this.resetAfterOpen(trip.booking.property_id)}
                   onSubmit={(formValues) => this.handleUpdate(formValues, trip.booking.id)} 

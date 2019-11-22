@@ -47,3 +47,5 @@ export const REVIEW_TRIP = 'reviewTrip';
 export const ADD_IMAGE = 'addImage';
 
 export const BOOKED_DATES = 'bookedDates';
+
+export const OWNER_CONTACT_INFO = 'ownerContactInfo';

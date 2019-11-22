@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 
-import { searchProperties, fetchSearchProperty, fetchSearchPropertyFeatures, fetchSearchPropertyReviews, bookedDates } from '../../actions';
+import { searchProperties, fetchSearchProperty, fetchSearchPropertyFeatures, fetchSearchPropertyReviews, bookedDates, ownerContactInfo } from '../../actions';
 import SearchOptions from './SearchOptions';
 
 import Card from '@material-ui/core/Card';
@@ -53,6 +53,7 @@ class SearchPage extends Component {
     await this.props.bookedDates(id, today);
     await this.props.fetchSearchPropertyFeatures(id);
     await this.props.fetchSearchPropertyReviews(id);
+    await this.props.ownerContactInfo(id);
     this.props.history.push('/search/view');
   }
 
@@ -101,7 +102,7 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-  connect(mapStateToProps, { searchProperties, fetchSearchProperty, fetchSearchPropertyFeatures, fetchSearchPropertyReviews, bookedDates }),
+  connect(mapStateToProps, { searchProperties, fetchSearchProperty, fetchSearchPropertyFeatures, fetchSearchPropertyReviews, bookedDates, ownerContactInfo }),
   withRouter,
   withStyles(styles)
 )(SearchPage);

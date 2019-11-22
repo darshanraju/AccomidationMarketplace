@@ -25,7 +25,8 @@ import {
   REVIEW_TRIP,
   ADD_IMAGE,
   BOOKED_DATES,
-  SORT_PREVIOUS_TRIPS
+  SORT_PREVIOUS_TRIPS,
+  OWNER_CONTACT_INFO
 } from './types';
 
 export const logout = () => {
@@ -410,4 +411,10 @@ export const bookedDates = (propertyID, date) => async (dispatch, getState) => {
   const response = await accommodation.get('booked_dates/' + propertyID + '/' + format(date, 'yyy-MM-dd'));
   const data = response.data;
   dispatch({ type: BOOKED_DATES, payload: data })
+};
+
+export const ownerContactInfo = (id) => async (dispatch, getState) => {
+  const response = await accommodation.get('Contact_info/' + id);
+  const data = response.data;
+  dispatch({ type: OWNER_CONTACT_INFO, payload: data })
 };
