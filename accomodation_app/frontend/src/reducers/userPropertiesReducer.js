@@ -4,13 +4,15 @@ import {
   ADD_PROPERTY,
   UPDATE_PROPERTY,
   DELETE_PROPERTY,
-  FETCH_PROPERTY_BOOKINGS
+  FETCH_PROPERTY_BOOKINGS,
+  ADD_IMAGE
 } from '../actions/types';
 
 const initialState = {
   properties: [],
   selectedProperty: null,
-  bookings: []
+  bookings: [],
+  addedProperty: null
 }
 
 export default (uProperties = initialState, action) => {
@@ -23,6 +25,7 @@ export default (uProperties = initialState, action) => {
       newState.properties = Object.values(action.payload);
       return newState;
     case ADD_PROPERTY:
+      newState.addedProperty = action.payload.data.id;
       return newState;
     case UPDATE_PROPERTY:
       return newState;
@@ -30,6 +33,8 @@ export default (uProperties = initialState, action) => {
       return newState;
     case FETCH_PROPERTY_BOOKINGS:
       newState.bookings = action.payload;
+      return newState;
+    case ADD_IMAGE:
       return newState;
     default:
       return uProperties;

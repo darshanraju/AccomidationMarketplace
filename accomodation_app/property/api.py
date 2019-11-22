@@ -6,7 +6,6 @@ from django.forms.models import model_to_dict
 from .models import Property, Feature
 from booking.models import Booking
 from .serializers import PropertySerializer, AddPropertySerializer, UpdatePropertySerializer, FeatureSerializer
-import json
 
 class PropertyAPI(generics.RetrieveAPIView):
     queryset = Property.objects.all()
@@ -45,8 +44,7 @@ class AddPropertyAPI(generics.GenericAPIView):
                                   no_bathrooms=data['no_bathrooms'])
             new_property.save()
             prop = model_to_dict(new_property)
-            serialized_prop = json.dumps(prop)
-            return Response (serialized_prop, HTTP_200_OK)
+            return Response (prop, HTTP_200_OK)
         return Response (serializer.errors, HTTP_400_BAD_REQUEST)
 
 class UpdatePropertyAPI(generics.GenericAPIView, mixins.UpdateModelMixin):

@@ -21,7 +21,8 @@ import {
   SORT_CURRENT_TRIPS,
   UPDATE_TRIP,
   REVIEW_TRIP,
-  SORT_PREVIOUS_TRIPS
+  SORT_PREVIOUS_TRIPS,
+  ADD_IMAGE
 } from './types';
 
 export const logout = () => {
@@ -375,4 +376,17 @@ export const reviewTrip = (formValues, bookingID) => async (dispatch, getState) 
 
   console.log("Review Trip: ", response)
   dispatch({ type: REVIEW_TRIP, payload: response.data });
+}
+
+export const addImage = (url) => async (dispatch, getState) => {
+  const propertyID = getState().uProperties.addedProperty;
+
+  const postData = {
+    'property_id': propertyID,
+    'url': url
+  }
+
+  const response = await accommodation.post('images/add', postData)
+  console.log("Added images: ", response)
+  dispatch({ type: ADD_IMAGE })
 }

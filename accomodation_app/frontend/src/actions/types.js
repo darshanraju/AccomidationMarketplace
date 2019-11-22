@@ -39,3 +39,5 @@ export const SORT_PREVIOUS_TRIPS = 'sortPreviousTrips';
 export const UPDATE_TRIP = 'updateTrip';
 
 export const REVIEW_TRIP = 'reviewTrip';
+
+export const ADD_IMAGE = 'addImage';
