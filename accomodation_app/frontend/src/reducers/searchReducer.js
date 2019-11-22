@@ -3,12 +3,14 @@ import {
   FETCH_SEARCH_PROPERTY,
   FETCH_SEARCH_PROPERTY_FEATURES,
   FETCH_SEARCH_PROPERTY_REVIEWS,
-  BOOKED_DATES
+  BOOKED_DATES,
+  OWNER_CONTACT_INFO
 } from '../actions/types';
 
 const initialState = {
   properties: [],
   selectedProperty: null,
+  contactInfo: null,
   selectedPropertyFeatures: [],
   selectedPropertyReviews: [],
   selectedPropertyBookedDates: []
@@ -31,6 +33,9 @@ export default(searchProperties = initialState, action) => {
       return newState;
     case BOOKED_DATES:
       newState.selectedPropertyBookedDates = action.payload;
+      return newState;
+    case OWNER_CONTACT_INFO:
+      newState.contactInfo = action.payload;
       return newState;
     default:
       return searchProperties;

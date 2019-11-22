@@ -78,3 +78,8 @@ i added the functionality to block out dates that are already booked. they are r
 week 10 
 
 fixed a bug that i introduced that ment that you could book over another booking, and then fixed bug that meant you could checkout before you checkin by reseting. curently the checkout dialog box opens up as soon as you close the checkin dialog box, it kinda makes it a bit confusing, perhaps could just set it so that that if the value is of checkin is > checkout checkout=checkin on close of checkin. but i need to look into that. 
+
+finished blocking out booked dates for the calendar in property page
+added the blocking selection for booked dates in the trip page. but on trip page the dataes for the current booking are selectable. 
+fixed up the ui for the search property view page so that it looks nice. added the extra features to the page added review to the page ( + average rating). made the page calculate the price once checkin and checkout dates are selected. also added contact information to the page. 
+

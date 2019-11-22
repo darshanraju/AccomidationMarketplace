@@ -158,8 +158,12 @@ class ViewProperty extends Component {
               <Grid item  > <Typography variant="body1" gutterBottom key={feature}> {feature} </Typography> </Grid>
             ))}
           </Grid>
-          <Divider />
-          <Typography variant="body1"> Price: ${this.state.price}</Typography>
+          <Grid container direction="column" spacing={3} >
+          <Grid item > <Divider /> </Grid>
+          <Grid item > <Typography variant="body1"> Contact: {this.props.sProperties.contactInfo}</Typography> </Grid>
+          <Grid item > <Divider /> </Grid>
+          <Grid item > <Typography variant="body1"> Price: ${this.state.price}</Typography> </Grid>
+          </Grid>
           <BookTripForm 
             changeMonthHandler={this.getMonthBookings} 
             setCheckin={this.setCheckin} 

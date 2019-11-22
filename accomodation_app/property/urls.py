@@ -1,7 +1,7 @@
 from django.urls import path, include, re_path
 from django.conf.urls import url
 from .api import PropertyAPI, AddPropertyAPI, UpdatePropertyAPI, GetOwnerPropertyAPI, GetSearchResultsAPI, GetPropertyFeatureAPI, AddPropertyFeatureAPI, GetRecordedFeatureAPI
-from .api import GetPropertyBookedDatesByMonth
+from .api import GetPropertyBookedDatesByMonth, GetUserContactInformation
 
 urlpatterns = [
     path('api/property/add', AddPropertyAPI.as_view()),
@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^api/feature/add', AddPropertyFeatureAPI.as_view()),
     url(r'^api/feature/(?P<property_id>\d+)$', GetPropertyFeatureAPI.as_view()),
     url(r'^api/feature/all/$', GetRecordedFeatureAPI.as_view()),
-    url(r'^api/booked_dates/(?P<property_id>\d+)/(?P<date>\d{4}-\d{2}-\d{2})$', GetPropertyBookedDatesByMonth.as_view())
+    url(r'^api/booked_dates/(?P<property_id>\d+)/(?P<date>\d{4}-\d{2}-\d{2})$', GetPropertyBookedDatesByMonth.as_view()), 
+    url(r'api/Contact_info/(?P<id>\d+)$', GetUserContactInformation.as_view())
 ]
