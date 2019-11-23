@@ -1,0 +1,24 @@
+﻿3900 Work Log
+Week 1
+* No coding, just discussed the which project to choose.
+Week 2
+* Wrote the aim and scope/tech details for the project proposal.
+Week 3
+* Created initial landing page, however the group decided to use components from another recourse (materialUI), so this landing page was scrapped. 
+Week 4
+* Created the pages for users to register accounts and login, but were not connected to the backend yet. Reason being that Redux was being used on the frontend, and I still needed time to adjust to it.
+Week 5
+* Connected a basic login and register pages to the backend, and created the login and register buttons on the landing page navigation bar to route the them..
+Week 6
+* Due to design choices, I had to change the login and register pages to use redux-changes
+* Added form validation to the forms on the login and register pages
+Week 7
+* Updated the profile page, so it shows the users name, email and username
+* Attempted to implement async form validation, but did not finish it as I was struggling with the implementation
+Week 8
+* Implemented ability to update trips
+Week 9
+* Implemented the ability to delete properties and delete trips
+* Implemented the ability to review properties after they had past the checkout date.
+Week 10
+* Wrote the ‘Functionality’ section of the final report
