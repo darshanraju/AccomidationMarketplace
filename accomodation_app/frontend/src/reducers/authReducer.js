@@ -15,7 +15,8 @@ const initialState = {
     id: 1
   },
   token: '6838340ede2f189a102c9ec068b61b308f91c3fd311789e9484a7e8526524e56',
-  errorMessage: []
+  errorEmail: '',
+  errorUsername: '',
 };
 
 export default (auth = initialState, action) => {
@@ -27,6 +28,8 @@ export default (auth = initialState, action) => {
       return newState;
 
     case REGISTER_USER:
+      newState.errorEmail = '';
+      newState.errorUsername = '';
       return newState;
 
     case LOGIN_USER:
@@ -44,19 +47,14 @@ export default (auth = initialState, action) => {
 
       if (action.payload.data.email) {
         console.log("email problem exists: ")
-        newState.errorMessage.push(action.payload.data.email[0])
+        newState.errorEmail = action.payload.data.email[0];
       }
       if (action.payload.data.username) {
         console.log("username problem exists: ")
-        newState.errorMessage.push(action.payload.data.username[0])
-      }
-      if (action.payload.data.non_field_errors) {
-        console.log("data.non_field_errors problem exists: ")
-        newState.errorMessage.push(action.payload.data.non_field_errors[0])
+        newState.errorUsername = action.payload.data.username[0];
       }
 
       console.log(newState.errorMessage)
-
       return newState;
 
     default:

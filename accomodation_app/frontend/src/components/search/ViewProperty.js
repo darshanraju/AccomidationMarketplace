@@ -195,29 +195,20 @@ class ViewProperty extends Component {
             <Grid item > <Typography variant="body1" gutterBottom> Fits: {selectedProperty.no_guests} </Typography> </Grid>
             <Grid item > <Typography variant="body1" gutterBottom> Beds: {selectedProperty.no_beds} </Typography> </Grid>
             <Grid item > <Typography variant="body1" gutterBottom > Bathrooms: {selectedProperty.no_bathrooms} </Typography> </Grid>
-            {this.props.sProperties.selectedPropertyFeatures.map((feature) => (
-              <Grid item  > <Typography variant="body1" gutterBottom key={feature}> {feature} </Typography> </Grid>
-            ))}
           </Grid>
-          <Grid container space={5} >
+          <Grid container space={5} direction="column">
             {this.props.sProperties.selectedPropertyFeatures.map((feature) => {
               console.log(feature)
               if (feature === 'Wifi') {
                 return (<Grid item>
-                  <WifiIcon />
-                  <Grid />
-                  <Grid item />
                   <Typography variant="body1" gutterBottom key={feature}>
-                    {feature}
+                    <WifiIcon /> {feature}
                   </Typography>
                 </Grid>)
               } else if (feature === 'Air Conditioner') {
                 return (<Grid item>
-                  <AcUnitIcon />
-                  <Grid />
-                  <Grid item />
                   <Typography variant="body1" gutterBottom key={feature}>
-                    {feature}
+                    <AcUnitIcon /> {feature}
                   </Typography>
                 </Grid>)
               } else if (feature === 'Heating') {
@@ -254,7 +245,12 @@ class ViewProperty extends Component {
           <Grid container spacing={5} >
             <Grid item > <Typography variant="h5" gutterBottom> Reviews </Typography> </Grid>
             <Grid item > <Rating name="read-only" value={this.AvgRating()} readOnly precision={0.01} /> </Grid>
-            <Grid item> <Typography variant="subtitle2"> Avg: {this.AvgRating().toFixed(2)} </Typography></Grid>
+            <Grid item>
+              {this.AvgRating() > 0 ?
+                <Typography variant="subtitle2"> Avg: {this.AvgRating().toFixed(2)} </Typography> :
+                <Typography variant="subtitle2"> No reviews for this property </Typography>
+              }
+            </Grid>
           </Grid>
           {this.props.sProperties.selectedPropertyReviews.map((review) => (
             <Grid container spacing={5} key={review.booking_id}>

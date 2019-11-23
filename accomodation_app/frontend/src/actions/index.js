@@ -146,8 +146,6 @@ export const registerUser = (formValues) => async (dispatch, getState) => {
       console.log("Fail: ", err.response)
       dispatch({ type: ERROR_MSG, payload: err.response })
     })
-
-  dispatch({ type: REGISTER_USER, payload: response });
 }
 
 export const loginUser = (formValues) => async (dispatch, getState) => {
