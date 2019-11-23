@@ -9,6 +9,7 @@ from authentication.serializers import UserSerializer
 from reviews.serializers import ReviewPropertySerializer
 import smtplib
 import email.message
+from datetime import datetime
 
 class BookingAPI(generics.RetrieveAPIView):
     queryset = Booking.objects.all()
@@ -17,11 +18,10 @@ class BookingAPI(generics.RetrieveAPIView):
 
     # Does not currently authenticate user for delete
     def delete(self, request, id):
-        EmailBot().sendEmail("")
 
-        b = Booking.objects.filter(id=id)
+        b = Booking.objects.get(id=id)
         email = b.property_id.owner_id.email
-        msg = "booking from "+b.checkin+" to "+b.checkout+" for Property "+b.property_id.address+", "+b.property_id.suburb+"has been cancelled"
+        msg = "booking from "+b.checkin.strftime("%Y-%m-%d")+" to "+b.checkout.strftime("%Y-%m-%d")+" for Property "+b.property_id.address+", "+b.property_id.suburb+"has been cancelled"
         EmailBot().send_email(email, "One of Your propertys Booking's has cancelled", msg)
 
         b.delete()
@@ -68,9 +68,9 @@ class UpdateBookingAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
 
-        prop = Property.objects.get(id=request.data['property_id'])
-        email = prop.owner_id.email
-        msg = "there is an updated booking for Property "+prop.address+", "+prop.suburb+".\n plese check the web portal for more details."
+        booking = Booking.objects.get(id=kwargs['id'])
+        email = booking.property_id.owner_id.email
+        msg = "there is an updated booking for Property "+booking.property_id.address+", "+booking.property_id.suburb+".\n please check the web portal for more details."
         EmailBot().send_email(email, "One of Your property's Booking's has Been updated", msg)
 
         return self.partial_update(request, *args, **kwargs)
