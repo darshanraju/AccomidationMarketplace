@@ -15,7 +15,7 @@ def RatingValidator(value):
 class Review_property(models.Model):
 	booking_id = models.OneToOneField(Booking, on_delete=models.CASCADE, primary_key=True)
 	description = models.CharField(max_length = 200)
-	rating  = models.IntegerField(validators=[RatingValidator])
+	rating  = models.FloatField(validators=[RatingValidator])
 
 # might want to make the relationship 1 to 1 for review and booking 
 

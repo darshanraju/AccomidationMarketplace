@@ -10,6 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import { Typography, Collapse } from '@material-ui/core';
 import ReviewTripForm from './ReviewTripForm';
+import Rating from '@material-ui/lab/Rating';
 
 import { fetchUserTrips, sortPreviousTrips, reviewTrip } from '../actions/index';
 
@@ -76,15 +77,20 @@ class PreviousTrips extends Component {
                   {trip.property.suburb + ', NSW, ' + trip.property.postcode}
                 </Typography>
               </CardContent>
-              <CardActions>
-                {!trip.review.description &&
+              {(trip.review.description === undefined) ?
+                <CardActions>
                   <Button
                     onClick={() => this.handleExpansion(trip.booking.id)}
                   >
                     Review
                   </Button>
-                }
-              </CardActions>
+                </CardActions> :
+                <CardContent>
+                  <Typography variant="subtitle2">Your Review:</Typography>
+                  <Rating value={trip.review.rating} readOnly precision={0.5} />
+                  <Typography variant="subtitle2">{trip.review.description}</Typography>
+                </CardContent>
+              }
               <Collapse in={this.state.expanded[trip.booking.id]} timeout="auto" unmountOnExit>
                 <ReviewTripForm onSubmit={(formValues) => this.handleReview(formValues, trip.booking.id)} />
               </Collapse>

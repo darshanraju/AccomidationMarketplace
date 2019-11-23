@@ -16,6 +16,11 @@ import GridListTile from '@material-ui/core/GridListTile';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 
+import WifiIcon from '@material-ui/icons/Wifi';
+import AcUnitIcon from '@material-ui/icons/AcUnit';
+import FireplaceIcon from '@material-ui/icons/Fireplace';
+import PoolIcon from '@material-ui/icons/Pool';
+
 var checkin_date = null;
 var checkout_date = null;
 var nextbookingstart = null;
@@ -178,7 +183,7 @@ class ViewProperty extends Component {
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="lg">
-          <GridList cellHeight={160}>
+          <GridList cellHeight={300}>
             {this.props.sProperties.selectedPropertyImages.map((image) => (
               <GridListTile key={image.id}>
                 <img src={image.url} alt='Property Image' />
@@ -193,6 +198,42 @@ class ViewProperty extends Component {
             {this.props.sProperties.selectedPropertyFeatures.map((feature) => (
               <Grid item  > <Typography variant="body1" gutterBottom key={feature}> {feature} </Typography> </Grid>
             ))}
+          </Grid>
+          <Grid container space={5} >
+            {this.props.sProperties.selectedPropertyFeatures.map((feature) => {
+              console.log(feature)
+              if (feature === 'Wifi') {
+                return (<Grid item>
+                  <WifiIcon />
+                  <Grid />
+                  <Grid item />
+                  <Typography variant="body1" gutterBottom key={feature}>
+                    {feature}
+                  </Typography>
+                </Grid>)
+              } else if (feature === 'Air Conditioner') {
+                return (<Grid item>
+                  <AcUnitIcon />
+                  <Grid />
+                  <Grid item />
+                  <Typography variant="body1" gutterBottom key={feature}>
+                    {feature}
+                  </Typography>
+                </Grid>)
+              } else if (feature === 'Heating') {
+                return (<Grid item>
+                  <Typography variant="body1" gutterBottom key={feature}>
+                    <FireplaceIcon />  {feature}
+                  </Typography>
+                </Grid>)
+              } else {
+                return (<Grid item>
+                  <Typography variant="body1" gutterBottom key={feature}>
+                    <PoolIcon /> {feature}
+                  </Typography>
+                </Grid>)
+              }
+            })}
           </Grid>
           <Grid container direction="column" spacing={3} >
             <Grid item > <Divider /> </Grid>
@@ -212,11 +253,12 @@ class ViewProperty extends Component {
           />
           <Grid container spacing={5} >
             <Grid item > <Typography variant="h5" gutterBottom> Reviews </Typography> </Grid>
-            <Grid item > <Rating name="read-only" value={this.AvgRating()} readOnly /> </Grid>
+            <Grid item > <Rating name="read-only" value={this.AvgRating()} readOnly precision={0.01} /> </Grid>
+            <Grid item> <Typography variant="subtitle2"> Avg: {this.AvgRating().toFixed(2)} </Typography></Grid>
           </Grid>
           {this.props.sProperties.selectedPropertyReviews.map((review) => (
             <Grid container spacing={5} key={review.booking_id}>
-              <Grid item > <Rating name="read-only" value={review.rating} readOnly /> </Grid>
+              <Grid item > <Rating name="read-only" value={review.rating} readOnly precision={0.5} /> </Grid>
               <Grid item > <Typography variant="body1" gutterBottom> {review.description} </Typography> </Grid>
             </Grid>
           ))}

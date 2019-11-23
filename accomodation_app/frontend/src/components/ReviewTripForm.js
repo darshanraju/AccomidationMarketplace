@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
-import Rating from '@material-ui/lab/Rating';
 
 import { renderTextField, renderRating } from '../utils/renderFormComponents';
 

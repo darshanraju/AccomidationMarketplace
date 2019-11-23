@@ -37,6 +37,7 @@ const styles = (theme) => ({
   },
   content: {
     flex: '1 0 auto',
+    flexGrow: 1
   },
   buttons: {
     display: 'flex',
@@ -77,22 +78,26 @@ class SearchPage extends Component {
           {this.props.sProperties.properties.map((currentProperty) => (
             <Grid item key={currentProperty.property.id} className={classes.item}>
               <Card className={classes.card}>
-                <div className={classes.divider}>
-                  <CardContent className={classes.content}>
-                    <Typography variant="subtitle2">Address: {currentProperty.property.address}</Typography>
-                    <Typography variant="subtitle2">Bathrooms: {currentProperty.property.no_bathrooms}</Typography>
-                    <Typography variant="subtitle2">Fits: {currentProperty.property.no_guests} people</Typography>
-                    <Typography variant="subtitle2">Price: ${currentProperty.property.price}/night</Typography>
-                  </CardContent>
-                  <div className="buttons">
-                    <Button onClick={(e) => this.handleOnClick(currentProperty.property.id, e)}>View</Button>
-                  </div>
-                </div>
                 <CardMedia
                   component="img"
                   src={currentProperty.images[0].url || image}
                   className={classes.image}
                 />
+                <div className={classes.divider}>
+                  <CardContent className={classes.content}>
+                    <Typography variant="h6">{currentProperty.property.address}</Typography>
+                    <Typography variant="h6" gutterBottom>
+                      {currentProperty.property.suburb + ', NSW, '} {currentProperty.property.postcode}
+                    </Typography>
+                    <Typography variant="subtitle1">Fits: {currentProperty.property.no_guests} people</Typography>
+                    <Typography variant="subtitle1">Beds: {currentProperty.property.no_beds}</Typography>
+                    <Typography variant="subtitle1" gutterBottom>Bathrooms: {currentProperty.property.no_bathrooms}</Typography>
+                    <Typography variant="h5">${currentProperty.property.price}/night</Typography>
+                  </CardContent>
+                  <div className="buttons">
+                    <Button onClick={(e) => this.handleOnClick(currentProperty.property.id, e)}>View</Button>
+                  </div>
+                </div>
                 <CardActions>
                 </CardActions>
               </Card>

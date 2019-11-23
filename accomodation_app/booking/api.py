@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from .models import Booking, Property
+from reviews.models import Review_property
 from .serializers import BookingSerializer, MakeBookingSerializer, UpdateBookingSerializer
 from property.serializers import PropertySerializer
 from authentication.serializers import UserSerializer
@@ -87,10 +88,9 @@ class GetBookingsByGuestAPI(generics.GenericAPIView):
         bookings = Booking.objects.filter(user_id = guest_id)
         resp = []
         for booking in bookings:
-            #resp.append(BookingSerializer(booking, context=self.get_serializer_context()).data)
-            #print(booking.property_id)
+            review = Review_property.objects.filter(booking_id = booking.id)
             try:
-                property_review = ReviewPropertySerializer(booking.id, context=self.get_serializer_context()).data
+                property_review = ReviewPropertySerializer(review[0], context=self.get_serializer_context()).data
             except:
                 property_review = {}
 
