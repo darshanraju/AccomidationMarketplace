@@ -84,12 +84,16 @@ class CurrentTrips extends Component {
     return day + '/' + month + '/' + year;
   }
 
+<<<<<<< HEAD
   setCheckin = (date) => {
+=======
+  setCheckin(date, old_checkin, old_checkout){
+>>>>>>> 9b59b771a51a6fb6b515e0109a8329d4d1b25309
     checkin_date = Date.parse(date);
-    nextbookingstart = this.NextBooking();
+    nextbookingstart = this.NextBooking(old_checkin, old_checkout);
   }
 
-  setCheckout = (date) => {
+  setCheckout(date, checkin, checkout) {
     checkout_date = Date.parse(date);
   }
 
@@ -106,10 +110,10 @@ class CurrentTrips extends Component {
     return false;
   }
 
-  NextBooking() {
+  NextBooking(old_checkin, old_checkout) {
     var list = this.props.sProperties.selectedPropertyBookedDates;
     for (var i = 0; i < list.length; i++) {
-      if (checkin_date < Date.parse(list[i][0])) {
+      if (checkin_date < Date.parse(list[i][0]) && list[i][0] != old_checkin) {
         return Date.parse(list[i][0]);
       }
     }
@@ -223,20 +227,28 @@ class CurrentTrips extends Component {
                 </Button>
               </CardActions>
               <Collapse in={this.state.expanded[trip.booking.id]} timeout="auto" unmountOnExit>
+<<<<<<< HEAD
+              <UpdateTripForm
+                changeMonthHandler={(date) => this.getMonthBookings(date, trip.booking.property_id)}
+                setCheckin={this.setCheckin}
+                setCheckout={this.setCheckout}
+=======
                 <UpdateTripForm
                   changeMonthHandler={(date) => this.getMonthBookings(date, trip.booking.property_id)}
-                  setCheckin={this.setCheckin}
-                  setCheckout={this.setCheckout}
-                  disableBeforeCheckin={(date) => this.disableBeforeCheckin(date, trip.booking.checkin, trip.booking.checkout)}
-                  disableAfterCheckout={(date) => this.disableAfterCheckout(date, trip.booking.checkin, trip.booking.checkout)}
-                  resetLookup={() => this.resetLookup(trip.booking.property_id)}
-                  resetAfterOpen={() => this.resetAfterOpen(trip.booking.property_id)}
-                  onSubmit={(formValues) => this.handleUpdate(formValues, trip.booking.id)}
-                />
+                  setCheckin={(date) => this.setCheckin(date, trip.booking.checkin, trip.booking.checkout)}
+                  setCheckout={(date) => this.setCheckout(date, trip.booking.checkin, trip.booking.checkout)}
+>>>>>>> 9b59b771a51a6fb6b515e0109a8329d4d1b25309
+                disableBeforeCheckin={(date) => this.disableBeforeCheckin(date, trip.booking.checkin, trip.booking.checkout)}
+                disableAfterCheckout={(date) => this.disableAfterCheckout(date, trip.booking.checkin, trip.booking.checkout)}
+                resetLookup={() => this.resetLookup(trip.booking.property_id)}
+                resetAfterOpen={() => this.resetAfterOpen(trip.booking.property_id)}
+                onSubmit={(formValues) => this.handleUpdate(formValues, trip.booking.id)}
+              />
               </Collapse>
             </Card>
           </Grid>
-        ))}
+    ))
+  }
       </Grid>
     )
   }
