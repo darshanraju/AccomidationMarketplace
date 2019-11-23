@@ -7,6 +7,8 @@ from .serializers import BookingSerializer, MakeBookingSerializer, UpdateBooking
 from property.serializers import PropertySerializer
 from authentication.serializers import UserSerializer
 from reviews.serializers import ReviewPropertySerializer
+import smtplib
+import email.message
 
 class BookingAPI(generics.RetrieveAPIView):
     queryset = Booking.objects.all()
@@ -15,7 +17,14 @@ class BookingAPI(generics.RetrieveAPIView):
 
     # Does not currently authenticate user for delete
     def delete(self, request, id):
-        Booking.objects.filter(id=id).delete()
+        EmailBot().sendEmail("")
+
+        b = Booking.objects.filter(id=id)
+        email = b.property_id.owner_id.email
+        msg = "booking from "+b.checkin+" to "+b.checkout+" for Property "+b.property_id.address+", "+b.property_id.suburb+"has been cancelled"
+        EmailBot().send_email(email, "One of Your propertys Booking's has cancelled", msg)
+
+        b.delete()
 
         return Response ({
             "test": "hello"
@@ -39,6 +48,11 @@ class MakeBookingAPI(generics.GenericAPIView):
                                                  checkout=data['checkout'],
                                                  no_guests=data['no_guests'])
             new_booking.save()
+
+            email = prop.owner_id.email
+            msg = "New booking from "+data['checkin']+" to "+data['checkout']+" for Property "+prop.address+", "+prop.suburb
+            EmailBot().send_email(email, "One of Your property's has a Booking", msg)
+
             return Response(serializer.data, HTTP_200_OK)
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
 
@@ -53,6 +67,12 @@ class UpdateBookingAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
     lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
+
+        prop = Property.objects.get(id=request.data['property_id'])
+        email = prop.owner_id.email
+        msg = "there is an updated booking for Property "+prop.address+", "+prop.suburb+".\n plese check the web portal for more details."
+        EmailBot().send_email(email, "One of Your property's Booking's has Been updated", msg)
+
         return self.partial_update(request, *args, **kwargs)
         
 class GetBookingsByPropertyAPI(generics.GenericAPIView):
@@ -100,4 +120,26 @@ class GetBookingsByGuestAPI(generics.GenericAPIView):
                 "review": property_review
             }
             resp.append(trip)
-        return Response(resp)        
+        return Response(resp)   
+
+class EmailBot():
+    emailAddr = 'AccomodationAppEmailBot@gmail.com' 
+    emailPass = 'fG3wVWcZZXQwZAm'
+
+    def send_email(self, recipient, subject, body):
+
+        mailServer = smtplib.SMTP('smtp.gmail.com', 587)
+        mailServer.set_debuglevel(1)
+        mailServer.starttls()
+        mailServer.login(self.emailAddr, self.emailPass)
+
+        message = email.message.Message()
+        message['From'] = self.emailAddr
+        message['To'] = recipient
+        message['Subject'] = subject
+        message.set_payload(body)
+
+        mailServer.sendmail(self.emailAddr, recipient, message.as_string())
+
+        print("sent email")
+        mailServer.quit()

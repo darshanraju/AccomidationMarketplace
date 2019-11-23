@@ -83,3 +83,5 @@ finished blocking out booked dates for the calendar in property page
 added the blocking selection for booked dates in the trip page. but on trip page the dataes for the current booking are selectable. 
 fixed up the ui for the search property view page so that it looks nice. added the extra features to the page added review to the page ( + average rating). made the page calculate the price once checkin and checkout dates are selected. also added contact information to the page. 
 
+also added functionality to email the owener of the property when someone bookes, updates a booking or delete's a booking. 
+

@@ -11,6 +11,7 @@ djangorestframework = "*"
 django-rest-knox = "*"
 drf-yasg = "*"
 django-cors-headers = "*"
+smtplib = "*"
 
 [requires]
 python_version = "3.7"
