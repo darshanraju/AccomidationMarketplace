@@ -122,6 +122,11 @@ class SearchOptions extends Component {
                 label="Free Parking"
                 component={renderCheckbox}
               />
+              <Field
+                name="Heating"
+                label="Heating"
+                component={renderCheckbox}
+              />
             </Grid>
           </Grid>
         </form>

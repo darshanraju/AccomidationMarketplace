@@ -183,13 +183,15 @@ class ViewProperty extends Component {
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="lg">
-          <GridList cellHeight={300}>
-            {this.props.sProperties.selectedPropertyImages.map((image) => (
-              <GridListTile key={image.id}>
-                <img src={image.url} alt='Property Image' />
-              </GridListTile>
-            ))}
-          </GridList>
+          {(images.length > 0) &&
+            <ImageGallery
+              items={images}
+              showThumbnails={false}
+              showBullets={true}
+              showPlayButton={false}
+              showFullscreenButton={false}
+            />
+          }
           <Typography variant="h4" gutterBottom> {selectedProperty.address}, {selectedProperty.suburb}</Typography>
           <Grid container spacing={5} >
             <Grid item > <Typography variant="body1" gutterBottom> Fits: {selectedProperty.no_guests} </Typography> </Grid>
@@ -259,7 +261,7 @@ class ViewProperty extends Component {
             </Grid>
           ))}
         </Container>
-      </React.Fragment>
+      </React.Fragment >
     )
   }
 }

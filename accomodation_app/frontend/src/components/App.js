@@ -64,6 +64,7 @@ class App extends Component {
               <Route exact path="/search" component={SearchPage} />
               <Route exact path="/search/view" component={ViewProperty} />
               <Route exact path="/trips/view" component={ViewTrip} />
+              <Route exact path="/property" component={ViewProperty} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/profile" component={ProfilePage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} path="/trips" component={TripsPage} />
               <ProtectedRoute isAllowed={this.props.auth.loggedIn} exact path="/properties" component={PropertiesPage} />

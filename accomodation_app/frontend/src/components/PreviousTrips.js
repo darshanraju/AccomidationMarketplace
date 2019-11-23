@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import { Typography, Collapse } from '@material-ui/core';
 import ReviewTripForm from './ReviewTripForm';
 import Rating from '@material-ui/lab/Rating';
+
+import {
+  searchProperties,
+  fetchSearchProperty,
+  fetchSearchPropertyFeatures,
+  fetchSearchPropertyReviews,
+  fetchSearchPropertyImages,
+  bookedDates,
+  ownerContactInfo
+} from '../actions';
 
 import { fetchUserTrips, sortPreviousTrips, reviewTrip } from '../actions/index';
 
@@ -55,6 +67,17 @@ class PreviousTrips extends Component {
     this.props.reviewTrip(formValues, bookingID);
   }
 
+  handleOnClick = async (id) => {
+    await this.props.fetchSearchProperty(id);
+    var today = new Date();
+    await this.props.bookedDates(id, today);
+    await this.props.fetchSearchPropertyFeatures(id);
+    await this.props.fetchSearchPropertyReviews(id);
+    await this.props.fetchSearchPropertyImages(id);
+    await this.props.ownerContactInfo(id);
+    this.props.history.push('/property');
+  }
+
   render() {
     var trips = this.props.userTrips.previousTrips || [];
     const { classes } = this.props;
@@ -63,20 +86,24 @@ class PreviousTrips extends Component {
         {trips.map((trip) => (
           <Grid item key={trip.booking.id} className={classes.item}>
             <Card className={classes.card}>
-              <CardContent>
-                <Typography variant="subtitle2" className={classes.textRight}>
-                  {this.dateParser(trip.booking.checkin)}
-                </Typography>
-                <Typography variant="subtitle2" className={classes.textRight}>
-                  {'to ' + this.dateParser(trip.booking.checkout)}
-                </Typography>
-                <Typography variant="subtitle2">
-                  {trip.property.address}
-                </Typography>
-                <Typography variant="subtitle2">
-                  {trip.property.suburb + ', NSW, ' + trip.property.postcode}
-                </Typography>
-              </CardContent>
+              <CardActionArea
+                onClick={() => this.handleOnClick(trip.property.id)}
+              >
+                <CardContent>
+                  <Typography variant="subtitle2" className={classes.textRight}>
+                    {this.dateParser(trip.booking.checkin)}
+                  </Typography>
+                  <Typography variant="subtitle2" className={classes.textRight}>
+                    {'to ' + this.dateParser(trip.booking.checkout)}
+                  </Typography>
+                  <Typography variant="subtitle2">
+                    {trip.property.address}
+                  </Typography>
+                  <Typography variant="subtitle2">
+                    {trip.property.suburb + ', NSW, ' + trip.property.postcode}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
               {(trip.review.description === undefined) ?
                 <CardActions>
                   <Button
@@ -109,6 +136,18 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  connect(mapStateToProps, { fetchUserTrips, sortPreviousTrips, reviewTrip }),
+  connect(mapStateToProps, {
+    fetchUserTrips,
+    sortPreviousTrips,
+    reviewTrip,
+    searchProperties,
+    fetchSearchProperty,
+    fetchSearchPropertyFeatures,
+    fetchSearchPropertyReviews,
+    fetchSearchPropertyImages,
+    bookedDates,
+    ownerContactInfo
+  }),
+  withRouter,
   withStyles(styles)
 )(PreviousTrips);

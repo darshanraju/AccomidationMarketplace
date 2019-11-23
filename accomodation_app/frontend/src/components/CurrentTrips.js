@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+
+import {
+  searchProperties,
+  fetchSearchProperty,
+  fetchSearchPropertyFeatures,
+  fetchSearchPropertyReviews,
+  fetchSearchPropertyImages,
+  ownerContactInfo
+} from '../actions';
 
 import { fetchUserTrips, deleteTrip, updateTrip, sortCurrentTrips, bookedDates } from '../actions/index';
 import { Typography, Collapse } from '@material-ui/core';
@@ -73,7 +84,7 @@ class CurrentTrips extends Component {
     return day + '/' + month + '/' + year;
   }
 
-    setCheckin = (date) => {
+  setCheckin = (date) => {
     checkin_date = Date.parse(date);
     nextbookingstart = this.NextBooking();
   }
@@ -85,81 +96,92 @@ class CurrentTrips extends Component {
   AlreadyBooked(date) {
     var list = this.props.sProperties.selectedPropertyBookedDates;
     for (var i = 0; i < list.length; i++) {
-      if ((format(date, 'yyy-MM-dd') == list[i][1]) || (format(date, 'yyy-MM-dd') == list[i][0])){
+      if ((format(date, 'yyy-MM-dd') == list[i][1]) || (format(date, 'yyy-MM-dd') == list[i][0])) {
         return true;
       }
-      if (date < Date.parse(list[i][1]) && date > Date.parse(list[i][0])){
+      if (date < Date.parse(list[i][1]) && date > Date.parse(list[i][0])) {
         return true;
       }
     }
     return false;
   }
 
-  NextBooking(){
+  NextBooking() {
     var list = this.props.sProperties.selectedPropertyBookedDates;
     for (var i = 0; i < list.length; i++) {
-      if (checkin_date < Date.parse(list[i][0])){
+      if (checkin_date < Date.parse(list[i][0])) {
         return Date.parse(list[i][0]);
       }
     }
     return null;
   }
-  AfterNextBooking(date){
+  AfterNextBooking(date) {
     //console.log(nextbookingstart);
-    if (nextbookingstart == null){
+    if (nextbookingstart == null) {
       //console.log("no next booking");
       return false;
     }
-    if (format(date, 'yyy-MM-dd') == format(nextbookingstart, 'yyy-MM-dd')){
+    if (format(date, 'yyy-MM-dd') == format(nextbookingstart, 'yyy-MM-dd')) {
       return true;
     }
-    if (date > nextbookingstart){
+    if (date > nextbookingstart) {
       return true;
     }
     return false;
   }
 
-  disableBeforeCheckin(date, checkin, checkout){ //date
-    if (date < checkin_date){
+  disableBeforeCheckin(date, checkin, checkout) { //date
+    if (date < checkin_date) {
       return true;
     }
-    if (format(date, 'yyy-MM-dd') == checkin || format(date, 'yyy-MM-dd') == checkout || (date > Date.parse(checkin) && date < Date.parse(checkout))){
+    if (format(date, 'yyy-MM-dd') == checkin || format(date, 'yyy-MM-dd') == checkout || (date > Date.parse(checkin) && date < Date.parse(checkout))) {
       return false;
     }
-    if (checkin_date == null){
-      if (this.AlreadyBooked(date) == true){
+    if (checkin_date == null) {
+      if (this.AlreadyBooked(date) == true) {
         return true;
       }
-    } else { 
-      if (this.AfterNextBooking(date) == true){
+    } else {
+      if (this.AfterNextBooking(date) == true) {
         return true;
       }
     }
     return false;
   }
 
-  disableAfterCheckout(date, checkin, checkout){// date
-    if (format(date, 'yyy-MM-dd') == checkin || format(date, 'yyy-MM-dd') == checkout || (date > Date.parse(checkin) && date < Date.parse(checkout))){
+  disableAfterCheckout(date, checkin, checkout) {// date
+    if (format(date, 'yyy-MM-dd') == checkin || format(date, 'yyy-MM-dd') == checkout || (date > Date.parse(checkin) && date < Date.parse(checkout))) {
       return false;
     }
-    if (this.AlreadyBooked(date) == true){
+    if (this.AlreadyBooked(date) == true) {
       return true;
     }
     //return date > checkout_date;
   }
 
-  getMonthBookings(date, id){ //(date)
+  getMonthBookings(date, id) { //(date)
     return this.props.bookedDates(id, date);
   }
 
-  resetLookup(id){ //()
+  resetLookup(id) { //()
     var today = new Date();
     this.props.bookedDates(id, today);
   }
 
-  resetAfterOpen(id){ //()
+  resetAfterOpen(id) { //()
     var today = new Date();
     this.props.bookedDates(id, today);
+  }
+
+  handleOnClick = async (id) => {
+    await this.props.fetchSearchProperty(id);
+    var today = new Date();
+    await this.props.bookedDates(id, today);
+    await this.props.fetchSearchPropertyFeatures(id);
+    await this.props.fetchSearchPropertyReviews(id);
+    await this.props.fetchSearchPropertyImages(id);
+    await this.props.ownerContactInfo(id);
+    this.props.history.push('/property');
   }
 
   render() {
@@ -170,20 +192,24 @@ class CurrentTrips extends Component {
         {trips.map((trip) => (
           <Grid item key={trip.booking.id} className={classes.item}>
             <Card className={classes.card}>
-              <CardContent>
-                <Typography variant="subtitle2" className={classes.textRight}>
-                  {this.dateParser(trip.booking.checkin)}
-                </Typography>
-                <Typography variant="subtitle2" className={classes.textRight}>
-                  {'to ' + this.dateParser(trip.booking.checkout)}
-                </Typography>
-                <Typography variant="subtitle2">
-                  {trip.property.address}
-                </Typography>
-                <Typography variant="subtitle2">
-                  {trip.property.suburb + ', NSW, ' + trip.property.postcode}
-                </Typography>
-              </CardContent>
+              <CardActionArea>
+                <CardContent
+                  onClick={() => this.handleOnClick(trip.property.id)}
+                >
+                  <Typography variant="subtitle2" className={classes.textRight}>
+                    {this.dateParser(trip.booking.checkin)}
+                  </Typography>
+                  <Typography variant="subtitle2" className={classes.textRight}>
+                    {'to ' + this.dateParser(trip.booking.checkout)}
+                  </Typography>
+                  <Typography variant="subtitle2">
+                    {trip.property.address}
+                  </Typography>
+                  <Typography variant="subtitle2">
+                    {trip.property.suburb + ', NSW, ' + trip.property.postcode}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
               <CardActions>
                 <Button
                   onClick={() => this.handleExpansion(trip.booking.id, trip.booking.property_id)}
@@ -197,15 +223,15 @@ class CurrentTrips extends Component {
                 </Button>
               </CardActions>
               <Collapse in={this.state.expanded[trip.booking.id]} timeout="auto" unmountOnExit>
-                <UpdateTripForm 
-                  changeMonthHandler={(date) => this.getMonthBookings(date, trip.booking.property_id)} 
-                  setCheckin={this.setCheckin} 
-                  setCheckout={this.setCheckout} 
+                <UpdateTripForm
+                  changeMonthHandler={(date) => this.getMonthBookings(date, trip.booking.property_id)}
+                  setCheckin={this.setCheckin}
+                  setCheckout={this.setCheckout}
                   disableBeforeCheckin={(date) => this.disableBeforeCheckin(date, trip.booking.checkin, trip.booking.checkout)}
-                  disableAfterCheckout={(date) => this.disableAfterCheckout(date, trip.booking.checkin, trip.booking.checkout)} 
+                  disableAfterCheckout={(date) => this.disableAfterCheckout(date, trip.booking.checkin, trip.booking.checkout)}
                   resetLookup={() => this.resetLookup(trip.booking.property_id)}
-                  resetAfterOpen={()=> this.resetAfterOpen(trip.booking.property_id)}
-                  onSubmit={(formValues) => this.handleUpdate(formValues, trip.booking.id)} 
+                  resetAfterOpen={() => this.resetAfterOpen(trip.booking.property_id)}
+                  onSubmit={(formValues) => this.handleUpdate(formValues, trip.booking.id)}
                 />
               </Collapse>
             </Card>
@@ -219,11 +245,24 @@ class CurrentTrips extends Component {
 const mapStateToProps = (state) => {
   return {
     userTrips: state.userTrips,
-    sProperties: state.sProperties 
+    sProperties: state.sProperties
   }
 }
 
 export default compose(
-  connect(mapStateToProps, { fetchUserTrips, deleteTrip, updateTrip, sortCurrentTrips, bookedDates}),
+  connect(mapStateToProps, {
+    fetchUserTrips,
+    deleteTrip,
+    updateTrip,
+    sortCurrentTrips,
+    searchProperties,
+    fetchSearchProperty,
+    fetchSearchPropertyFeatures,
+    fetchSearchPropertyReviews,
+    fetchSearchPropertyImages,
+    bookedDates,
+    ownerContactInfo
+  }),
+  withRouter,
   withStyles(styles)
 )(CurrentTrips);
