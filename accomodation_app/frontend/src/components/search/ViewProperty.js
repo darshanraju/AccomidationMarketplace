@@ -19,6 +19,8 @@ var nextbookingstart = null;
 const msOneDay = 24 * 60 * 60 * 1000; //milliseconds in a dat
 
 class ViewProperty extends Component {
+  checkin_date = null
+  checkout_date = null
 
   state = {
     price: (this.props.sProperties.selectedProperty == null? "":this.props.sProperties.selectedProperty.price) + " per night"
@@ -33,7 +35,9 @@ class ViewProperty extends Component {
   setCheckin = (date) => {
     checkin_date = Date.parse(date);
     nextbookingstart = this.NextBooking();
-    this.calculatePrice();
+    /*if(checkout_date != null){
+      this.calculatePrice();
+    }*/
   }
 
   setCheckout = (date) => {
@@ -115,7 +119,10 @@ class ViewProperty extends Component {
   calculatePrice(){
     var price_per_night = this.props.sProperties.selectedProperty.price;
     if (checkin_date != null && checkout_date != null){
-      var days = Math.round(Math.abs((checkin_date - checkout_date) / msOneDay)) + 1;
+      var days = Math.round(Math.abs((checkin_date - checkout_date) / msOneDay));
+      if (days == 0){
+        days = 1;
+      }
       console.log("this spanse "+days+"days");
       var p =  price_per_night * days;
       this.setState({price: p});

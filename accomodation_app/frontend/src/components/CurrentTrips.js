@@ -73,12 +73,12 @@ class CurrentTrips extends Component {
     return day + '/' + month + '/' + year;
   }
 
-    setCheckin = (date) => {
+  setCheckin(date, old_checkin, old_checkout){
     checkin_date = Date.parse(date);
-    nextbookingstart = this.NextBooking();
+    nextbookingstart = this.NextBooking(old_checkin, old_checkout);
   }
 
-  setCheckout = (date) => {
+  setCheckout(date, checkin, checkout){
     checkout_date = Date.parse(date);
   }
 
@@ -95,10 +95,10 @@ class CurrentTrips extends Component {
     return false;
   }
 
-  NextBooking(){
+  NextBooking(old_checkin, old_checkout){
     var list = this.props.sProperties.selectedPropertyBookedDates;
     for (var i = 0; i < list.length; i++) {
-      if (checkin_date < Date.parse(list[i][0])){
+      if (checkin_date < Date.parse(list[i][0]) && list[i][0] != old_checkin){
         return Date.parse(list[i][0]);
       }
     }
@@ -199,8 +199,8 @@ class CurrentTrips extends Component {
               <Collapse in={this.state.expanded[trip.booking.id]} timeout="auto" unmountOnExit>
                 <UpdateTripForm 
                   changeMonthHandler={(date) => this.getMonthBookings(date, trip.booking.property_id)} 
-                  setCheckin={this.setCheckin} 
-                  setCheckout={this.setCheckout} 
+                  setCheckin={(date) => this.setCheckin(date, trip.booking.checkin, trip.booking.checkout)} 
+                  setCheckout={(date) => this.setCheckout(date, trip.booking.checkin, trip.booking.checkout)} 
                   disableBeforeCheckin={(date) => this.disableBeforeCheckin(date, trip.booking.checkin, trip.booking.checkout)}
                   disableAfterCheckout={(date) => this.disableAfterCheckout(date, trip.booking.checkin, trip.booking.checkout)} 
                   resetLookup={() => this.resetLookup(trip.booking.property_id)}
