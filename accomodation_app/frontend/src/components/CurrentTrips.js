@@ -84,11 +84,7 @@ class CurrentTrips extends Component {
     return day + '/' + month + '/' + year;
   }
 
-<<<<<<< HEAD
-  setCheckin = (date) => {
-=======
-  setCheckin(date, old_checkin, old_checkout){
->>>>>>> 9b59b771a51a6fb6b515e0109a8329d4d1b25309
+  setCheckin(date, old_checkin, old_checkout) {
     checkin_date = Date.parse(date);
     nextbookingstart = this.NextBooking(old_checkin, old_checkout);
   }
@@ -227,28 +223,21 @@ class CurrentTrips extends Component {
                 </Button>
               </CardActions>
               <Collapse in={this.state.expanded[trip.booking.id]} timeout="auto" unmountOnExit>
-<<<<<<< HEAD
-              <UpdateTripForm
-                changeMonthHandler={(date) => this.getMonthBookings(date, trip.booking.property_id)}
-                setCheckin={this.setCheckin}
-                setCheckout={this.setCheckout}
-=======
                 <UpdateTripForm
                   changeMonthHandler={(date) => this.getMonthBookings(date, trip.booking.property_id)}
                   setCheckin={(date) => this.setCheckin(date, trip.booking.checkin, trip.booking.checkout)}
                   setCheckout={(date) => this.setCheckout(date, trip.booking.checkin, trip.booking.checkout)}
->>>>>>> 9b59b771a51a6fb6b515e0109a8329d4d1b25309
-                disableBeforeCheckin={(date) => this.disableBeforeCheckin(date, trip.booking.checkin, trip.booking.checkout)}
-                disableAfterCheckout={(date) => this.disableAfterCheckout(date, trip.booking.checkin, trip.booking.checkout)}
-                resetLookup={() => this.resetLookup(trip.booking.property_id)}
-                resetAfterOpen={() => this.resetAfterOpen(trip.booking.property_id)}
-                onSubmit={(formValues) => this.handleUpdate(formValues, trip.booking.id)}
-              />
+                  disableBeforeCheckin={(date) => this.disableBeforeCheckin(date, trip.booking.checkin, trip.booking.checkout)}
+                  disableAfterCheckout={(date) => this.disableAfterCheckout(date, trip.booking.checkin, trip.booking.checkout)}
+                  resetLookup={() => this.resetLookup(trip.booking.property_id)}
+                  resetAfterOpen={() => this.resetAfterOpen(trip.booking.property_id)}
+                  onSubmit={(formValues) => this.handleUpdate(formValues, trip.booking.id)}
+                />
               </Collapse>
             </Card>
           </Grid>
-    ))
-  }
+        ))
+        }
       </Grid>
     )
   }
